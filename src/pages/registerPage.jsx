@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
-import { Box, useMediaQuery } from "@mui/material";
+import { Box, Typography, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { ROUTES } from "../router/routerConstants";
 import { THEME } from "../utils/ThemeConstants";
+import { Column, MainButton, Row, TextFieldStyle } from "../components/commonStyled";
 
 const ChildBox = styled(Box)(({ theme }) => ({
     height: '100vh',
@@ -51,7 +52,7 @@ function RegisterPage() {
                             <Typography variant='12400' color={THEME.SECONDARY_TEXT_BUTTON}>Đã có tài khoản?</Typography>
                             <Typography
                                 variant='12400'
-                                sx={{ color: THEME.SECONDARY_TEXT_BUTTON, cursor: 'pointer' }}
+                                sx={{ color: THEME.SECONDARY_TEXT_BUTTON, cursor: 'pointer', textDecoration: 'underline' }}
                                 onClick={() => navigate(ROUTES.LOGIN)}>Đăng nhập</Typography>
                         </Row>
 

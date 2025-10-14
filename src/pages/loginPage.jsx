@@ -41,8 +41,8 @@ function LoginPage() {
             .catch((err) => {
                 console.error("Login failed:", err);
             });
-    };
 
+    };
 
 
     return (
@@ -65,14 +65,14 @@ function LoginPage() {
                             <Typography variant='12400' color={THEME.SECONDARY_TEXT_BUTTON}>Chưa có tài khoản?</Typography>
                             <Typography
                                 variant='12400'
-                                sx={{ color: THEME.SECONDARY_TEXT_BUTTON, cursor: 'pointer' }}
+                                sx={{ color: THEME.SECONDARY_TEXT_BUTTON, cursor: 'pointer', textDecoration: 'underline' }}
                                 onClick={() => navigate(ROUTES.REGISTER)}>Đăng ký</Typography>
                         </Row>
                     </Column>
                     <MainButton
                         sx={{ width: '40%' }}
                         onClick={() => login()}
-                        >Đăng nhập</MainButton>
+                    >Đăng nhập</MainButton>
                 </Column>
             </ChildBox>
         </Row>
