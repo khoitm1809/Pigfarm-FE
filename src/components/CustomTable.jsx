@@ -28,46 +28,70 @@ function PaperComponent(props) {
 const FormField = React.memo(({ field, value, onChange }) => {
     return (
         <Grid item xs={12} sm={field.key === "note" ? 12 : 6}>
-            {(field?.isDropDown || field?.isStatus) ? (
-                <FormControl sx={{ minWidth: "200px" }}>
-                    <InputLabel id={`${field.key}-label`}>{field.label}</InputLabel>
-                    <Select
-                        labelId={`${field.key}-label`}
-                        id={field.key}
+            <Box sx={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <Typography sx={{ fontSize: 14, color: "#333", fontWeight: 500 }}>
+                    {field.label}
+                </Typography>
+                {(field?.isDropDown || field?.isStatus) ? (
+                    <FormControl sx={{
+                        minWidth: "200px", 
+                        "& fieldset": {
+                            border: "none",
+                        },
+                    }}>
+                        <InputLabel id={`${field.key}-label`}>{field.label}</InputLabel>
+                        <Select
+                            labelId={`${field.key}-label`}
+                            variant="outlined"
+                            sx={{ background: "#e8e7e7ff", width: "220px", height: "46px", borderRadius: "8px" }}
+                            id={field.key}
+                            value={value ?? ""}
+                            onChange={(e) => onChange(field.key, e.target.value)}
+                            autoWidth
+                        >
+                            {field?.list?.map((item, index) => (
+                                <MenuItem value={item?.value} key={index}>
+                                    {item?.label}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                        {field.key !== "status" && (
+                            <Typography sx={{ fontSize: 14, color: "#333", fontWeight: 500 }}>
+                                {field.label}
+                            </Typography>
+                        )}
+
+                    </FormControl>
+                ) : field.isDateTime ? (
+                    <DateTimePicker
+                        sx={{
+                            background: "#e8e7e7ff",
+                            width: "220px", height: "46px",
+                            borderRadius: "8px",
+                            "& fieldset": {
+                                border: "none",
+                            },
+                        }}
+                        value={value ? dayjs(value) : null}
+                        viewRenderers={{
+                            hours: renderTimeViewClock,
+                            minutes: renderTimeViewClock,
+                        }}
+                        onChange={(newValue) => onChange(field.key, newValue)}
+                        slotProps={{ textField: { fullWidth: true } }}
+                    />
+                ) : (
+                    <TextFieldCustom
+                        fullWidth
+                        placeholder={field?.label}
+                        variant="outlined"
                         value={value ?? ""}
                         onChange={(e) => onChange(field.key, e.target.value)}
-                        autoWidth
-                    >
-                        {field?.list?.map((item, index) => (
-                            <MenuItem value={item?.value} key={index}>
-                                {item?.label}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-            ) : field.isDateTime ? (
-                <DateTimePicker
-                    sx={{ background: "#e8e7e7ff" }}
-                    label={field.label}
-                    value={value ? dayjs(value) : null}
-                    viewRenderers={{
-                        hours: renderTimeViewClock,
-                        minutes: renderTimeViewClock,   
-                    }}
-                    onChange={(newValue) => onChange(field.key, newValue)}
-                    slotProps={{ textField: { fullWidth: true } }}
-                />
-            ) : (
-                <TextFieldCustom
-                    fullWidth
-                    placeholder={field?.label}
-                    variant="outlined"
-                    value={value ?? ""}
-                    onChange={(e) => onChange(field.key, e.target.value)}
-                    multiline={field.key === "note"}
-                    rows={field.key === "note" ? 3 : 1}
-                />
-            )}
+                        multiline={field.key === "note"}
+                        rows={field.key === "note" ? 3 : 1}
+                    />
+                )}
+            </Box>
         </Grid>
     );
 });
@@ -81,7 +105,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
         title?.reduce((acc, f) => ({ ...acc, [f.key]: "" }), {})
     );
 
-        const getStatusStyle = (value) => {
+    const getStatusStyle = (value) => {
         switch (value) {
             case "active":
                 return { background: "green", color: "white" };
@@ -134,7 +158,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
             } else {
                 await mutationAddFunction(formData).unwrap();
             }
-            refetch(); 
+            refetch();
             handleClose();
         } catch (error) {
             console.error("Error saving data:", error);
@@ -150,7 +174,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
     const handleDelete = async (id) => {
         try {
             await mutationDeleteFunction(id).unwrap();
-            refetch(); 
+            refetch();
         } catch (error) {
             console.error("Error deleting data:", error);
         }
@@ -165,7 +189,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
                 PaperComponent={PaperComponent}
                 PaperProps={{
                     sx: {
-                        background: 'grey',
+                        background: 'white',
                         width: "50%",
                         height: "auto",
                         maxWidth: "none",

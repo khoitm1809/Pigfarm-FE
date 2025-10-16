@@ -41,9 +41,14 @@ function LoginPage() {
             .catch((err) => {
                 console.error("Login failed:", err);
             });
+
     };
 
-
+    const handleEnter = (e) => {
+        if (e.key === '') {
+            login();
+        }
+    };
 
     return (
         <Row>
@@ -60,19 +65,19 @@ function LoginPage() {
                     </Box>
                     <Column sx={{ width: '50%', gap: '1rem' }}>
                         <TextFieldStyle placeholder='Tên đăng nhập' value={email} onChange={(e) => setEmail(e.target.value)} />
-                        <TextFieldStyle placeholder='Mật khẩu' type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <TextFieldStyle placeholder='Mật khẩu' type='password' value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={handleEnter}/>
                         <Row sx={{ gap: '0.5rem', justifyContent: 'flex-end' }}>
                             <Typography variant='12400' color={THEME.SECONDARY_TEXT_BUTTON}>Chưa có tài khoản?</Typography>
                             <Typography
                                 variant='12400'
-                                sx={{ color: THEME.SECONDARY_TEXT_BUTTON, cursor: 'pointer' }}
+                                sx={{ color: THEME.SECONDARY_TEXT_BUTTON, cursor: 'pointer', textDecoration: 'underline' }}
                                 onClick={() => navigate(ROUTES.REGISTER)}>Đăng ký</Typography>
                         </Row>
                     </Column>
                     <MainButton
                         sx={{ width: '40%' }}
                         onClick={() => login()}
-                        >Đăng nhập</MainButton>
+                    >Đăng nhập</MainButton>
                 </Column>
             </ChildBox>
         </Row>

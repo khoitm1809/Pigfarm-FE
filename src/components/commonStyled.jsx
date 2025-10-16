@@ -135,7 +135,7 @@ export const ActionButton = styled(IconButton)(() => ({
 }));
 
 export const EditButton = styled(ActionButton)(() => ({
-    color: "#2a2a91",
+    color: "#2E7D32",
 }));
 
 export const DeleteButton = styled(ActionButton)(() => ({
