@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Box, Typography, useMediaQuery } from '@mui/material';
+import { Box, IconButton, InputAdornment, Typography, useMediaQuery } from '@mui/material';
 import { Column, MainButton, Row, TextFieldStyle } from '../components/commonStyled';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -7,6 +7,8 @@ import { useLocation, useNavigate } from 'react-router';
 import { THEME } from '../utils/ThemeConstants';
 import { ROUTES } from '../router/routerConstants';
 import { useUserLoginMutation } from '../store/auth/authAction';
+import VisibilityOutlined from '@mui/icons-material/VisibilityOutlined';
+import VisibilityOffOutlined from '@mui/icons-material/VisibilityOffOutlined';
 
 const ChildBox = styled(Box)(({ theme }) => ({
     height: '100vh',
@@ -16,11 +18,14 @@ function LoginPage() {
     const location = useLocation();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
+    const [showPassword, setShowPassword] = useState(false);
     const [loginUser] = useUserLoginMutation();
     const isMobile = useMediaQuery('(max-width:1080px')
     const navigate = useNavigate()
     const registered = location.state?.registered;
     const dispatch = useDispatch();
+    const handleShowPassword = () => setShowPassword(!showPassword);
+
     const login = () => {
         loginUser({ email, password })
             .unwrap()
@@ -44,6 +49,11 @@ function LoginPage() {
 
     };
 
+    const handleEnter = (e) => {
+        if (e.key === 'Enter') {
+            login();
+        }
+    }
 
     return (
         <Row>
@@ -59,8 +69,27 @@ function LoginPage() {
                         <Typography variant='18700' color={THEME.SECONDARY_TEXT_BUTTON}>{registered ? "Đăng ký thành công! Vui lòng đăng nhập." : "Welcome Back!"}</Typography>
                     </Box>
                     <Column sx={{ width: '50%', gap: '1rem' }}>
-                        <TextFieldStyle placeholder='Tên đăng nhập' value={email} onChange={(e) => setEmail(e.target.value)} />
-                        <TextFieldStyle placeholder='Mật khẩu' type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <TextFieldStyle placeholder='Tên đăng nhập' value={email} onChange={(e) => setEmail(e.target.value)}/>
+                        <TextFieldStyle
+                            placeholder='Mật khẩu'
+                            type={showPassword ? 'text' : 'password'}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            onKeyDown={handleEnter}
+                            fullWidth
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            onClick={handleShowPassword}
+                                            edge="end"
+                                        >
+                                            {showPassword ? <VisibilityOffOutlined /> : <VisibilityOutlined />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                                sx: { borderRadius: '10px' }
+                            }} />
                         <Row sx={{ gap: '0.5rem', justifyContent: 'flex-end' }}>
                             <Typography variant='12400' color={THEME.SECONDARY_TEXT_BUTTON}>Chưa có tài khoản?</Typography>
                             <Typography
