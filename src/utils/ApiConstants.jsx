@@ -3,9 +3,10 @@ export const API_URL = {
   REGISTER: '/api/auth/register',
   BREEDING: '/api/breedingarea',
   BARN: '/api/barn',
-  OFF_SPRING: '/api/offspring',
+  OFF_SPRING: '/api/herd',
   FOOD_WAREHOUSE: '/api/food-warehouse',
   MEDITION_WAREHOUSE: '/api/medition-warehouse',
   INVOICE: '/api/invoice',
-  SERVICE: '/api/offspring'
+  FOOD_RATION: '/api/food-ration',
+  DRUG_USE: '/api/drug-use'
 };

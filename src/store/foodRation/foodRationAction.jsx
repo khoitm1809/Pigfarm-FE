@@ -3,13 +3,14 @@ import { API_URL } from '../../utils/ApiConstants';
 import { LOCAL_STORAGE_NAME } from '../../utils/constant';
 import { axiosBaseQuery } from '../../services/axiosBaseQuery';
 
-export const serviceApi = createApi({
-    reducerPath: 'serviceApi',
+export const foodRationApi = createApi({
+    reducerPath: 'foodRationApi',
     baseQuery: axiosBaseQuery(),
     endpoints: (builder) => ({
-        getListService: builder.query({
+
+        getListFoodRation: builder.query({
             query: (params) => ({
-                url: API_URL.SERVICE,
+                url: API_URL.FOOD_RATION,
                 method: 'GET',
                 params: {
                     ...params,
@@ -17,34 +18,36 @@ export const serviceApi = createApi({
             }),
         }),
 
-        addService: builder.mutation({
+        addFoodRation: builder.mutation({
             query: (body) => ({
-                url: API_URL.SERVICE + "/add",
+                url: API_URL.FOOD_RATION + "/add",
                 method: 'POST',
                 data: body,
             }),
         }),
 
-        editService: builder.mutation({
+
+        editFoodRation: builder.mutation({
             query: (body) => ({
-                url: API_URL.SERVICE + "/edit/" + body._id,
+                url: API_URL.FOOD_RATION + "/edit/" + body._id,
                 method: 'PUT',
                 data: body,
             }),
         }),
 
-        deleteService: builder.mutation({
+        deleteFoodRation: builder.mutation({
             query: (id) => ({
-                url: API_URL.SERVICE + "/delete/" + id,
+                url: API_URL.FOOD_RATION + "/delete/" + id,
                 method: 'DELETE',
             }),
         }),
+
     }),
 });
 
 export const {
-    useGetListServiceQuery,
-    useAddServiceMutation,
-    useDeleteServiceMutation,
-    useEditServiceMutation
-} = serviceApi;
+    useGetListFoodRationQuery,
+    useAddFoodRationMutation,
+    useDeleteFoodRationMutation,
+    useEditFoodRationMutation
+} = foodRationApi;

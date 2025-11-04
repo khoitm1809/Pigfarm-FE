@@ -3,27 +3,30 @@ import '../utils/index.css';
 import { ThemeProvider } from "@mui/material/styles";
 import { TypographyConfig } from "./typographyConfig";
 import LeftBar from "./LeftBar";
-import { Box, useMediaQuery } from "@mui/material";
+import { Box, Typography, useMediaQuery } from "@mui/material";
 import { ROUTES } from "../router/routerConstants";
 import { useLocation } from "react-router";
 import TopBar from "./TopBar";
 import { THEME } from "../utils/ThemeConstants";
+import { useSelector } from "react-redux";
 
 function App() {
     return (
-            <ThemeProvider theme={TypographyConfig}>
-                <Layout>
-                    <RouterConfig>
-                    </RouterConfig>
-                </Layout>
-            </ThemeProvider>
+        <ThemeProvider theme={TypographyConfig}>
+            <Layout>
+                <RouterConfig>
+                </RouterConfig>
+            </Layout>
+        </ThemeProvider>
     )
 }
 
 const Layout = ({ children }) => {
     const location = useLocation();
     const drawerWidth = 320;
-    const isMobile = useMediaQuery('(max-width:1080px')
+    const isMobile = useMediaQuery('(max-width:1080px');
+    const { headerTitle } = useSelector((state) => state.auth)
+    console.log(headerTitle);
 
     return (
         <Box display="flex">
@@ -56,6 +59,9 @@ const Layout = ({ children }) => {
                         pt: 0,
                     },
                 })}><Box>
+                </Box>
+                <Box sx={{ alignContent: 'center', marginBottom: '2rem', display: 'flex', justifyContent: 'center' }}>
+                    <Typography variant="14500" >{headerTitle}</Typography>
                 </Box>
                 {children}
             </Box>

@@ -7,7 +7,7 @@ import { THEME } from "../utils/ThemeConstants";
 import { Column, MainButton, Row, TextFieldStyle } from "../components/commonStyled";
 import VisibilityOutlined from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlined from '@mui/icons-material/VisibilityOffOutlined';
-
+import { useUserRegisterMutation } from "../store/auth/authAction";
 
 const ChildBox = styled(Box)(({ theme }) => ({
     height: '100vh',
@@ -18,7 +18,7 @@ function RegisterPage() {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [showPassword, setShowPassword] = useState(false);
-    // const [registerUser] = useUserRegisterMutation();
+    const [registerUser] = useUserRegisterMutation();
     const isMobile = useMediaQuery('(max-width:1080px')
     const navigate = useNavigate()
     const handleShowPassword = () => setShowPassword(!showPassword);

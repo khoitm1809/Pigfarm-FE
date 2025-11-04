@@ -2,11 +2,19 @@ import { Box, Typography } from "@mui/material";
 import { BoxContainer } from "../../components/commonStyled";
 import CustomTable from "../../components/CustomTable";
 import { useAddMeditionWarehouseMutation, useDeleteMeditionWarehouseMutation, useEditMeditionWarehouseMutation, useGetListMeditionWarehouseQuery } from "../../store/warehouse/warehouseAction";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { setTitle } from "../../store/auth/authSlice";
 
 const MeditionWarehousePage = () => {
+    const dispatch = useDispatch();
     const [addMeditionWarehouse] = useAddMeditionWarehouseMutation();
     const [editMeditionWarehouse] = useEditMeditionWarehouseMutation();
     const [deleteMeditionWarehouse] = useDeleteMeditionWarehouseMutation();
+    useEffect(()=>{
+            dispatch(setTitle("Quản lý kho vaccine"));
+        },[])
+
     const title = [
         { key: "name", label: "Tên vacxine" },
         { key: "brand", label: "Hãng" },

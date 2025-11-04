@@ -5,7 +5,6 @@ import LoginPage from "../pages/loginPage";
 import Settings from "../pages/settings/settingsPage";
 import DetailPage from "../pages/DetailPage";
 import ListAccount from "../pages/accountControl/listAccount";
-import ServicePackages from "../pages/service/servicePackages";
 import RegisterPage from "../pages/registerPage";
 import HerdBreedPage from "../pages/herdBreedManagement/herdBreedPage";
 import BarnPage from "../pages/herdBreedManagement/barnPage";
@@ -14,6 +13,7 @@ import FoodWarehousePage from "../pages/warehouse/foodWarehousePage";
 import MeditionWarehousePage from "../pages/warehouse/meditionWarehousePage";
 import InvoicePage from "../pages/invoice/invoicePage";
 import ProtectedRoute from "./ProtectedRoute";
+import FoodRationPage from "../pages/foodRation/foodRationPage";
 
 export const RouterConfig = () => {
     return (
@@ -104,10 +104,10 @@ export const RouterConfig = () => {
                 }
             />
             <Route
-                path={ROUTES.SERVICE_PACKAGES}
+                path={ROUTES.FOOD_RATION}
                 element={
                     <ProtectedRoute>
-                        <ServicePackages />
+                        <FoodRationPage />
                     </ProtectedRoute>
                 }
             />

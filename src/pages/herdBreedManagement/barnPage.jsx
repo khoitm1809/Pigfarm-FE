@@ -2,11 +2,19 @@ import { Box, Typography } from "@mui/material";
 import { BoxContainer } from "../../components/commonStyled";
 import CustomTable from "../../components/CustomTable";
 import { useAddBarnMutation, useDeleteBarnMutation, useEditBarnMutation, useGetListBarnQuery } from "../../store/breeding/breedingAction";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { setTitle } from "../../store/auth/authSlice";
 
 const BarnPage = () => {
+    const dispatch = useDispatch();
     const [addBarn] = useAddBarnMutation();
     const [editBarn] = useEditBarnMutation();
     const [deleteBarn] = useDeleteBarnMutation();
+    useEffect(() => {
+        dispatch(setTitle("Danh sách kho"));
+    }, [])
+    
     const title = [
         { key: "name", label: "Tên chuồng" },
         { key: "acreage", label: "Diện tích" },

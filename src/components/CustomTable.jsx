@@ -34,7 +34,7 @@ const FormField = React.memo(({ field, value, onChange }) => {
                 </Typography>
                 {(field?.isDropDown || field?.isStatus) ? (
                     <FormControl sx={{
-                        minWidth: "200px", 
+                        minWidth: "200px",
                         "& fieldset": {
                             border: "none",
                         },
@@ -119,10 +119,31 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
     };
 
     const getValueByPath = (obj, path) => {
-        return path.split(".")?.reduce((acc, key) => (acc && acc[key] !== undefined ? acc[key] : null), obj);
+        const keys = path.split(".");
+        const traverse = (data, i) => {
+            if (i >= keys.length || data == null) return data;
+
+            const key = keys[i];
+            if (Array.isArray(data)) {
+                // Nếu là mảng, duyệt từng phần tử và gom kết quả
+                const results = data.map(item => traverse(item[key], i + 1)).flat();
+                return results;
+            }
+
+            return traverse(data[key], i + 1);
+        };
+
+        const result = traverse(obj, 0);
+        return result;
     };
+
     const formatValue = (key, value) => {
         if (value === null || value === undefined) return "-";
+
+        // Nếu là mảng, format từng phần tử rồi nối lại
+        if (Array.isArray(value)) {
+            return value.map(v => formatValue(key, v)).join(", ");
+        }
 
         if (typeof value === "boolean") {
             return value ? "true" : "false";
@@ -134,6 +155,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
 
         return value;
     };
+
 
     const handleClickOpen = () => {
         setFormData([])

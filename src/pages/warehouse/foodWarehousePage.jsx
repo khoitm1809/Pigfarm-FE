@@ -3,11 +3,18 @@ import { BoxContainer } from "../../components/commonStyled";
 import CustomTable from "../../components/CustomTable";
 import { WEIGHT } from "../../utils/constant";
 import { useAddFoodWarehouseMutation, useDeleteFoodWarehouseMutation, useEditFoodWarehouseMutation, useGetListFoodWarehouseQuery } from "../../store/warehouse/warehouseAction";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { setTitle } from "../../store/auth/authSlice";
 
 const FoodWarehousePage = () => {
+    const dispatch = useDispatch();
     const [addFoodWarehouse] = useAddFoodWarehouseMutation();
     const [editFoodWarehouse] = useEditFoodWarehouseMutation();
     const [deleteFoodWarehouse] = useDeleteFoodWarehouseMutation();
+    useEffect(()=>{
+        dispatch(setTitle("Quản lý kho hàng hóa"));
+    },[])
     const title = [
         { key: "name", label: "Tên hàng hóa" },
         { key: "inventory", label: "Số lượng" },
@@ -26,9 +33,6 @@ const FoodWarehousePage = () => {
     } = useGetListFoodWarehouseQuery({}, { refetchOnMountOrArgChange: true })
     return (
         <BoxContainer padding={'2rem'}>
-            <Box sx={{ alignContent: 'center', marginBottom: '2rem', display: 'flex', justifyContent: 'center' }}>
-                <Typography variant="14500" >Tiêu đề</Typography>
-            </Box>
             <CustomTable
                 title={title}
                 data={listFoodWareHouse}

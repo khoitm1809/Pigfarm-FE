@@ -2,11 +2,18 @@ import { Box, Typography } from "@mui/material";
 import { BoxContainer } from "../../components/commonStyled";
 import CustomTable from "../../components/CustomTable";
 import { useAddOffSpringMutation, useDeleteOffSpringMutation, useEditOffSpringMutation, useGetListOffSpringQuery } from "../../store/offSpring/offSpringAction";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { setTitle } from "../../store/auth/authSlice";
 
 const OffSpringPage = () => {
+    const dispatch = useDispatch();
     const [addOffSpring] = useAddOffSpringMutation();
     const [editOffSpring] = useEditOffSpringMutation();
     const [deleteOffSpring] = useDeleteOffSpringMutation();
+    useEffect(()=>{
+        dispatch(setTitle("Quản lý giống và đàn lợn"));
+    },[])
     const title = [
         { key: "name", label: "Loại heo" },
         { key: "origin", label: "Xuất xứ" },
@@ -29,7 +36,6 @@ const OffSpringPage = () => {
     return (
         <BoxContainer padding={'2rem'}>
             <Box sx={{ alignContent: 'center', marginBottom: '2rem', display: 'flex', justifyContent: 'center' }}>
-                <Typography variant="14500" >Tiêu đề</Typography>
             </Box>
             <CustomTable
                 title={title}

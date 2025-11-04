@@ -23,7 +23,6 @@ function LoginPage() {
     const isMobile = useMediaQuery('(max-width:1080px')
     const navigate = useNavigate()
     const registered = location.state?.registered;
-    const dispatch = useDispatch();
     const handleShowPassword = () => setShowPassword(!showPassword);
 
     const login = () => {
