@@ -31,17 +31,17 @@ import ChecklistOutlinedIcon from '@mui/icons-material/ChecklistOutlined';
 import { ROUTES } from "../router/routerConstants";
 import { ROLES } from "../utils/rolesConstant";
 import { THEME } from "../utils/ThemeConstants";
+import { useEffect } from "react";
 
 export default function LeftBar({ open, onClose, drawerWidth }) {
     const navigate = useNavigate();
+    const role = localStorage.getItem("role");
+    useEffect(() => {
 
-    // const { role } = useSelector((state) => state?.auth);
-
-    // const { role } = useSelector((state) => state);
-
+    }, [role])
     const menuItems = [
         //adm
-        { text: "Home", icon: <HomeOutlinedIcon />, path: ROUTES.HOME, role: ROLES.ADMIN },
+        { text: "Home", icon: <HomeOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
         { text: "Quản lý tài khoản", icon: <PhotoCameraFrontOutlinedIcon />, path: ROUTES.LIST_ACCOUNT, role: ROLES.ADMIN },
         { text: "Settings", icon: <SettingsOutlinedIcon />, path: ROUTES.SETTINGS, role: ROLES.ADMIN },
         // chu trai
@@ -97,7 +97,7 @@ export default function LeftBar({ open, onClose, drawerWidth }) {
                 </Box> */}
                 <List>
                     {menuItems
-                        // .filter((item) => item?.role === role)
+                        .filter((item) => item?.role === role)
                         .map((item) => (
                             <ListItem key={item.text} disablePadding>
                                 <ListItemButton

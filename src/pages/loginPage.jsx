@@ -9,6 +9,7 @@ import { ROUTES } from '../router/routerConstants';
 import { useUserLoginMutation } from '../store/auth/authAction';
 import VisibilityOutlined from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlined from '@mui/icons-material/VisibilityOffOutlined';
+import { useForm } from 'react-hook-form';
 
 const ChildBox = styled(Box)(({ theme }) => ({
     height: '100vh',
@@ -25,27 +26,34 @@ function LoginPage() {
     const registered = location.state?.registered;
     const handleShowPassword = () => setShowPassword(!showPassword);
 
-    const login = () => {
-        loginUser({ email, password })
-            .unwrap()
-            .then((res) => {
-                // Lưu token nếu cần
-                localStorage.setItem("token", res.token);
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+    } = useForm({
+        defaultValues: {
+            email: "",
+            password: "",
+        },
+    });
 
-                // Navigate về Home
-                navigate(ROUTES.HOME);
 
-                // Tạm thời set role cứng (vì API chưa trả role)
-                // if (res.user?.email === "admin@gmail.com") {
-                //     dispatch(setRole(ROLES.ADMIN));
-                // } else {
-                //     dispatch(setRole(ROLES.USER));
-                // }
-            })
-            .catch((err) => {
-                console.error("Login failed:", err);
+    const onSubmit = async (data) => {
+        try {
+            const res = await loginUser(data).unwrap();
+            localStorage.setItem("token", res.token);
+            localStorage.setItem("role", res.user.role);
+            navigate(ROUTES.HOME);
+        } catch (err) {
+            openDialog({
+                type: MESSAGE_TYPE.ERROR,
+                message: "Lỗi đăng nhập",
+                customMainText: "Lỗi đăng nhập",
+                isShowCloseBtn: true,
+                isHideAction: true,
+                customSecondText: "Xác nhận"
             });
-
+        }
     };
 
     const handleEnter = (e) => {
@@ -67,40 +75,55 @@ function LoginPage() {
                     <Box>
                         <Typography variant='18700' color={THEME.SECONDARY_TEXT_BUTTON}>{registered ? "Đăng ký thành công! Vui lòng đăng nhập." : "Welcome Back!"}</Typography>
                     </Box>
-                    <Column sx={{ width: '50%', gap: '1rem' }}>
-                        <TextFieldStyle placeholder='Tên đăng nhập' value={email} onChange={(e) => setEmail(e.target.value)}/>
-                        <TextFieldStyle
-                            placeholder='Mật khẩu'
-                            type={showPassword ? 'text' : 'password'}
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            onKeyDown={handleEnter}
-                            fullWidth
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            onClick={handleShowPassword}
-                                            edge="end"
-                                        >
-                                            {showPassword ? <VisibilityOffOutlined /> : <VisibilityOutlined />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
-                                sx: { borderRadius: '10px' }
-                            }} />
-                        <Row sx={{ gap: '0.5rem', justifyContent: 'flex-end' }}>
-                            <Typography variant='12400' color={THEME.SECONDARY_TEXT_BUTTON}>Chưa có tài khoản?</Typography>
-                            <Typography
-                                variant='12400'
-                                sx={{ color: THEME.SECONDARY_TEXT_BUTTON, cursor: 'pointer', textDecoration: 'underline' }}
-                                onClick={() => navigate(ROUTES.REGISTER)}>Đăng ký</Typography>
-                        </Row>
-                    </Column>
-                    <MainButton
-                        sx={{ width: '40%' }}
-                        onClick={() => login()}
-                    >Đăng nhập</MainButton>
+
+                    <form onSubmit={handleSubmit(onSubmit)} style={{ width: "50%" }}>
+                        <Column sx={{ gap: '1rem' }}>
+                            <TextFieldStyle placeholder='Tên đăng nhập'
+                                {...register("email",
+                                    { required: "Vui lòng nhập tên đăng nhập" })}
+                                error={!!errors.email} />
+                            {errors.email && (
+                                <Typography variant="10400" color="red">
+                                    {errors.email.message}
+                                </Typography>
+                            )}
+                            <TextFieldStyle
+                                placeholder='Mật khẩu'
+                                type={showPassword ? 'text' : 'password'}
+                                {...register("password",
+                                    { required: "Vui lòng nhập mật khẩu" })}
+                                error={!!errors.password}
+                                fullWidth
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                onClick={handleShowPassword}
+                                                edge="end"
+                                            >
+                                                {showPassword ? <VisibilityOffOutlined /> : <VisibilityOutlined />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                    sx: { borderRadius: '10px' }
+                                }} />
+                                {errors.password && (
+                                <Typography variant="10400" color="red">
+                                    {errors.password.message}
+                                </Typography>
+                            )}
+                            <Row sx={{ gap: '0.5rem', justifyContent: 'flex-end' }}>
+                                <Typography variant='12400' color={THEME.SECONDARY_TEXT_BUTTON}>Chưa có tài khoản?</Typography>
+                                <Typography
+                                    variant='12400'
+                                    sx={{ color: THEME.SECONDARY_TEXT_BUTTON, cursor: 'pointer', textDecoration: 'underline' }}
+                                    onClick={() => navigate(ROUTES.REGISTER)}>Đăng ký</Typography>
+                            </Row>
+                        </Column>
+                    </form>
+                    <MainButton sx={{ width: "100%", marginTop: "2rem" }} type="submit" disabled={isSubmitting}>
+                            {isSubmitting ? "Đang đăng nhập..." : "Đăng nhập"}
+                        </MainButton>
                 </Column>
             </ChildBox>
         </Row>
