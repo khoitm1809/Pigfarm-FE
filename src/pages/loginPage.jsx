@@ -10,6 +10,8 @@ import { useUserLoginMutation } from '../store/auth/authAction';
 import VisibilityOutlined from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlined from '@mui/icons-material/VisibilityOffOutlined';
 import { useForm } from 'react-hook-form';
+import { useConfirmDialog } from "../components/confirmDialog";
+import { MESSAGE_TYPE } from '../utils/constant';
 
 const ChildBox = styled(Box)(({ theme }) => ({
     height: '100vh',
@@ -17,14 +19,13 @@ const ChildBox = styled(Box)(({ theme }) => ({
 
 function LoginPage() {
     const location = useLocation();
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
     const [showPassword, setShowPassword] = useState(false);
     const [loginUser] = useUserLoginMutation();
     const isMobile = useMediaQuery('(max-width:1080px')
     const navigate = useNavigate()
     const registered = location.state?.registered;
     const handleShowPassword = () => setShowPassword(!showPassword);
+    const { openDialog } = useConfirmDialog();
 
     const {
         register,
@@ -120,10 +121,10 @@ function LoginPage() {
                                     onClick={() => navigate(ROUTES.REGISTER)}>Đăng ký</Typography>
                             </Row>
                         </Column>
-                    </form>
                     <MainButton sx={{ width: "100%", marginTop: "2rem" }} type="submit" disabled={isSubmitting}>
                             {isSubmitting ? "Đang đăng nhập..." : "Đăng nhập"}
                         </MainButton>
+                        </form>
                 </Column>
             </ChildBox>
         </Row>

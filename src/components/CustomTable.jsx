@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import Draggable from "react-draggable";
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
-
+import { NumericFormat } from 'react-number-format';
 
 function PaperComponent(props) {
     const nodeRef = React.useRef(null);
@@ -139,6 +139,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
 
     const formatValue = (key, value) => {
         if (value === null || value === undefined) return "-";
+        console.log(value);
 
         // Nếu là mảng, format từng phần tử rồi nối lại
         if (Array.isArray(value)) {
@@ -149,12 +150,29 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
             return value ? "true" : "false";
         }
 
-        if (key.toLowerCase().includes("date") || key.toLowerCase().includes("created_at")) {
+        if (key.toLowerCase().includes("date") || key.toLowerCase().includes("created_at") || key.toLowerCase().includes("expiry")) {
             return dayjs(value).isValid() ? dayjs(value).format("DD/MM/YYYY") : value;
+        }
+
+        if (typeof value === "number") {
+            return <NumericFormat
+                value={value ?? 0}
+                displayType={"text"}
+                allowLeadingZeros
+                decimalSeparator={"."}
+                thousandSeparator={","}
+            />
         }
 
         return value;
     };
+
+    const isFormValid = title?.every(field => {
+        const value = formData[field.key];
+        // Nếu là dropdown hay input thì kiểm tra khác nhau
+        return value !== "" && value !== null && value !== undefined;
+    });
+
 
 
     const handleClickOpen = () => {
@@ -244,7 +262,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
 
                 <DialogActions sx={{ width: '100%', justifyContent: "center" }}>
                     <BoxBeetwen>
-                        <MainButton onClick={handleSave} variant="contained">
+                        <MainButton onClick={handleSave} variant="contained" disabled={!isFormValid}>
                             Lưu
                         </MainButton>
                     </BoxBeetwen>

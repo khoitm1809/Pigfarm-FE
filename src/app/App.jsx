@@ -9,14 +9,17 @@ import { useLocation } from "react-router";
 import TopBar from "./TopBar";
 import { THEME } from "../utils/ThemeConstants";
 import { useSelector } from "react-redux";
+import { ConfirmDialogProvider } from "../components/confirmDialog";
 
 function App() {
     return (
         <ThemeProvider theme={TypographyConfig}>
-            <Layout>
-                <RouterConfig>
-                </RouterConfig>
-            </Layout>
+            <ConfirmDialogProvider>
+                <Layout>
+                    <RouterConfig>
+                    </RouterConfig>
+                </Layout>
+            </ConfirmDialogProvider>
         </ThemeProvider>
     )
 }
@@ -60,9 +63,10 @@ const Layout = ({ children }) => {
                     },
                 })}><Box>
                 </Box>
-                <Box sx={{ alignContent: 'center', marginBottom: '2rem', display: 'flex', justifyContent: 'center' }}>
-                    <Typography variant="14500" >{headerTitle}</Typography>
-                </Box>
+                {(location?.pathname !== ROUTES.LOGIN && location?.pathname !== ROUTES.REGISTER) && 
+                    <Box sx={{ alignContent: 'center', marginBottom: '2rem', display: 'flex', justifyContent: 'center' }}>
+                        <Typography variant="14500" >{headerTitle}</Typography>
+                    </Box>}
                 {children}
             </Box>
         </Box>
