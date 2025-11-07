@@ -17,6 +17,7 @@ import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
 import PreviewOutlinedIcon from '@mui/icons-material/PreviewOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import ChecklistOutlinedIcon from '@mui/icons-material/ChecklistOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/Logout';
 import { deepOrange, deepPurple } from '@mui/material/colors';
 import { ROLES } from "../utils/rolesConstant";
 import { ROUTES } from "../router/routerConstants";
@@ -127,24 +128,21 @@ export default function TopBar({
                                 </Box>
                             ))}
 
-                    {/* Đăng xuất luôn hiển thị, bất kể isMobile */}
-                    <Box
-                        onClick={() => {
-                            localStorage.removeItem("token");
-                            navigate({ pathname: ROUTES.LOGIN });
-                        }}
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            cursor: 'pointer',
-                            gap: '0.4rem',
-                        }}
-                    >
-                        <IconButton sx={{ color: THEME.SECONDARY_TEXT_BUTTON }}>
-                            {/* Có thể thay icon logout */}
+                    <Tooltip title="Đăng xuất" arrow placement="top">
+                        <IconButton
+                            onClick={() => {
+                                localStorage.removeItem("token");
+                                navigate({ pathname: ROUTES.LOGIN });
+                            }}
+                            sx={{
+                                color: THEME.SECONDARY_TEXT_BUTTON,
+                                ml: 1,
+                            }}
+                        >
+                            <LogoutOutlinedIcon />
                         </IconButton>
-                        <Typography variant="12400" sx={{ color: THEME.SECONDARY_TEXT_BUTTON }}>Đăng xuất</Typography>
-                    </Box>
+                    </Tooltip>
+
 
                 </Box>
             </Toolbar>

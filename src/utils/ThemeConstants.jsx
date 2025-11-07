@@ -7,6 +7,7 @@ export const THEME = {
     THEME_BACKGROUND: "#F3F5F7",
     CARD_BACKGROUND: "#FFFFFF",
     CARD_BORDER: "#E0E0E0",
-    MENU_TEXT: "#074C31"
+    MENU_TEXT: "#074C31",
+    ACTIVE_MENU_BG: "#2E7D32"
 }
 

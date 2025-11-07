@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import {
     Drawer,
     List,
@@ -28,6 +28,7 @@ import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
 import PreviewOutlinedIcon from '@mui/icons-material/PreviewOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import ChecklistOutlinedIcon from '@mui/icons-material/ChecklistOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/Logout';
 import { ROUTES } from "../router/routerConstants";
 import { ROLES } from "../utils/rolesConstant";
 import { THEME } from "../utils/ThemeConstants";
@@ -35,6 +36,7 @@ import { useEffect } from "react";
 
 export default function LeftBar({ open, onClose, drawerWidth }) {
     const navigate = useNavigate();
+    const location = useLocation();
     const role = localStorage.getItem("role");
     useEffect(() => {
 
@@ -80,11 +82,12 @@ export default function LeftBar({ open, onClose, drawerWidth }) {
                     width: drawerWidth,
                     boxSizing: "border-box",
                     background: THEME.MENU_BACKGROUND,
-                    borderRight: "none",
+                    borderRight: "none"
                 },
             })}>
-            <Box sx={{ padding: '2rem' }}>
-                {/* <Box sx={{ borderBottom: '1px solid #FFFFFF1A' }}>
+            <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
+                <Box sx={{ padding: '2rem', flexGrow: 1 }}>
+                    {/* <Box sx={{ borderBottom: '1px solid #FFFFFF1A' }}>
                     <img
                         onClick={() => { navigate(ROUTES.HOME) }}
                         src={null}
@@ -95,28 +98,37 @@ export default function LeftBar({ open, onClose, drawerWidth }) {
                             cursor: 'pointer'
                         }} />
                 </Box> */}
-                <List>
-                    {menuItems
-                        .filter((item) => item?.role === role)
-                        .map((item) => (
-                            <ListItem key={item.text} disablePadding>
-                                <ListItemButton
-                                    onClick={() => {
-                                        navigate({
-                                            pathname: item.path,
-                                            search: item.search,
-                                        });
-                                    }}>
-                                    <ListItemIcon sx={{
-                                        color: THEME.SECONDARY_TEXT_BUTTON
-                                    }}>{item.icon}</ListItemIcon>
-                                    <ListItemText sx={{
-                                        color: THEME.SECONDARY_TEXT_BUTTON
-                                    }} primary={item.text} />
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
-                </List>
+                    <List>
+                        {menuItems
+                            .filter((item) => item?.role === role)
+                            .map((item) => {
+                                const isActive = location.pathname === item.path;
+                                return (
+                                    <ListItem key={item.text} disablePadding>
+                                        <ListItemButton
+                                            onClick={() => navigate(item.path)}
+                                            sx={{
+                                                backgroundColor: isActive ? THEME.ACTIVE_MENU_BG : "transparent",
+                                                borderRadius: "12px",
+                                                "& .MuiListItemText-root, & .MuiListItemIcon-root": {
+                                                    color: isActive ? THEME.MAIN_TEXT_BUTTON : THEME.SECONDARY_TEXT_BUTTON,
+                                                },
+                                                "&:hover": {
+                                                    backgroundColor: isActive ? THEME.SECONDARY_TEXT_BUTTON : "rgba(0,0,0,0.04)"
+                                                }
+                                            }}>
+                                            <ListItemIcon sx={{
+                                                color: THEME.SECONDARY_TEXT_BUTTON
+                                            }}>{item.icon}</ListItemIcon>
+                                            <ListItemText sx={{
+                                                color: THEME.SECONDARY_TEXT_BUTTON
+                                            }} primary={item.text} />
+                                        </ListItemButton>
+                                    </ListItem>
+                                )
+                            })}
+                    </List>
+                </Box>
                 <Box
                     onClick={() => {
                         localStorage.removeItem("token");
@@ -127,10 +139,12 @@ export default function LeftBar({ open, onClose, drawerWidth }) {
                         alignItems: 'center',
                         cursor: 'pointer',
                         gap: '0.4rem',
+                        paddingBottom: "2rem",
+                        paddingLeft: "3rem"
                     }}
                 >
                     <IconButton sx={{ color: THEME.SECONDARY_TEXT_BUTTON }}>
-                        {/* Có thể thay icon logout */}
+                        <LogoutOutlinedIcon/>
                     </IconButton>
                     <Typography variant="12400" sx={{ color: THEME.SECONDARY_TEXT_BUTTON }}>Đăng xuất</Typography>
                 </Box>
