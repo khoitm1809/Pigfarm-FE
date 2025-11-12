@@ -12,11 +12,11 @@ const MeditionWarehousePage = () => {
     const [editMeditionWarehouse] = useEditMeditionWarehouseMutation();
     const [deleteMeditionWarehouse] = useDeleteMeditionWarehouseMutation();
     useEffect(()=>{
-            dispatch(setTitle("Quản lý kho vaccine"));
+            dispatch(setTitle("Quản lý kho thuốc"));
         },[])
 
     const title = [
-        { key: "name", label: "Tên vacxine" },
+        { key: "name", label: "Tên thuốc" },
         { key: "brand", label: "Hãng" },
         { key: "drug_type", label: "Loại thuốc" },
         { key: "usage_type", label: "Cách sử dụng" },

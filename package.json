@@ -8,9 +8,12 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "extract:i18n": "node extract-i18n.js"
   },
   "dependencies": {
+    "@babel/parser": "^7.28.5",
+    "@babel/traverse": "^7.28.5",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.2",
@@ -23,6 +26,8 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.12.1",
     "dayjs": "^1.11.18",
+    "fs-extra": "^11.3.2",
+    "glob": "^11.0.3",
     "i18next": "^25.5.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
