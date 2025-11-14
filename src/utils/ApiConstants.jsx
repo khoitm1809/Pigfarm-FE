@@ -9,7 +9,7 @@ export const API_URL = {
   INVOICE: '/api/invoice',
   FOOD_RATION: '/api/food-ration',
   DRUG_USE: '/api/drug-use',
-  // BREEDING_RECORD: '/api/breeding-record',
-  // GIVE_BIRTH: '/api/give-birth',
-  // WEANING: '/api/weaning'
+  BREEDING_RECORD: '/api/breeding-record',
+  GIVE_BIRTH: '/api/give-birth',
+  WEANING: '/api/weaning'
 };

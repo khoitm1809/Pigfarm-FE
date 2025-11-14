@@ -13,5 +13,6 @@ export const ROUTES = {
   MEDITION_WAREHOUSE: "/meditionWarehouse",
   INVOICE: "/invoice",
   FOOD_RATION: "/foodRation",
-  DRUG_USE: "/drugUse"
+  DRUG_USE: "/drugUse",
+  BREEDING_RECORD: "/breedingRecord"
 };

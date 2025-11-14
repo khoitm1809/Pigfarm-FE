@@ -10,8 +10,14 @@ import TopBar from "./TopBar";
 import { THEME } from "../utils/ThemeConstants";
 import { useSelector } from "react-redux";
 import { ConfirmDialogProvider } from "../components/confirmDialog";
+import { useTransition } from "react-i18next";
 
 function App() {
+    const { t, i18n } = useTranslation();
+
+    const changeLanguage = (lng) => {
+        i18n.changeLanguage(lng);
+    };
     return (
         <ThemeProvider theme={TypographyConfig}>
             <ConfirmDialogProvider>

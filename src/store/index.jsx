@@ -9,6 +9,7 @@ import { offSpringApi } from "./offSpring/offSpringAction";
 import { warehouseApi } from "./warehouse/warehouseAction";
 import { invoiceApi } from "./invoice/invoiceAction";
 import { foodRationApi } from "./foodRation/foodRationAction";
+import "../locales/i18n";
 
 const persistConfig = {
     key: 'root',
