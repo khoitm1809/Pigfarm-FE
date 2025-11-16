@@ -14,6 +14,7 @@ import MeditionWarehousePage from "../pages/warehouse/meditionWarehousePage";
 import InvoicePage from "../pages/invoice/invoicePage";
 import ProtectedRoute from "./ProtectedRoute";
 import FoodRationPage from "../pages/foodRation/foodRationPage";
+import DrugUsePage from "../pages/drugUse/drugUsePage";
 
 export const RouterConfig = () => {
     return (
@@ -108,6 +109,14 @@ export const RouterConfig = () => {
                 element={
                     <ProtectedRoute>
                         <FoodRationPage />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path={ROUTES.DRUG_USE}
+                element={
+                    <ProtectedRoute>
+                        <DrugUsePage />
                     </ProtectedRoute>
                 }
             />

@@ -18,6 +18,7 @@ import PreviewOutlinedIcon from '@mui/icons-material/PreviewOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import ChecklistOutlinedIcon from '@mui/icons-material/ChecklistOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/Logout';
+import VaccinesOutlinedIcon from '@mui/icons-material/VaccinesOutlined';
 import { deepOrange, deepPurple } from '@mui/material/colors';
 import { ROLES } from "../utils/rolesConstant";
 import { ROUTES } from "../router/routerConstants";
@@ -46,6 +47,7 @@ export default function TopBar({
         { text: "Quản lý giống và đàn lợn", icon: <AgricultureOutlinedIcon />, path: ROUTES.OFF_SPRING, role: ROLES.OWNER },
         { text: "Quản lý khu và chuồng nuôi", icon: <AgricultureOutlinedIcon />, path: ROUTES.HERD_BREED_MANAGEMENT, role: ROLES.OWNER },
         { text: "Thiết lập thức ăn và dinh dưỡng", icon: <SoupKitchenOutlinedIcon />, path: ROUTES.HOME, role: ROLES.OWNER },
+        { text: "Thiết lập sử dụng thuốc", icon: <VaccinesOutlinedIcon />, path: ROUTES.DRUG_USE, role: ROLES.OWNER },
         { text: "Quản lý hóa đơn nhập hàng", icon: <InventoryOutlinedIcon />, path: ROUTES.INVOICE, role: ROLES.OWNER },
         { text: "Quản lý  kho hàng hóa", icon: <WarehouseOutlinedIcon />, path: ROUTES.FOOD_WAREHOUSE, role: ROLES.OWNER },
         { text: "Nhập vào kho thuốc ", icon: <WarehouseOutlinedIcon />, path: ROUTES.MEDITION_WAREHOUSE, role: ROLES.OWNER },

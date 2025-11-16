@@ -9,6 +9,7 @@ import { offSpringApi } from "./offSpring/offSpringAction";
 import { warehouseApi } from "./warehouse/warehouseAction";
 import { invoiceApi } from "./invoice/invoiceAction";
 import { foodRationApi } from "./foodRation/foodRationAction";
+import { drugUseApi } from "./drugUse/drugUseAction";
 import "../locales/i18n";
 
 const persistConfig = {
@@ -31,6 +32,7 @@ export const store = configureStore({
         [warehouseApi.reducerPath]: warehouseApi.reducer,
         [invoiceApi.reducerPath]: invoiceApi.reducer,
         [foodRationApi.reducerPath]: foodRationApi.reducer,
+        [drugUseApi.reducerPath]: drugUseApi.reducer,
         auth: authReducer
     },
     middleware: (getDefaultMiddleware) =>
@@ -43,6 +45,7 @@ export const store = configureStore({
             warehouseApi.middleware,
             invoiceApi.middleware,
             foodRationApi.middleware,
+            drugUseApi.middleware
         ),
 })
 
