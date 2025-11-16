@@ -32,12 +32,22 @@ import LogoutOutlinedIcon from '@mui/icons-material/Logout';
 import { ROUTES } from "../router/routerConstants";
 import { ROLES } from "../utils/rolesConstant";
 import { THEME } from "../utils/ThemeConstants";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import TranslateIcon from "@mui/icons-material/Translate";
+import { LANGUAGE_CODE_EN, LANGUAGE_CODE_VI, LOCAL_STORAGE_NAME, MESSAGE_TYPE } from "../utils/constant";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 export default function LeftBar({ open, onClose, drawerWidth }) {
+    const [langSelect, setlangSelect] = useState(localStorage.getItem(LOCAL_STORAGE_NAME.LANGUAGE))
     const navigate = useNavigate();
     const location = useLocation();
     const role = localStorage.getItem("role");
+    const changeLanguage = (lng) => {
+        i18next.changeLanguage(lng);
+        localStorage.setItem(LOCAL_STORAGE_NAME.LANGUAGE, lng)
+        setlangSelect(lng)
+    };
     useEffect(() => {
 
     }, [role])
@@ -100,6 +110,22 @@ export default function LeftBar({ open, onClose, drawerWidth }) {
                         }} />
                 </Box> */}
                     <List>
+                        <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            cursor: 'pointer',
+                            gap: '0.4rem',
+                            cursor: 'pointer',
+                            padding: '8px 16px'
+                        }}
+                        onClick={() => {
+                            changeLanguage(langSelect == LANGUAGE_CODE_EN
+                                ? LANGUAGE_CODE_VI : LANGUAGE_CODE_EN)
+                        }}>
+                        <TranslateIcon />
+                        <Typography>{langSelect == LANGUAGE_CODE_EN ? "Tiếng Anh" : "Tiếng Việt"}</Typography>
+                    </Box>
                         {menuItems
                             .filter((item) => item?.role === role)
                             .map((item) => {

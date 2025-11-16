@@ -11,7 +11,10 @@ import VisibilityOutlined from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlined from '@mui/icons-material/VisibilityOffOutlined';
 import { useForm } from 'react-hook-form';
 import { useConfirmDialog } from "../components/confirmDialog";
-import { MESSAGE_TYPE } from '../utils/constant';
+import { LANGUAGE_CODE_EN, LANGUAGE_CODE_VI, LOCAL_STORAGE_NAME, MESSAGE_TYPE } from "../utils/constant";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
+import TranslateIcon from "@mui/icons-material/Translate";
 
 const ChildBox = styled(Box)(({ theme }) => ({
     height: '100vh',
@@ -74,7 +77,7 @@ function LoginPage() {
             <ChildBox sx={{ width: isMobile ? "100%" : "50%" }}>
                 <Column sx={{ justifyContent: 'center', alignItems: 'center', height: '100%', gap: '4rem' }}>
                     <Box>
-                        <Typography variant='18700' color={THEME.SECONDARY_TEXT_BUTTON}>{registered ? "Đăng ký thành công! Vui lòng đăng nhập." : "Welcome Back!"}</Typography>
+                        <Typography variant='18700' color={THEME.SECONDARY_TEXT_BUTTON}>{registered ? t("login.registerSuccess") : t("login.welcomeBack")}</Typography>
                     </Box>
 
                     <form onSubmit={handleSubmit(onSubmit)} style={{ width: "50%" }}>
