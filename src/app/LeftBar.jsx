@@ -77,108 +77,123 @@ export default function LeftBar({ open, onClose, drawerWidth }) {
 
     return (
         <Drawer
-            variant="persistent"
+            variant={isMobile ? "temporary" : "persistent"}
             anchor="left"
             open={open}
-            sx={(theme) => ({
+            onClose={onClose}
+            sx={{
                 width: drawerWidth,
-                flexShrink: 0,
-
-                // ✅ Hide drawer on smaller screens (<1200px)
-                [theme.breakpoints.down(1080)]: {
-                    display: "none",
-                },
-                "& .MuiDivider-root": {
-                    borderBottomWidth: 0,
-                },
                 "& .MuiDrawer-paper": {
                     width: drawerWidth,
-                    boxSizing: "border-box",
                     background: THEME.MENU_BACKGROUND,
-                    borderRight: "none"
+                    boxSizing: "border-box",
                 },
-            })}>
-            <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
-                <Box sx={{ padding: '2rem', flexGrow: 1 }}>
-                    {/* <Box sx={{ borderBottom: '1px solid #FFFFFF1A' }}>
-                    <img
-                        onClick={() => { navigate(ROUTES.HOME) }}
-                        src={null}
-                        style={{
-                            minWidth: '23.2rem',
-                            minHeight: '3.9rem',
-                            padding: '0rem 0rem 1.6rem 1.2rem',
-                            cursor: 'pointer'
-                        }} />
-                </Box> */}
-                    <List>
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                cursor: 'pointer',
-                                gap: '0.4rem',
-                                cursor: 'pointer',
-                                padding: '8px 16px'
-                            }}
-                            onClick={() => {
-                                changeLanguage(langSelect == LANGUAGE_CODE_EN
-                                    ? LANGUAGE_CODE_VI : LANGUAGE_CODE_EN)
-                            }}>
-                            <TranslateIcon />
-                            <Typography>{langSelect == LANGUAGE_CODE_EN ? "Tiếng Anh" : "Tiếng Việt"}</Typography>
-                        </Box>
-                        {menuItems
-                            .filter((item) => item?.role === role)
-                            .map((item) => {
-                                const isActive = location.pathname === item.path;
-                                return (
-                                    <ListItem key={item.text} disablePadding>
-                                        <ListItemButton
-                                            onClick={() => navigate(item.path)}
-                                            sx={{
-                                                backgroundColor: isActive ? THEME.ACTIVE_MENU_BG : "transparent",
-                                                borderRadius: "12px",
-                                                "& .MuiListItemText-root, & .MuiListItemIcon-root": {
-                                                    color: isActive ? THEME.MAIN_TEXT_BUTTON : THEME.SECONDARY_TEXT_BUTTON,
-                                                },
-                                                "&:hover": {
-                                                    backgroundColor: isActive ? THEME.SECONDARY_TEXT_BUTTON : "rgba(0,0,0,0.04)"
-                                                }
-                                            }}>
-                                            <ListItemIcon sx={{
-                                                color: THEME.SECONDARY_TEXT_BUTTON
-                                            }}>{item.icon}</ListItemIcon>
-                                            <ListItemText sx={{
-                                                color: THEME.SECONDARY_TEXT_BUTTON
-                                            }} primary={item.text} />
-                                        </ListItemButton>
-                                    </ListItem>
-                                )
-                            })}
-                    </List>
-                </Box>
+            }}
+        >
+            <Box sx={{ p: 3, display: "flex", flexDirection: "column", height: "100%", cursor: 'pointer' }}>
                 <Box
-                    onClick={() => {
-                        localStorage.removeItem("token");
-                        navigate({ pathname: ROUTES.LOGIN });
-                    }}
+                    display="flex"
+                    alignItems="center"
+                    gap={2}
+                    mb={3}
+                    p={2}
+                    onClick={() => navigate(ROUTES.PROFILE)}
                     sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        cursor: 'pointer',
-                        gap: '0.4rem',
-                        paddingBottom: "2rem",
-                        paddingLeft: "3rem"
+                        backgroundColor: "grey.50",
+                        borderRadius: 2,
+                    }}
+                >
+                    {/* Avatar */}
+                    <Avatar
+                        src="https://github.com/shadcn.png"
+                        alt="Nguyễn Văn A"
+                        sx={{ width: 48, height: 48 }}
+                    >
+                        NV
+                    </Avatar>
+
+                    {/* Info */}
+                    <Box flex={1} minWidth={0}>
+                        <Typography
+                            variant="body1"
+                            noWrap
+                            sx={{ fontWeight: 500 }}
+                        >
+                            {user?.username}
+                        </Typography>
+
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            noWrap
+                        >
+                            {user?.email}
+                        </Typography>
+                        <Typography
+                            variant="body2"
+                            color="text.secondary">
+                            {role}
+                        </Typography>
+                    </Box>
+                </Box>
+
+
+                <Divider sx={{ mb: 2 }} />
+
+                {/* Menu Items */}
+                <List sx={{ flexGrow: 1 }}>
+                    {menuItems
+                        .filter((item) => item.role === role)
+                        .map((item) => (
+                            <ListItem key={item.text} disablePadding>
+                                <ListItemButton
+                                    onClick={() =>
+                                        navigate({
+                                            pathname: item.path,
+                                            search: item.search,
+                                        })
+                                    }
+                                >
+                                    <ListItemIcon sx={{ color: THEME.SECONDARY_TEXT_BUTTON }}>
+                                        {item.icon}
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={item.text}
+                                        sx={{ color: THEME.SECONDARY_TEXT_BUTTON }}
+                                    />
+                                </ListItemButton>
+                            </ListItem>
+                        ))}
+                </List>
+
+                <Divider sx={{ my: 2 }} />
+                {/* Language switch */}
+                <Box
+                    sx={{ display: "flex", alignItems: "center", gap: 1, cursor: "pointer" }}
+                    onClick={() =>
+                        changeLanguage(
+                            langSelect === LANGUAGE_CODE_EN ? LANGUAGE_CODE_VI : LANGUAGE_CODE_EN
+                        )}>
+                    <IconButton sx={{ color: THEME.SECONDARY_TEXT_BUTTON }}>
+                        <LanguageOutlinedIcon />
+                    </IconButton>
+                    <Typography sx={{ color: THEME.SECONDARY_TEXT_BUTTON }}>Tiếng Việt</Typography>
+                </Box>
+                {/* Logout */}
+                <Box
+                    sx={{ display: "flex", alignItems: "center", gap: 1, cursor: "pointer" }}
+                    onClick={() => {
+                        localStorage.removeItem("access_token");
+                        localStorage.removeItem("role");
+                        navigate({ pathname: ROUTES.LOGIN });
                     }}
                 >
                     <IconButton sx={{ color: THEME.SECONDARY_TEXT_BUTTON }}>
                         <LogoutOutlinedIcon />
                     </IconButton>
-                    <Typography variant="12400" sx={{ color: THEME.SECONDARY_TEXT_BUTTON }}>Đăng xuất</Typography>
+                    <Typography sx={{ color: THEME.SECONDARY_TEXT_BUTTON }}>Đăng xuất</Typography>
                 </Box>
             </Box>
-            <Divider />
         </Drawer>
     );
 }
