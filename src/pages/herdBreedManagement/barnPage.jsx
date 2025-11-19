@@ -5,15 +5,18 @@ import { useAddBarnMutation, useDeleteBarnMutation, useEditBarnMutation, useGetL
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { setTitle } from "../../store/auth/authSlice";
+import { ROUTES } from "../../router/routerConstants";
+import { useNavigate } from "react-router";
 
 const BarnPage = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [addBarn] = useAddBarnMutation();
     const [editBarn] = useEditBarnMutation();
     const [deleteBarn] = useDeleteBarnMutation();
     const headerTitle = useSelector((state) => state.auth.headerTitle);
     useEffect(() => {
-        dispatch(setTitle("Danh sách kho"));
+        dispatch(setTitle("Danh sách chuồng"));
     }, [])
 
     const title = [
@@ -39,6 +42,7 @@ const BarnPage = () => {
                 title={title}
                 data={listBarn}
                 isEdit={true}
+                detailNavigate={ROUTES.BARN_HEALTH}
                 mutationAddFunction={addBarn}
                 mutationEditFunction={editBarn}
                 mutationDeleteFunction={deleteBarn}

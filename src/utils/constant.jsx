@@ -21,5 +21,10 @@ export const MESSAGE_TYPE = {
   WARNING: "W",
 };
 
+export const GENDER = [
+  { value: "sow", label: "Sow"},
+  { value: "boar", label: "Boar"}
+];
+
 export const LANGUAGE_CODE_VI = "vi";
 export const LANGUAGE_CODE_EN = "en";

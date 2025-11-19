@@ -32,7 +32,7 @@ const FormField = React.memo(({ field, value, onChange }) => {
                 <Typography sx={{ fontSize: 14, color: "#333", fontWeight: 500 }}>
                     {field.label}
                 </Typography>
-                {(field?.isDropDown || field?.isStatus) ? (
+                {(field?.isDropDown || field?.isStatus || field?.isGender) ? (
                     <FormControl sx={{
                         minWidth: "200px",
                         "& fieldset": {
@@ -120,23 +120,31 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
     };
 
     const getValueByPath = (obj, path) => {
-        const keys = path.split(".");
-        const traverse = (data, i) => {
-            if (i >= keys.length || data == null) return data;
+    if (!obj || !path) return null;
 
-            const key = keys[i];
-            if (Array.isArray(data)) {
-                // Nếu là mảng, duyệt từng phần tử và gom kết quả
-                const results = data.map(item => traverse(item[key], i + 1)).flat();
-                return results;
-            }
+    const keys = path.split(".");
 
-            return traverse(data[key], i + 1);
-        };
+    const traverse = (data, index) => {
+        if (index === keys.length) return data;
 
-        const result = traverse(obj, 0);
-        return result;
+        const key = keys[index];
+
+        if (Array.isArray(data)) {
+            return data
+                .map(item => traverse(item[key], index + 1))
+                .filter(v => v !== undefined && v !== null);
+        }
+
+        if (typeof data === "object" && data !== null) {
+            return traverse(data[key], index + 1);
+        }
+
+        return null;
     };
+
+    return traverse(obj, 0);
+};
+
 
     const formatValue = (key, value) => {
         if (value === null || value === undefined) return "-";
@@ -150,6 +158,12 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
         if (typeof value === "boolean") {
             return value ? "true" : "false";
         }
+
+        if (typeof value === "object") {
+        return Object.entries(value)
+            .map(([k, v]) => `${k}: ${v}`)
+            .join(", ");
+    }
 
         if (key.toLowerCase().includes("date") || key.toLowerCase().includes("created_at") || key.toLowerCase().includes("expiry")) {
             return dayjs(value).isValid() ? dayjs(value).format("DD/MM/YYYY") : value;
@@ -195,8 +209,6 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
     const handleClose = () => {
         setOpen(false);
     };
-
-
 
     const handleChange = React.useCallback((key, value) => {
         setFormData((prev) => ({ ...prev, [key]: value }));
@@ -259,14 +271,17 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
                 <DialogContent style={{ background: "#c0c0c023" }}>
                     <DialogContentText style={{ marginTop: "30px" }} component="div">
                         <Grid container spacing={2}>
-                            {title?.map((field) => (
-                                <FormField
-                                    key={field.key}
-                                    field={field}
-                                    value={formData[field.key]}
-                                    onChange={handleChange}
-                                />
-                            ))}
+                            {title
+                                ?.filter(f => !f.disabledInDialog)
+                                .map((field) => (
+
+                                    <FormField
+                                        key={field.key}
+                                        field={field}
+                                        value={formData[field.key]}
+                                        onChange={handleChange}
+                                    />
+                                ))}
                         </Grid>
                     </DialogContentText>
                 </DialogContent>
@@ -350,7 +365,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
                                         return (
                                             <TableCell
                                                 key={colIndex}
-                                                onClick={() => navigate(detailNavigate)}
+                                                onClick={() => navigate(detailNavigate + `?id=${item._id}`)}
                                                 sx={{
                                                     cursor: detailNavigate ? "pointer" : "default",
                                                 }}

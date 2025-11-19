@@ -23,7 +23,7 @@ const MeditionWarehousePage = () => {
         { key: "inventory", label: "Số lượng" },
         { key: "unit", label: "Đơn vị" },
         { key: "capacity", label: "Dung tích" },
-        { key: "import_price", label: "Giá nhập" },
+        { key: "import_price", label: "Giá nhập" , disableInDialog: true},
         { key: "date_of_manufacture", label: "Ngày sản xuất", isDateTime: true },
         { key: "expiry", label: "Ngày hết hạn", isDateTime: true },
         { key: "Note", label: "Note" },

@@ -17,13 +17,14 @@ const FoodWarehousePage = () => {
     },[])
     const title = [
         { key: "name", label: "Tên hàng hóa" },
-        { key: "inventory", label: "Số lượng" },
-        { key: "weight", label: "Trọng lượng (kg)", isDropDown: true, list: WEIGHT },
+        { key: "inventory", label: "Số lượng" , disabledInDialog: true},
+        { key: "weight", label: "Trọng lượng (kg)" },
         { key: "unit", label: "Đơn vị" },
         { key: "protein_content", label: "Lượng protein" },
         { key: "energy_content", label: "Năng lượng" },
-        { key: "import_price", label: "Giá nhập" },
-        { key: "import_date", label: "Ngày nhập", isDateTime: true },
+        { key: "import_price", label: "Giá nhập" , disabledInDialog: true},
+        { key: "import_date", label: "Ngày sản xuất", isDateTime: true },
+        { key: "expiry", label: "Ngày hết hạn", isDateTime: true },
         { key: "note", label: "Note" },
     ];
     const {

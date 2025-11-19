@@ -14,5 +14,6 @@ export const ROUTES = {
   INVOICE: "/invoice",
   FOOD_RATION: "/foodRation",
   DRUG_USE: "/drugUse",
-  BREEDING_RECORD: "/breedingRecord"
+  BREEDING_RECORD: "/breedingRecord",
+  BARN_HEALTH: "/barnHealth"
 };

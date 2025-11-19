@@ -5,6 +5,7 @@ import { useAddOffSpringMutation, useDeleteOffSpringMutation, useEditOffSpringMu
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { setTitle } from "../../store/auth/authSlice";
+import { GENDER } from "../../utils/constant";
 
 const OffSpringPage = () => {
     const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const OffSpringPage = () => {
         { key: "origin", label: "Xuất xứ" },
         { key: "date_of_entry", label: "Ngày nhập vào", isDateTime: true },
         { key: "type", label: "Loại" },
-        { key: "sex", label: "Giới tính" },
+        { key: "sex", label: "Giới tính" , isGender: true, list: GENDER},
         { key: "weight_at_import", label: "Cân nặng lúc nhập" },
         { key: "health", label: "Sức khỏe" },
         { key: "vaccination", label: "Tiêm chủng" },

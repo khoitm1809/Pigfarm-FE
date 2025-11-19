@@ -11,6 +11,8 @@ import { invoiceApi } from "./invoice/invoiceAction";
 import { foodRationApi } from "./foodRation/foodRationAction";
 import { drugUseApi } from "./drugUse/drugUseAction";
 import "../locales/i18n";
+import { barnHealthApi } from "./health/barnHealthAction";
+import { breedingRecordApi } from "./breedingRecord/breedingRecordAction";
 
 const persistConfig = {
     key: 'root',
@@ -33,6 +35,8 @@ export const store = configureStore({
         [invoiceApi.reducerPath]: invoiceApi.reducer,
         [foodRationApi.reducerPath]: foodRationApi.reducer,
         [drugUseApi.reducerPath]: drugUseApi.reducer,
+        [barnHealthApi.reducerPath]: barnHealthApi.reducer,
+        [breedingRecordApi.reducerPath]: breedingRecordApi.reducer,
         auth: authReducer
     },
     middleware: (getDefaultMiddleware) =>
@@ -45,7 +49,9 @@ export const store = configureStore({
             warehouseApi.middleware,
             invoiceApi.middleware,
             foodRationApi.middleware,
-            drugUseApi.middleware
+            drugUseApi.middleware,
+            barnHealthApi.middleware,
+            breedingRecordApi.middleware
         ),
 })
 

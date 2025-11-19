@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { BoxContainer } from "../../components/commonStyled";
 import CustomTable from "../../components/CustomTable";
+import DetailLayout from "../../components/DetailLayout";
 import { useAddFoodRationMutation, useDeleteFoodRationMutation, useEditFoodRationMutation, useGetListFoodRationQuery } from "../../store/foodRation/foodRationAction";
 import { ROUTES } from "../../router/routerConstants";
 import { useEffect } from "react";
@@ -18,17 +19,9 @@ const FoodRationPage = () => {
     },[])
 
     const title = [
-        { key: "barn.name", label: "Tên chuồng"},
-        { key: "name", label: "Chế độ ăn thử" },
-        { key: "start_time", label: "Ngày bắt đầu", isDateTime: true},
-        { key: "end_time", label: "Ngày kết thúc", isDateTime: true},
-        { key: "number_of_feedings_per_day", label: "Số lần ăn mỗi ngày"},
-        { key: "food_details.food_warehouse.name", label: "Chi tiết thức ăn"},
-        { key: "food_details.meal", label: "Bữa ăn"},
-        { key: "food_details.weight", label: "Lượng thức ăn"},
-        { key: "medition_details.medition_warehouse.name", label: "Chi tiết thuốc"},
-        { key: "medition_details.dosage", label: "Liều thuốc sử dụng"},
-        { key: "medition_details.meal", label: "Liều lượng"},
+        { key: "barns.barn_name", label: "Tên chuồng"},
+        { key: "food_summary.food_name", label: "Cho ăn"},
+        { key: "med_summary.med_name", label: "Thuốc sử dụng"},
     ];
     const {
         data: listFoodRation,
@@ -44,6 +37,7 @@ const FoodRationPage = () => {
                 title={title}
                 data={listFoodRation?.data || []}
                 isEdit={true}
+                detailNavigate={ROUTES.DRUG_USE}
                 mutationAddFunction={addFoodRation}
                 mutationEditFunction={editFoodRation}
                 mutationDeleteFunction={deleteFoodRation}

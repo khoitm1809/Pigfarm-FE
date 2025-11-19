@@ -11,5 +11,7 @@ export const API_URL = {
   DRUG_USE: '/api/drug-use',
   BREEDING_RECORD: '/api/breeding-record',
   GIVE_BIRTH: '/api/give-birth',
-  WEANING: '/api/weaning'
+  WEANING: '/api/weaning',
+  BARN_HEALTH: '/api/barn-health',
+  HEALTH_HISTORY: '/api/health-history'
 };

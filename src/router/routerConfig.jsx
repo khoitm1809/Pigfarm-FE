@@ -15,6 +15,10 @@ import InvoicePage from "../pages/invoice/invoicePage";
 import ProtectedRoute from "./ProtectedRoute";
 import FoodRationPage from "../pages/foodRation/foodRationPage";
 import DrugUsePage from "../pages/drugUse/drugUsePage";
+import BarnHealthPage from "../pages/barnHealth/barnHealthPage";
+import BreedingRecordPage from "../pages/breedingRecord/breedingRecordPage";
+import ListUserPage from "../pages/users/listUserPage";
+import { ProfilePage } from "../pages/profile/profilePage";
 
 export const RouterConfig = () => {
     return (
@@ -117,6 +121,38 @@ export const RouterConfig = () => {
                 element={
                     <ProtectedRoute>
                         <DrugUsePage />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path={ROUTES.BARN_HEALTH}
+                element={
+                    <ProtectedRoute>
+                        <BarnHealthPage />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path={ROUTES.BREEDING_RECORD}
+                element={
+                    <ProtectedRoute>
+                        <BreedingRecordPage />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path={ROUTES.PROFILE}
+                element={
+                    <ProtectedRoute>
+                        <ProfilePage />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path={ROUTES.LIST_USER}
+                element={
+                    <ProtectedRoute>
+                        <ListUserPage />
                     </ProtectedRoute>
                 }
             />

@@ -18,17 +18,9 @@ const DrugUsePage = () => {
     },[])
 
     const title = [
-        { key: "barn.name", label: "Tên chuồng"},
-        { key: "reason", label: "Chế độ thuốc" },
-        { key: "start_date", label: "Ngày bắt đầu", isDateTime: true},
-        { key: "end_date", label: "Ngày kết thúc", isDateTime: true},
-        { key: "details.time", label: "Liều thuốc"},
-        { key: "details.method", label: "Hình thức sử dụng"},
-        { key: "details.dosage", label: "Liều lượng"},
-        { key: "details.dosage_unit", label: "Đơn vị lượng thuốc"},
-        { key: "details.medition_warehouse.name", label: "Chi tiết thuốc"},
-        { key: "medition_warehouse.name", label: "Kho thuốc"},
-        { key: "details.note", label: "Ghi chú"},
+        { key: "areaName", label: "Khu"},
+        { key: "barns.barnName", label: "Chuồng" },
+        { key: "summary", label: "Chi tiết thuốc"},
     ];
     const {
         data: listDrugUse,
@@ -42,7 +34,7 @@ const DrugUsePage = () => {
             </Box>
             <CustomTable
                 title={title}
-                data={listDrugUse?.data || []}
+                data={listDrugUse || []}
                 isEdit={true}
                 mutationAddFunction={addDrugUse}
                 mutationEditFunction={editDrugUse}

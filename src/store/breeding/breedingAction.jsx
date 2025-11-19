@@ -66,8 +66,8 @@ export const breedingApi = createApi({
 
         // delete breeding
         deleteBreading: builder.mutation({
-            query: (id) => ({
-                url: API_URL.BREEDING + "/delete/" + id,
+            query: (_id) => ({
+                url: API_URL.BREEDING + "/delete/" + _id,
                 method: 'DELETE',
             }),
         }),
@@ -75,7 +75,7 @@ export const breedingApi = createApi({
         // delete barn
         deleteBarn: builder.mutation({
             query: (id) => ({
-                url: API_URL.BREEDING + "/delete/" + id,
+                url: API_URL.BARN + "/delete/" + id,
                 method: 'DELETE',
             }),
         }),
@@ -90,5 +90,5 @@ export const {
     useEditBreadingMutation,
     useEditBarnMutation,
     useDeleteBarnMutation,
-    useDeleteBreadingMutation
+    useDeleteBreadingMutation,
 } = breedingApi;
