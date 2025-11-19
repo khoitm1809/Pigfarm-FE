@@ -25,6 +25,7 @@ import { ROUTES } from "../router/routerConstants";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { THEME } from "../utils/ThemeConstants";
+import DensityMediumOutlinedIcon from '@mui/icons-material/DensityMediumOutlined';
 
 export default function TopBar({
     isLeftBarOpen = true,
@@ -67,87 +68,22 @@ export default function TopBar({
             position="fixed"
             sx={(theme) => ({
                 background: THEME.MENU_BACKGROUND,
-                zIndex: theme.zIndex.drawer + 1,
-                transition: "margin 0.3s ease, width 0.3s ease",
-
-                // Default: Adjust width if left bar open
-                marginLeft: isLeftBarOpen ? `${drawerWidth}px` : 0,
-                width: isLeftBarOpen
-                    ? `calc(100% - ${drawerWidth}px)`
-                    : "100%",
-
-                // On small screens (<=1260px): Always full width
                 [theme.breakpoints.up(1080)]: {
-                    // marginLeft: 0,
-                    // width: "100%",
-                    display: 'none'
-                },
-                [theme.breakpoints.down(1080)]: {
-                    marginLeft: 0,
-                    width: "100%",
-                },
+                    display: "none"
+                }
             })}
         >
-            <Toolbar>
-                <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
+            <Toolbar sx={{ color: 'black' }}>
+                <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center',  }}>
+
                     <Avatar sx={{ bgcolor: deepOrange[500] }}>H</Avatar>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '0.4rem' }}>
-                        {/* <Typography variant="10500">
-                            Welcome
-                        </Typography> */}
-                        <Typography variant="12500">
-                            {"Huy Phan"}
-                        </Typography>
+
+                    <Box sx={{ cursor: 'pointer' }} onClick={onMenuClick}>
+                        <DensityMediumOutlinedIcon />
                     </Box>
-                </Box>
-
-                <Box display="flex" flexDirection="row" alignItems="center">
-                    {isMobile &&
-                        menuItems
-                            .filter((item) => item?.role == role)
-                            .map((item) => (
-                                <Box
-                                    key={item.text}
-                                    onClick={() => {
-                                        navigate({
-                                            pathname: item.path,
-                                            search: item.search,
-                                        });
-                                    }}
-                                    sx={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        cursor: 'pointer',
-                                        gap: '0.4rem',
-                                    }}
-                                >
-                                    <Tooltip title={item.text} arrow>
-                                        <IconButton sx={{ ml: 1, color: THEME.SECONDARY_TEXT_BUTTON }}>
-                                            {item.icon}
-                                        </IconButton>
-                                    </Tooltip>
-                                    {/* <Typography variant="12400" sx={{ color: THEME.SECONDARY_TEXT_BUTTON }}>{item.text}</Typography> */}
-                                </Box>
-                            ))}
-
-                    <Tooltip title="Đăng xuất" arrow placement="top">
-                        <IconButton
-                            onClick={() => {
-                                localStorage.removeItem("token");
-                                navigate({ pathname: ROUTES.LOGIN });
-                            }}
-                            sx={{
-                                color: THEME.SECONDARY_TEXT_BUTTON,
-                                ml: 1,
-                            }}
-                        >
-                            <LogoutOutlinedIcon />
-                        </IconButton>
-                    </Tooltip>
-
 
                 </Box>
             </Toolbar>
-        </AppBar >
+        </AppBar>
     );
 }
