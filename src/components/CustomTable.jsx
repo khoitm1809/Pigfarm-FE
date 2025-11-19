@@ -304,7 +304,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
                     fontWeight={700}
                     sx={{ mb: 1 }}
                 >
-                    Danh sách sản phẩm
+                    Bảng danh sách
                 </Typography>
 
                 {/* SUBTITLE */}
@@ -312,7 +312,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
                     variant="subtitle1"
                     color="text.secondary"
                 >
-                    Quản lý toàn bộ sản phẩm
+                    Quản lý danh sách
                 </Typography>
             </Box>
 
@@ -421,7 +421,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
                             ))}
                             {isEdit && (
                                 <TableCell sx={{ fontWeight: 600, color: (theme) => theme.palette.text.primary, padding: '12px 16px' }}>
-                                    Hành động
+                                    Thao tác
                                 </TableCell>
                             )}
                         </TableRow>
