@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 import { THEME } from '../utils/ThemeConstants';
 import { ROUTES } from '../router/routerConstants';
-import { useUserLoginMutation } from '../store/auth/authAction';
+import { useUserLoginMutation, useLazyGetUserRoleQuery } from '../store/auth/authAction';
 import VisibilityOutlined from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlined from '@mui/icons-material/VisibilityOffOutlined';
 import { useForm } from 'react-hook-form';
@@ -22,13 +22,14 @@ const ChildBox = styled(Box)(({ theme }) => ({
 }));
 
 function LoginPage() {
+    const [langSelect, setlangSelect] = useState(localStorage.getItem(LOCAL_STORAGE_NAME.LANGUAGE))
+    const { t } = useTranslation();
     const location = useLocation();
     const [showPassword, setShowPassword] = useState(false);
     const [loginUser] = useUserLoginMutation();
     const isMobile = useMediaQuery('(max-width:1080px')
     const navigate = useNavigate()
-    const registered = location.state?.registered;
-    const handleShowPassword = () => setShowPassword(!showPassword);
+    const [getUserRole] = useLazyGetUserRoleQuery();
     const { openDialog } = useConfirmDialog();
 
     const {
@@ -37,7 +38,7 @@ function LoginPage() {
         formState: { errors, isSubmitting },
     } = useForm({
         defaultValues: {
-            email: "",
+            identifier: "",
             password: "",
         },
     });
@@ -46,8 +47,12 @@ function LoginPage() {
     const onSubmit = async (data) => {
         try {
             const res = await loginUser(data).unwrap();
-            localStorage.setItem("token", res.token);
+            localStorage.setItem(LOCAL_STORAGE_NAME.TOKEN, res.jwt);
+
+            const roleRes = await getUserRole().unwrap();
             localStorage.setItem("role", res.user.role);
+            dispatch(setUser(res.user));
+            
             navigate(ROUTES.HOME);
         } catch (err) {
             openDialog({
@@ -60,12 +65,6 @@ function LoginPage() {
             });
         }
     };
-
-    const handleEnter = (e) => {
-        if (e.key === 'Enter') {
-            login();
-        }
-    }
 
     return (
         <Box

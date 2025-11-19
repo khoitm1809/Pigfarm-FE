@@ -34,6 +34,15 @@ const Layout = ({ children }) => {
     const location = useLocation();
     const drawerWidth = 320;
     const isMobile = useMediaQuery('(max-width:1080px');
+
+    const [mobileOpen, setMobileOpen] = useState(false);
+
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
+
+    const isAuthPage = location.pathname === ROUTES.LOGIN || location.pathname === ROUTES.REGISTER;
+    
     const { headerTitle } = useSelector((state) => state.auth)
     console.log(headerTitle);
 

@@ -42,7 +42,7 @@ import i18next from "i18next";
 export default function LeftBar({ open, onClose, drawerWidth }) {
     const [langSelect, setlangSelect] = useState(localStorage.getItem(LOCAL_STORAGE_NAME.LANGUAGE))
     const navigate = useNavigate();
-    const location = useLocation();
+    const user = useSelector((state) => state.auth.user);
     const role = localStorage.getItem("role");
     const changeLanguage = (lng) => {
         i18next.changeLanguage(lng);
