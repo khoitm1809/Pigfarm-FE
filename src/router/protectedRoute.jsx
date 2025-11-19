@@ -4,7 +4,7 @@ import { ROUTES } from "./routerConstants";
 import { ROLE_ACCESS } from "../utils/rolesAccess";
 
 export default function ProtectedRoute({ children }) {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("access_token");
   const role = localStorage.getItem("role");
   const location = useLocation();
 

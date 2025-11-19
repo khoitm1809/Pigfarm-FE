@@ -20,7 +20,13 @@
     "welcomeBack": "Welcome Back!",
     "accNotExist": "Chưa có tài khoản?",
     "loggingIn": "Đang đăng nhập...",
-    "homePage": "Trang chủ"
+    "homePage": "Trang chủ",
+    "emailRequired": "Vui lòng nhập email",
+    "passWordReq":"Vui lòng nhập mật khẩu",
+    "passWord": "Mật khẩu",
+    "notice": "Nhập thông tin để truy cập hệ thống",
+    "forgotPassword": "Quên mật khẩu?",
+    "remember": "Ghi nhớ đăng nhập"
   },
 
   "meditionWarehouse": {

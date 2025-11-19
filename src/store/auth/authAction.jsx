@@ -45,6 +45,15 @@ export const authApi = createApi({
             }),
         }),
 
+        // edit user
+        editUser: builder.mutation({
+            query: (body) => ({
+                url: API_URL.LIST_USER + "/" + body.id,
+                method: 'PUT',
+                data: body,
+            }),
+        }),
+
         // delete user
         deleteUser: builder.mutation({
             query: (id) => ({
@@ -56,4 +65,4 @@ export const authApi = createApi({
     }),
 });
 
-export const { useUserLoginMutation, useLazyGetUserRoleQuery, useGetListUserQuery, useUserRegisterMutation } = authApi;
+export const { useUserLoginMutation, useLazyGetUserRoleQuery, useGetListUserQuery, useUserRegisterMutation, useDeleteUserMutation, useEditUserMutation } = authApi;

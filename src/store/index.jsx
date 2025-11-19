@@ -15,30 +15,28 @@ import { barnHealthApi } from "./health/barnHealthAction";
 import { breedingRecordApi } from "./breedingRecord/breedingRecordAction";
 
 const persistConfig = {
-    key: 'root',
+    key: 'auth',
     storage,
+    whitelist: ["auth"],
 };
 
 const rootReducer = combineReducers({
     auth: authReducer,
+    [authApi.reducerPath]: authApi.reducer,
+    [breedingApi.reducerPath]: breedingApi.reducer,
+    [offSpringApi.reducerPath]: offSpringApi.reducer,
+    [warehouseApi.reducerPath]: warehouseApi.reducer,
+    [invoiceApi.reducerPath]: invoiceApi.reducer,
+    [foodRationApi.reducerPath]: foodRationApi.reducer,
+    [drugUseApi.reducerPath]: drugUseApi.reducer,
+    [barnHealthApi.reducerPath]: barnHealthApi.reducer,
+    [breedingRecordApi.reducerPath]: breedingRecordApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-    reducer: {
-        ...persistedReducer,
-        [authApi.reducerPath]: authApi.reducer,
-        [breedingApi.reducerPath]: breedingApi.reducer,
-        [offSpringApi.reducerPath]: offSpringApi.reducer,
-        [warehouseApi.reducerPath]: warehouseApi.reducer,
-        [invoiceApi.reducerPath]: invoiceApi.reducer,
-        [foodRationApi.reducerPath]: foodRationApi.reducer,
-        [drugUseApi.reducerPath]: drugUseApi.reducer,
-        [barnHealthApi.reducerPath]: barnHealthApi.reducer,
-        [breedingRecordApi.reducerPath]: breedingRecordApi.reducer,
-        auth: authReducer
-    },
+    reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: false,

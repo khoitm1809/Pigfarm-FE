@@ -21,6 +21,16 @@ const data = [
     { label: 'Cần theo dõi', value: 300, color: '#00C49F' },
     { label: 'Ốm', value: 300, color: '#FFBB28' },
 ];
+
+const revenueData = [
+    { month: "T1", revenue: 45000000, orders: 120 },
+    { month: "T2", revenue: 52000000, orders: 145 },
+    { month: "T3", revenue: 48000000, orders: 130 },
+    { month: "T4", revenue: 61000000, orders: 168 },
+    { month: "T5", revenue: 55000000, orders: 152 },
+    { month: "T6", revenue: 67000000, orders: 189 },
+];
+
 const settings = {
     margin: { right: 5 },
     width: 200,

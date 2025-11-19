@@ -28,9 +28,7 @@ import { THEME } from "../utils/ThemeConstants";
 import DensityMediumOutlinedIcon from '@mui/icons-material/DensityMediumOutlined';
 
 export default function TopBar({
-    isLeftBarOpen = true,
-    drawerWidth,
-    isMobile
+    onMenuClick
 }) {
     const navigate = useNavigate();
     const role = localStorage.getItem("role");

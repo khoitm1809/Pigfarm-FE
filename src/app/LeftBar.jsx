@@ -11,6 +11,7 @@ import {
     Button,
     IconButton,
     Typography,
+    Avatar,
 } from "@mui/material";
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import PhotoCameraFrontOutlinedIcon from '@mui/icons-material/PhotoCameraFrontOutlined';
@@ -38,8 +39,10 @@ import TranslateIcon from "@mui/icons-material/Translate";
 import { LANGUAGE_CODE_EN, LANGUAGE_CODE_VI, LOCAL_STORAGE_NAME, MESSAGE_TYPE } from "../utils/constant";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
+import { useSelector } from "react-redux";
+import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
 
-export default function LeftBar({ open, onClose, drawerWidth }) {
+export default function LeftBar({ open, onClose, drawerWidth, isMobile }) {
     const [langSelect, setlangSelect] = useState(localStorage.getItem(LOCAL_STORAGE_NAME.LANGUAGE))
     const navigate = useNavigate();
     const user = useSelector((state) => state.auth.user);
@@ -68,9 +71,11 @@ export default function LeftBar({ open, onClose, drawerWidth }) {
         { text: "Quản lý kho thuốc ", icon: <WarehouseOutlinedIcon />, path: ROUTES.MEDITION_WAREHOUSE, role: ROLES.OWNER },
         { text: "Giao việc cho công nhân", icon: <ContactMailOutlinedIcon />, path: ROUTES.HOME, role: ROLES.OWNER },
         // cong nhan
+        { text: "Nhập nguồn gốc giống lợn", icon: <UploadFileOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
         { text: "Ghi nhận tốc độ tăng trưởng", icon: <AreaChartOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
         { text: "Nhập thông tin sức khỏe toàn truồng và từng cá thể lợn", icon: <FeedOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
-        { text: "Quản lý kho thuốc ", icon: <WarehouseOutlinedIcon />, path: ROUTES.MEDITION_WAREHOUSE, role: ROLES.WORKER },
+        { text: "Nhập vào kho hàng, vacxin, ", icon: <WarehouseOutlinedIcon />, path: ROUTES.MEDITION_WAREHOUSE, role: ROLES.WORKER },
+        { text: "Ghi nhận và tính ngày phối giống", icon: <CalendarMonthOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
         { text: "To do list các việc mà chủ trang trại giao", icon: <ChecklistOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
 
     ];

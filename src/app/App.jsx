@@ -11,6 +11,7 @@ import { THEME } from "../utils/ThemeConstants";
 import { useSelector } from "react-redux";
 import { ConfirmDialogProvider } from "../components/confirmDialog";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 function App() {
     const { t, i18n } = useTranslation();
@@ -33,7 +34,7 @@ function App() {
 const Layout = ({ children }) => {
     const location = useLocation();
     const drawerWidth = 320;
-    const isMobile = useMediaQuery('(max-width:1080px');
+    const isMobile = useMediaQuery('(max-width:1080px)');
 
     const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -42,7 +43,7 @@ const Layout = ({ children }) => {
     };
 
     const isAuthPage = location.pathname === ROUTES.LOGIN || location.pathname === ROUTES.REGISTER;
-    
+
     const { headerTitle } = useSelector((state) => state.auth)
     console.log(headerTitle);
 

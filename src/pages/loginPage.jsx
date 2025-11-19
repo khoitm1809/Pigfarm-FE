@@ -16,6 +16,7 @@ import i18next, { t } from "i18next";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
+import { setUser } from "../store/auth/authSlice";
 
 const ChildBox = styled(Box)(({ theme }) => ({
     height: '100vh',
@@ -25,9 +26,9 @@ function LoginPage() {
     const [langSelect, setlangSelect] = useState(localStorage.getItem(LOCAL_STORAGE_NAME.LANGUAGE))
     const { t } = useTranslation();
     const location = useLocation();
-    const [showPassword, setShowPassword] = useState(false);
+    const dispatch = useDispatch();
     const [loginUser] = useUserLoginMutation();
-    const isMobile = useMediaQuery('(max-width:1080px')
+    const isMobile = useMediaQuery('(max-width:1080px)')
     const navigate = useNavigate()
     const [getUserRole] = useLazyGetUserRoleQuery();
     const { openDialog } = useConfirmDialog();
@@ -50,18 +51,18 @@ function LoginPage() {
             localStorage.setItem(LOCAL_STORAGE_NAME.TOKEN, res.jwt);
 
             const roleRes = await getUserRole().unwrap();
-            localStorage.setItem("role", res.user.role);
+            localStorage.setItem("role", roleRes.role.type);
             dispatch(setUser(res.user));
             
             navigate(ROUTES.HOME);
         } catch (err) {
             openDialog({
                 type: MESSAGE_TYPE.ERROR,
-                message: "Lỗi đăng nhập",
-                customMainText: "Lỗi đăng nhập",
+                message: "Error Login",
+                customMainText: t("login.errorLogin"),
                 isShowCloseBtn: true,
                 isHideAction: true,
-                customSecondText: "Xác nhận"
+                customSecondText: t("login.confirmLogin")
             });
         }
     };
@@ -111,14 +112,14 @@ function LoginPage() {
                 {/* Title */}
                 <Box sx={{ textAlign: "center" }}>
                     <Typography variant="h5" fontWeight={700}>
-                        Đăng nhập
+                        {t("login.login")}
                     </Typography>
 
                     <Typography
                         variant="body2"
                         sx={{ marginTop: "0.5rem" }}
                     >
-                        Nhập thông tin để truy cập hệ thống
+                        {t("login.notice")}
                     </Typography>
                 </Box>
 
@@ -134,9 +135,9 @@ function LoginPage() {
                             <TextField
                                 fullWidth
                                 placeholder="admin@example.com"
-                                {...register("identifier", { required: "Vui lòng nhập email" })}
-                                error={!!errors.email}
-                                helperText={errors.email?.message}
+                                {...register("identifier", { required: t("emailRequired") })}
+                                error={!!errors.identifier}
+                                helperText={errors.identifier?.message}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -158,14 +159,14 @@ function LoginPage() {
                         {/* PASSWORD */}
                         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                             <Typography variant="body2" color="black">
-                                Mật khẩu
+                                {t("login.passWord")}
                             </Typography>
 
                             <TextField
                                 fullWidth
                                 placeholder="••••••••"
                                 type="password"
-                                {...register("password", { required: "Vui lòng nhập mật khẩu" })}
+                                {...register("password", { required: t("login.passWordReq") })}
                                 error={!!errors.password}
                                 helperText={errors.password?.message}
                                 InputProps={{
@@ -198,7 +199,7 @@ function LoginPage() {
                                 control={<Checkbox sx={{ color: "black" }} />}
                                 label={
                                     <Typography variant="body2" color="black">
-                                        Ghi nhớ đăng nhập
+                                        {t("login.remember")}
                                     </Typography>
                                 }
                             />
@@ -207,7 +208,7 @@ function LoginPage() {
                                 underline="hover"
                                 sx={{ color: "#2563eb", cursor: "pointer" }}
                             >
-                                Quên mật khẩu?
+                                {t("login.forgotPassword")}
                             </Link>
                         </Box>
 
@@ -219,7 +220,7 @@ function LoginPage() {
                             disabled={isSubmitting}
                             sx={{ mt: 2 }}
                         >
-                            {isSubmitting ? "Đang đăng nhập..." : "Đăng nhập"}
+                            {isSubmitting ? t("login.loggingIn") : t("login.login")}
                         </Button>
                     </Box>
                 </Box>
