@@ -4,15 +4,10 @@ import persistReducer from "redux-persist/es/persistReducer";
 import persistStore from "redux-persist/es/persistStore";
 import authReducer from "./auth/authSlice";
 import { authApi } from "./auth/authAction";
-import { breedingApi } from "./breeding/breedingAction";
-import { offSpringApi } from "./offSpring/offSpringAction";
-import { warehouseApi } from "./warehouse/warehouseAction";
-import { invoiceApi } from "./invoice/invoiceAction";
-import { foodRationApi } from "./foodRation/foodRationAction";
-import { drugUseApi } from "./drugUse/drugUseAction";
 import "../locales/i18n";
-import { barnHealthApi } from "./health/barnHealthAction";
-import { breedingRecordApi } from "./breedingRecord/breedingRecordAction";
+import { pigApi } from "./pig/pigAction";
+import { areaApi } from "./area/areaAction";
+import { typePigApi } from "./typePig/typePigAction";
 
 
 const persistConfig = {
