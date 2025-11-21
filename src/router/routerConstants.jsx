@@ -1,20 +1,10 @@
 export const ROUTES = {
   HOME: "/home",
   LOGIN: "/login",
-  REGISTER: "/register",
   PROFILE: "/profile",
-  SETTINGS: "/settings",
-  LIST_USER: "/list-user",
-  SERVICE_PACKAGES: "/servicePackages",
-  DETAIL_PAGE: "/detail",
-  HERD_BREED_MANAGEMENT: "/herdBreedManagement",
+  REGISTER: "/register",
+  AREA: "/area",
   BARN: "/barn",
-  OFF_SPRING: "/offSpring",
-  FOOD_WAREHOUSE: "/foodWarehouse",
-  MEDITION_WAREHOUSE: "/meditionWarehouse",
-  INVOICE: "/invoice",
-  FOOD_RATION: "/foodRation",
-  DRUG_USE: "/drugUse",
-  BREEDING_RECORD: "/breedingRecord",
-  BARN_HEALTH: "/barnHealth"
+  LIST_USER: "/list-user",
+  PIG_PAGE: "/pig-page"
 };

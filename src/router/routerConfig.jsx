@@ -19,6 +19,7 @@ import BarnHealthPage from "../pages/barnHealth/barnHealthPage";
 import BreedingRecordPage from "../pages/breedingRecord/breedingRecordPage";
 import ListUserPage from "../pages/users/listUserPage";
 import { ProfilePage } from "../pages/profile/profilePage";
+import PigPage from "../pages/pig/pigPage";
 
 export const RouterConfig = () => {
     return (
@@ -36,11 +37,22 @@ export const RouterConfig = () => {
                     </ProtectedRoute>
                 }
             />
+
+            {/* Profile page */}
             <Route
-                path={ROUTES.HERD_BREED_MANAGEMENT}
+                path={ROUTES.PROFILE}
                 element={
                     <ProtectedRoute>
-                        <HerdBreedPage />
+                        <ProfilePage />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path={ROUTES.AREA}
+                element={
+                    <ProtectedRoute>
+                        <AreaPage />
                     </ProtectedRoute>
                 }
             />
@@ -53,106 +65,19 @@ export const RouterConfig = () => {
                 }
             />
             <Route
-                path={ROUTES.OFF_SPRING}
-                element={
-                    <ProtectedRoute>
-                        <OffSpringPage />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path={ROUTES.INVOICE}
-                element={
-                    <ProtectedRoute>
-                        <InvoicePage />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path={ROUTES.FOOD_WAREHOUSE}
-                element={
-                    <ProtectedRoute>
-                        <FoodWarehousePage />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path={ROUTES.MEDITION_WAREHOUSE}
-                element={
-                    <ProtectedRoute>
-                        <MeditionWarehousePage />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path={ROUTES.SETTINGS}
-                element={
-                    <ProtectedRoute>
-                        <Settings />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path={ROUTES.DETAIL_PAGE}
-                element={
-                    <ProtectedRoute>
-                        <DetailPage />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path={ROUTES.LIST_ACCOUNT}
-                element={
-                    <ProtectedRoute>
-                        <ListAccount />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path={ROUTES.FOOD_RATION}
-                element={
-                    <ProtectedRoute>
-                        <FoodRationPage />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path={ROUTES.DRUG_USE}
-                element={
-                    <ProtectedRoute>
-                        <DrugUsePage />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path={ROUTES.BARN_HEALTH}
-                element={
-                    <ProtectedRoute>
-                        <BarnHealthPage />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path={ROUTES.BREEDING_RECORD}
-                element={
-                    <ProtectedRoute>
-                        <BreedingRecordPage />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path={ROUTES.PROFILE}
-                element={
-                    <ProtectedRoute>
-                        <ProfilePage />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
                 path={ROUTES.LIST_USER}
                 element={
                     <ProtectedRoute>
                         <ListUserPage />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path={ROUTES.PIG_PAGE}
+                element={
+                    <ProtectedRoute>
+                        <DetailBarnPage />
                     </ProtectedRoute>
                 }
             />

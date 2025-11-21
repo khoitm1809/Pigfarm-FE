@@ -14,6 +14,7 @@ import "../locales/i18n";
 import { barnHealthApi } from "./health/barnHealthAction";
 import { breedingRecordApi } from "./breedingRecord/breedingRecordAction";
 
+
 const persistConfig = {
     key: 'auth',
     storage,
@@ -23,14 +24,9 @@ const persistConfig = {
 const rootReducer = combineReducers({
     auth: authReducer,
     [authApi.reducerPath]: authApi.reducer,
-    [breedingApi.reducerPath]: breedingApi.reducer,
-    [offSpringApi.reducerPath]: offSpringApi.reducer,
-    [warehouseApi.reducerPath]: warehouseApi.reducer,
-    [invoiceApi.reducerPath]: invoiceApi.reducer,
-    [foodRationApi.reducerPath]: foodRationApi.reducer,
-    [drugUseApi.reducerPath]: drugUseApi.reducer,
-    [barnHealthApi.reducerPath]: barnHealthApi.reducer,
-    [breedingRecordApi.reducerPath]: breedingRecordApi.reducer,
+    [pigApi.reducerPath]: pigApi.reducer,
+    [typePigApi.reducerPath]: typePigApi.reducer,
+    [areaApi.reducerPath]: areaApi.reducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -42,14 +38,9 @@ export const store = configureStore({
             serializableCheck: false,
         }).concat(
             authApi.middleware,
-            breedingApi.middleware,
-            offSpringApi.middleware,
-            warehouseApi.middleware,
-            invoiceApi.middleware,
-            foodRationApi.middleware,
-            drugUseApi.middleware,
-            barnHealthApi.middleware,
-            breedingRecordApi.middleware
+            pigApi.middleware,
+            typePigApi.middleware,
+            areaApi.middleware
         ),
 })
 
