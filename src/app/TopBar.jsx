@@ -26,6 +26,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { THEME } from "../utils/ThemeConstants";
 import DensityMediumOutlinedIcon from '@mui/icons-material/DensityMediumOutlined';
+import { t } from "i18next";
 
 export default function TopBar({
     onMenuClick

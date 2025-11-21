@@ -8,6 +8,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import ListUserPage from "../pages/users/listUserPage";
 import { ProfilePage } from "../pages/profile/profilePage";
 import PigPage from "../pages/pig/pigPage";
+import AreaPage from "../pages/area/areaPage";
 
 export const RouterConfig = () => {
     return (
