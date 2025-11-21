@@ -1,13 +1,17 @@
-import { Box, Typography } from "@mui/material";
-import { BoxContainer } from "../../components/commonStyled";
+import { Box, Button, Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { BoxContainer, Row } from "../../components/commonStyled";
 import CustomTable from "../../components/CustomTable";
-import { useAddBarnMutation, useDeleteBarnMutation, useEditBarnMutation, useGetListBarnQuery } from "../../store/breeding/breedingAction";
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { setTitle } from "../../store/auth/authSlice";
+import { useEffect, useState } from "react";
 import { ROUTES } from "../../router/routerConstants";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useGetListUserQuery } from "../../store/auth/authAction";
+import { ROLES } from "../../utils/rolesConstant";
+import { useAddBarnMutation, useDeleteBarnMutation, useEditBarnMutation, useGetListBarnQuery } from "../../store/area/areaAction";
+import CardInfo from "../../components/CardInfo";
 
 const BarnPage = () => {
     const location = useLocation();

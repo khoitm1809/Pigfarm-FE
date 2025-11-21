@@ -1,4 +1,4 @@
-import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, Grid, InputAdornment, InputLabel, MenuItem, Paper, Select, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, Grid, InputAdornment, InputLabel, MenuItem, Paper, Select, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, TextField, Button } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router";
 import { BoxBeetwen, CloseButton, CloseIcon, DeleteButton, EditButton, FilterButton, MainButton, Row, TextFieldCustom } from "./commonStyled";
@@ -12,6 +12,7 @@ import Draggable from "react-draggable";
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
 import { NumericFormat } from 'react-number-format';
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 
 function PaperComponent(props) {
     const nodeRef = React.useRef(null);
@@ -449,7 +450,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
                                 const getStatusStyleMui = (value) => {
                                     const lowerValue = String(value).toLowerCase();
                                     switch (lowerValue) {
-                                        case "active":
+                                        case "true":
                                             return { background: '#e8f5e9', color: '#388e3c' };
                                         case "inactive":
                                             return { background: '#fff3e0', color: '#f57c00' };

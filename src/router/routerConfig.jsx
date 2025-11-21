@@ -9,6 +9,7 @@ import ListUserPage from "../pages/users/listUserPage";
 import { ProfilePage } from "../pages/profile/profilePage";
 import PigPage from "../pages/pig/pigPage";
 import AreaPage from "../pages/area/areaPage";
+import DetailBarnPage from "../pages/area/detailBarn";
 
 export const RouterConfig = () => {
     return (
