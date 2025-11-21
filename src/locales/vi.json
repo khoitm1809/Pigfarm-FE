@@ -4,7 +4,7 @@
     "fullName": "Họ và tên",
     "fullNameReq": "Vui lòng nhập họ và tên",
     "userName": "Tên đăng nhập",
-    "userNameReq": "Vui lòng nhập tên đăng nhập",
+    "emailRequired": "Vui lòng nhập tên đăng nhập",
     "passWord": "Mật khẩu",
     "passWordReq": "Vui lòng nhập mật khẩu",
     "accExist": "Đã có tài khoản?"
@@ -114,17 +114,16 @@
     "accList": "Quản lý tài khoản",
     "createWorkerAcc": "Tạo tài khoản cho nhân công",
     "foodRation": "Thiết lập thức ăn và dinh dưỡng",
+    "drugUse": "Thiết lập sử dụng thuốc",
     "toDoList": "Giao việc cho công nhân",
     "offSpring": "Quản lý giống và đàn lợn",
     "herdBreedManagement": "Quản lý khu và chuồng nuôi",
     "foodWarehouse": "Quản lý  kho hàng hóa",
     "invoice": "Quản lý hóa đơn nhập hàng",
-    "ghi_nhan_toc_o_tang_truong": "Ghi nhận tốc độ tăng trưởng",
-    "nhap_thong_tin_suc_khoe_toan_truong_va_tung_ca_the_lon": "Nhập thông tin sức khỏe toàn truồng và từng cá thể lợn",
+    "growthRecord": "Ghi nhận tốc độ tăng trưởng",
     "meditionWarehouse": "Kho hàng vắc xin",
-    "theo_gioi_chu_ki_ong_duc_cua_lon": "Theo giõi chu kì động dục của lợn,",
-    "ghi_nhan_va_tinh_ngay_phoi_giong": "Ghi nhận và tính ngày phối giống",
-    "to_do_list_cac_viec_ma_chu_trang_trai_giao": "To do list các việc mà chủ trang trại giao",
-    "logout": "Đăng xuất"
+    "logout": "Đăng xuất",
+    "settings": "Cài đặt",
+    "tasks": "Công việc được giao"
   }
 }

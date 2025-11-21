@@ -38,7 +38,7 @@ import { useEffect, useState } from "react";
 import TranslateIcon from "@mui/icons-material/Translate";
 import { LANGUAGE_CODE_EN, LANGUAGE_CODE_VI, LOCAL_STORAGE_NAME, MESSAGE_TYPE } from "../utils/constant";
 import { useTranslation } from "react-i18next";
-import i18next from "i18next";
+import i18next, { t } from "i18next";
 import { useSelector } from "react-redux";
 import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
 
@@ -58,25 +58,24 @@ export default function LeftBar({ open, onClose, drawerWidth, isMobile }) {
     const menuItems = [
         //adm
         { text: "Home", icon: <HomeOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
-        { text: "Quản lý tài khoản", icon: <PhotoCameraFrontOutlinedIcon />, path: ROUTES.LIST_ACCOUNT, role: ROLES.ADMIN },
-        { text: "Settings", icon: <SettingsOutlinedIcon />, path: ROUTES.SETTINGS, role: ROLES.ADMIN },
+        { text: t("navigation.accList"), icon: <PhotoCameraFrontOutlinedIcon />, path: ROUTES.LIST_ACCOUNT, role: ROLES.ADMIN },
+        { text: t("navigation.settings"), icon: <SettingsOutlinedIcon />, path: ROUTES.SETTINGS, role: ROLES.ADMIN },
         // chu trai
-        { text: "Tạo tài khoản cho nhân công", icon: <GroupAddOutlinedIcon />, path: ROUTES.HOME, role: ROLES.OWNER },
-        { text: "Quản lý giống và đàn lợn", icon: <AgricultureOutlinedIcon />, path: ROUTES.OFF_SPRING, role: ROLES.OWNER },
-        { text: "Quản lý khu và chuồng nuôi", icon: <AgricultureOutlinedIcon />, path: ROUTES.HERD_BREED_MANAGEMENT, role: ROLES.OWNER },
-        { text: "Thiết lập thức ăn và dinh dưỡng", icon: <SoupKitchenOutlinedIcon />, path: ROUTES.FOOD_RATION, role: ROLES.OWNER },
-        { text: "Thiết lập sử dụng thuốc", icon: <VaccinesOutlinedIcon />, path: ROUTES.DRUG_USE, role: ROLES.OWNER },
-        { text: "Quản lý hóa đơn nhập hàng", icon: <InventoryOutlinedIcon />, path: ROUTES.INVOICE, role: ROLES.OWNER },
-        { text: "Quản lý  kho hàng hóa", icon: <WarehouseOutlinedIcon />, path: ROUTES.FOOD_WAREHOUSE, role: ROLES.OWNER },
-        { text: "Quản lý kho thuốc ", icon: <WarehouseOutlinedIcon />, path: ROUTES.MEDITION_WAREHOUSE, role: ROLES.OWNER },
-        { text: "Giao việc cho công nhân", icon: <ContactMailOutlinedIcon />, path: ROUTES.HOME, role: ROLES.OWNER },
+        { text: t("navigation.createWorkerAcc"), icon: <GroupAddOutlinedIcon />, path: ROUTES.HOME, role: ROLES.OWNER },
+        { text: t("navigation.offSpring"), icon: <AgricultureOutlinedIcon />, path: ROUTES.OFF_SPRING, role: ROLES.OWNER },
+        { text: t("navigation.herdBreedManagement"), icon: <AgricultureOutlinedIcon />, path: ROUTES.HERD_BREED_MANAGEMENT, role: ROLES.OWNER },
+        { text: t("navigation.foodRation"), icon: <SoupKitchenOutlinedIcon />, path: ROUTES.FOOD_RATION, role: ROLES.OWNER },
+        { text: t("navigation.drugUse"), icon: <VaccinesOutlinedIcon />, path: ROUTES.DRUG_USE, role: ROLES.OWNER },
+        { text: t("navigation.invoice"), icon: <InventoryOutlinedIcon />, path: ROUTES.INVOICE, role: ROLES.OWNER },
+        { text: t("navigation.foodWarehouse"), icon: <WarehouseOutlinedIcon />, path: ROUTES.FOOD_WAREHOUSE, role: ROLES.OWNER },
+        { text: t("navigation.meditionWarehouse"), icon: <WarehouseOutlinedIcon />, path: ROUTES.MEDITION_WAREHOUSE, role: ROLES.OWNER },
+        { text: t("navigation.toDoList"), icon: <ContactMailOutlinedIcon />, path: ROUTES.HOME, role: ROLES.OWNER },
         // cong nhan
         { text: "Nhập nguồn gốc giống lợn", icon: <UploadFileOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
         { text: "Ghi nhận tốc độ tăng trưởng", icon: <AreaChartOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
-        { text: "Nhập thông tin sức khỏe toàn truồng và từng cá thể lợn", icon: <FeedOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
-        { text: "Nhập vào kho hàng, vacxin, ", icon: <WarehouseOutlinedIcon />, path: ROUTES.MEDITION_WAREHOUSE, role: ROLES.WORKER },
+        { text: "Nhập vào kho hàng - vắc xin ", icon: <WarehouseOutlinedIcon />, path: ROUTES.MEDITION_WAREHOUSE, role: ROLES.WORKER },
         { text: "Ghi nhận và tính ngày phối giống", icon: <CalendarMonthOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
-        { text: "To do list các việc mà chủ trang trại giao", icon: <ChecklistOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
+        { text: t("navigation.tasks"), icon: <ChecklistOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
 
     ];
 
@@ -196,7 +195,7 @@ export default function LeftBar({ open, onClose, drawerWidth, isMobile }) {
                     <IconButton sx={{ color: THEME.SECONDARY_TEXT_BUTTON }}>
                         <LogoutOutlinedIcon />
                     </IconButton>
-                    <Typography sx={{ color: THEME.SECONDARY_TEXT_BUTTON }}>Đăng xuất</Typography>
+                    <Typography sx={{ color: THEME.SECONDARY_TEXT_BUTTON }}>{t("navigation.logout")}</Typography>
                 </Box>
             </Box>
         </Drawer>

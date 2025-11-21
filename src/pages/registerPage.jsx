@@ -96,14 +96,14 @@ function RegisterPage() {
                 {/* Title */}
                 <Box sx={{ textAlign: "center" }}>
                     <Typography variant="h5" fontWeight={700}>
-                        Đăng nhập
+                        {t("register.register")}
                     </Typography>
 
                     <Typography
                         variant="body2"
                         sx={{ marginTop: "0.5rem" }}
                     >
-                        Nhập thông tin để truy cập hệ thống
+                        {t("login.notice")}
                     </Typography>
                 </Box>
 
@@ -119,7 +119,7 @@ function RegisterPage() {
                             <TextField
                                 fullWidth
                                 placeholder="admin@example.com"
-                                {...register("identifier", { required: "Vui lòng nhập email" })}
+                                {...register("identifier", { required: "register.emailRequired" })}
                                 error={!!errors.email}
                                 helperText={errors.email?.message}
                                 InputProps={{
@@ -143,14 +143,14 @@ function RegisterPage() {
                         {/* PASSWORD */}
                         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                             <Typography variant="body2" color="black">
-                                Mật khẩu
+                                {t("register.passWord")}
                             </Typography>
 
                             <TextField
                                 fullWidth
                                 placeholder="••••••••"
                                 type="password"
-                                {...register("password", { required: "Vui lòng nhập mật khẩu" })}
+                                {...register("password", { required: "register.passWordReq" })}
                                 error={!!errors.password}
                                 helperText={errors.password?.message}
                                 InputProps={{
@@ -204,7 +204,7 @@ function RegisterPage() {
                             disabled={isSubmitting}
                             sx={{ mt: 2 }}
                         >
-                            {isSubmitting ? "Đang đăng nhập..." : "Đăng nhập"}
+                            {isSubmitting ? t("login.registering") : t("register.register")}
                         </Button>
                     </Box>
                 </Box>

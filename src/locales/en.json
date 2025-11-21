@@ -4,7 +4,7 @@
     "fullName": "Full Name",
     "fullNameReq": "Please enter your full name",
     "userName": "Username",
-    "userNameReq": "Please enter a username",
+    "emailRequired": "Please enter a username",
     "passWord": "Password",
     "passWordReq": "Please enter a password",
     "accExist": "Already have an account?"
@@ -19,7 +19,13 @@
     "welcomeBack": "Welcome Back!",
     "accNotExist": "Don’t have an account?",
     "loggingIn": "Logging in...",
-    "homePage": "Home Page"
+    "homePage": "Home Page",
+    "emailRequired": "Please enter email",
+    "passWordReq":"Please enter a password",
+    "passWord": "Password",
+    "notice": "Fill information to login",
+    "forgotPassword": "Forgot password?",
+    "remember": "Remember me"
   },
   "meditionWarehouse": {
     "meditionWarehouse": "Vaccine Warehouse Management",
@@ -98,17 +104,18 @@
     "accList": "Account Management",
     "createWorkerAcc": "Create Worker Account",
     "foodRation": "Feed and Nutrition Setup",
+    "drugUse": "Additional Medication Setup",
     "toDoList": "Assign Tasks to Workers",
     "offSpring": "Breeding and Pig Herd Management",
     "herdBreedManagement": "Area and Barn Management",
     "foodWarehouse": "Food Warehouse Management",
     "invoice": "Purchase Invoice Management",
-    "ghi_nhan_toc_o_tang_truong": "Record Growth Rate",
-    "nhap_thong_tin_suc_khoe_toan_truong_va_tung_ca_the_lon": "Enter Health Information for the Entire Barn and Individual Pigs",
+    "growthRecord": "Record Growth Rate",
     "meditionWarehouse": "Vaccine Warehouse",
     "theo_gioi_chu_ki_ong_duc_cua_lon": "Monitor Estrus Cycle of Sows",
     "ghi_nhan_va_tinh_ngay_phoi_giong": "Record and Calculate Breeding Date",
-    "to_do_list_cac_viec_ma_chu_trang_trai_giao": "To-Do List Assigned by Farm Owner",
-    "logout": "Logout"
+    "logout": "Logout",
+    "settings": "Settings",
+    "tasks": "Assigned Tasks"
   }
 }
