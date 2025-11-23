@@ -53,7 +53,7 @@ function LoginPage() {
             localStorage.setItem("username", res.user.username);
 
             const roleRes = await getUserRole().unwrap();
-            localStorage.setItem("role", roleRes.role.type);
+            localStorage.setItem("role", roleRes?.role?.type);
             dispatch(setUser(res.user));
             
             navigate(ROUTES.HOME);
@@ -131,7 +131,7 @@ function LoginPage() {
                         {/* EMAIL */}
                         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                             <Typography variant="body2" >
-                                Email
+                                Username/Email
                             </Typography>
 
                             <TextField

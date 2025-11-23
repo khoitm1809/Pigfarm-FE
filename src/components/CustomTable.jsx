@@ -262,7 +262,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
             >
                 <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
                     <BoxBeetwen>
-                        <Typography style={{ fontWeight: "bold" }}>Thêm hàng hóa</Typography>
+                        <Typography style={{ fontWeight: "bold" }}>Thêm mới</Typography>
                         <CloseButton onClick={handleClose}>
                             <CloseIcon />
                         </CloseButton>
@@ -289,7 +289,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
 
                 <DialogActions sx={{ width: '100%', justifyContent: "center" }}>
                     <BoxBeetwen>
-                        <MainButton onClick={handleSave} variant="contained" disabled={!isFormValid}>
+                        <MainButton onClick={handleSave} sx={{backgroundColor: "black"}} variant="contained" disabled={!isFormValid}>
                             Lưu
                         </MainButton>
                     </BoxBeetwen>
@@ -305,7 +305,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
                     fontWeight={700}
                     sx={{ mb: 1 }}
                 >
-                    Bảng danh sách
+                    Quản lý tài khoản
                 </Typography>
 
                 {/* SUBTITLE */}
@@ -313,7 +313,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
                     variant="subtitle1"
                     color="text.secondary"
                 >
-                    Quản lý danh sách
+                    Quản lý danh sách tài khoản
                 </Typography>
             </Box>
 

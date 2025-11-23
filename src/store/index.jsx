@@ -3,11 +3,14 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import persistReducer from "redux-persist/es/persistReducer";
 import persistStore from "redux-persist/es/persistStore";
 import authReducer from "./auth/authSlice";
+import helperReducer from "./helper/helperSlice";
 import { authApi } from "./auth/authAction";
 import "../locales/i18n";
 import { pigApi } from "./pig/pigAction";
 import { areaApi } from "./area/areaAction";
 import { typePigApi } from "./typePig/typePigAction";
+import { warehouseApi } from "./warehouse/warehouseAction";
+import { warehouseItemApi } from "./warehouse/warehouseItemAction";
 
 
 const persistConfig = {
@@ -18,10 +21,13 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     auth: authReducer,
+    helper: helperReducer,
     [authApi.reducerPath]: authApi.reducer,
     [pigApi.reducerPath]: pigApi.reducer,
     [typePigApi.reducerPath]: typePigApi.reducer,
-    [areaApi.reducerPath]: areaApi.reducer
+    [areaApi.reducerPath]: areaApi.reducer,
+    [warehouseApi.reducerPath]: warehouseApi.reducer,
+    [warehouseItemApi.reducerPath]: warehouseItemApi.reducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -35,7 +41,9 @@ export const store = configureStore({
             authApi.middleware,
             pigApi.middleware,
             typePigApi.middleware,
-            areaApi.middleware
+            areaApi.middleware,
+            warehouseApi.middleware,
+            warehouseItemApi.middleware
         ),
 })
 

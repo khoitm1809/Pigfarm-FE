@@ -58,7 +58,7 @@ export default function LeftBar({ open, onClose, drawerWidth, isMobile }) {
     const menuItems = [
         // chu trai
         { text: "Home", icon: <HomeOutlinedIcon />, path: ROUTES.HOME, role: ROLES.OWNER },
-        { text: "Tạo tài khoản cho nhân công", icon: <GroupAddOutlinedIcon />, path: ROUTES.LIST_USER, role: ROLES.OWNER },
+        { text: t("navigation.accList"), icon: <GroupAddOutlinedIcon />, path: ROUTES.LIST_USER, role: ROLES.OWNER },
         { text: "Quản lý khu vực", icon: <GroupAddOutlinedIcon />, path: ROUTES.AREA, role: ROLES.OWNER },
         { text: "Quản lý giống và đàn lợn", icon: <AgricultureOutlinedIcon />, path: ROUTES.HOME, role: ROLES.OWNER },
         { text: "Quản lý  kho hàng hóa", icon: <WarehouseOutlinedIcon />, path: ROUTES.HOME, role: ROLES.OWNER },
@@ -144,27 +144,53 @@ export default function LeftBar({ open, onClose, drawerWidth, isMobile }) {
                 <List sx={{ flexGrow: 1 }}>
                     {menuItems
                         .filter((item) => item.role === role)
-                        .map((item) => (
-                            <ListItem key={item.text} disablePadding>
-                                <ListItemButton
-                                    onClick={() =>
-                                        navigate({
-                                            pathname: item.path,
-                                            search: item.search,
-                                        })
-                                    }
-                                >
-                                    <ListItemIcon sx={{ color: THEME.SECONDARY_TEXT_BUTTON }}>
-                                        {item.icon}
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        primary={item.text}
-                                        sx={{ color: THEME.SECONDARY_TEXT_BUTTON }}
-                                    />
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
+                        .map((item) => {
+                            const location = useLocation();
+                            const isActive = location.pathname.startsWith(item.path);
+
+                            return (
+                                <ListItem key={item.text} disablePadding>
+                                    <ListItemButton
+                                        onClick={() => navigate(item.path)}
+                                        sx={{
+                                            borderRadius: "8px",
+                                            backgroundColor: isActive ? THEME.SECONDARY_BUTTON : "transparent",
+                                            transition: "all 0.25s ease",
+                                            "&:hover": {
+                                                backgroundColor: isActive
+                                                    ? "#747474ff"
+                                                    : "rgba(0, 0, 0, 0.04)",
+                                            },
+                                        }}
+                                    >
+                                        <ListItemIcon
+                                            sx={{
+                                                color: isActive
+                                                    ? THEME.MAIN_TEXT_BUTTON
+                                                    : THEME.SECONDARY_TEXT_BUTTON,
+                                                transition: "color 0.25s ease",
+                                            }}
+                                        >
+                                            {item.icon}
+                                        </ListItemIcon>
+
+                                        <ListItemText
+                                            primary={item.text}
+                                            sx={{
+                                                ".MuiTypography-root": {
+                                                    color: isActive
+                                                        ? THEME.MAIN_TEXT_BUTTON
+                                                        : THEME.SECONDARY_TEXT_BUTTON,
+                                                    transition: "color 0.25s ease",
+                                                }
+                                            }}
+                                        />
+                                    </ListItemButton>
+                                </ListItem>
+                            );
+                        })}
                 </List>
+
 
                 <Divider sx={{ my: 2 }} />
                 {/* Language switch */}

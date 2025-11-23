@@ -23,6 +23,11 @@ const BarnPage = () => {
     const [openAddDialog, setOpenAddDialog] = useState(false);
     const [isAssignDialogOpen, setIsAssignDialogOpen] = useState(false);
 
+    const [newBarnData, setNewBarnData] = useState({
+        name: '',
+        description: '',
+    });
+
     const [addArea] = useAddBarnMutation();
     const [editArea] = useEditBarnMutation();
     const [deleteArea] = useDeleteBarnMutation();
@@ -33,7 +38,7 @@ const BarnPage = () => {
         refetch
     } = useGetListBarnQuery({
         areaId: areaId,
-        UID: role == ROLES.WORKER ? UID : null
+        UID: role === ROLES.WORKER ? UID : null
     }, { refetchOnMountOrArgChange: true })
 
     const {
@@ -46,8 +51,26 @@ const BarnPage = () => {
         refetchOnMountOrArgChange: true
     })
 
-    const toggleAddDialog = () => setOpenAddDialog(prev => !prev);
+    const toggleAddDialog = () => {
+        setOpenAddDialog(prev => !prev);
+        setNewBarnData({ name: '', description: '' });
+    };
     const handleOpenAssignPigDialog = () => setIsAssignDialogOpen(true);
+    
+
+    const [formData, setFormData] = useState({
+        name: '',
+        description: ''
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+    const isFormValid = formData.name.trim() !== '' && formData.description.trim() !== '';
 
     const handleAssignEmployees = () => {
 
@@ -69,7 +92,7 @@ const BarnPage = () => {
                         variant="subtitle1"
                         color="text.secondary"
                     >
-                        Quản lý toàn bộ khu vực
+                        Quản lý toàn bộ chuồng
                     </Typography>
                 </Box>
 
@@ -196,7 +219,7 @@ const BarnPage = () => {
                             pb: 1.5,
                         }}
                     >
-                        Tạo khu mới
+                        Tạo chuồng mới
                     </DialogTitle>
 
                     <form>
@@ -213,9 +236,11 @@ const BarnPage = () => {
                         >
                             <TextField
                                 fullWidth
-                                placeholder="Tên khu..."
+                                placeholder="Tên chuồng..."
                                 name="name"
                                 required
+                                value={formData.name}
+                                onChange={handleChange}
                                 sx={{
                                     mb: 2,
                                     "& .MuiOutlinedInput-root": {
@@ -244,6 +269,8 @@ const BarnPage = () => {
                                 placeholder="Mô tả..."
                                 name="description"
                                 required
+                                value={formData.description}
+                                onChange={handleChange}
                                 multiline
                                 rows={3}
                                 sx={{
@@ -283,10 +310,12 @@ const BarnPage = () => {
                             <Button
                                 type="submit"
                                 variant="contained"
+                                disabled={!isFormValid}
                                 sx={{
                                     textTransform: "none",
                                     borderRadius: "8px",
                                     px: 3,
+                                    backgroundColor: "black"
                                 }}
                             >
                                 Tạo

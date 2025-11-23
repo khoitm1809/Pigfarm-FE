@@ -7,10 +7,10 @@ export const warehouseApi = createApi({
     reducerPath: 'warehouseApi',
     baseQuery: axiosBaseQuery(),
     endpoints: (builder) => ({
-        // Get List food warehouse
-        getListFoodWarehouse: builder.query({
+        // Get List Off Spring
+        getListWarehouseCategory: builder.query({
             query: (params) => ({
-                url: API_URL.FOOD_WAREHOUSE,
+                url: API_URL.WAREHOUSE_CATEGORY,
                 method: 'GET',
                 params: {
                     ...params,
@@ -18,65 +18,28 @@ export const warehouseApi = createApi({
             }),
         }),
 
-        // Get List medition warehouse
-        getListMeditionWarehouse: builder.query({
-            query: (params) => ({
-                url: API_URL.MEDITION_WAREHOUSE,
-                method: 'GET',
-                params: {
-                    ...params,
-                },
-            }),
-        }),
-
-        // add food warehouse
-        addFoodWarehouse: builder.mutation({
+        // add off spring
+        addWarehouseCategory: builder.mutation({
             query: (body) => ({
-                url: API_URL.FOOD_WAREHOUSE + "/add",
+                url: API_URL.WAREHOUSE_CATEGORY,
                 method: 'POST',
                 data: body,
             }),
         }),
 
-        // add medition warehouse
-        addMeditionWarehouse: builder.mutation({
+        // edit off spring
+        editWarehouseCategory: builder.mutation({
             query: (body) => ({
-                url: API_URL.MEDITION_WAREHOUSE + "/add",
-                method: 'POST',
-                data: body,
-            }),
-        }),
-
-        // edit food warehouse
-        editFoodWarehouse: builder.mutation({
-            query: (body) => ({
-                url: API_URL.FOOD_WAREHOUSE + "/edit/" + body._id,
+                url: API_URL.WAREHOUSE_CATEGORY + "/" + body.id,
                 method: 'PUT',
                 data: body,
             }),
         }),
 
-        // delete food warehouse
-        deleteFoodWarehouse: builder.mutation({
+        // delete off spring
+        deleteWarehouseCategory: builder.mutation({
             query: (id) => ({
-                url: API_URL.FOOD_WAREHOUSE + "/delete/" + id,
-                method: 'DELETE',
-            }),
-        }),
-
-        // edit medition warehouse
-        editMeditionWarehouse: builder.mutation({
-            query: (body) => ({
-                url: API_URL.MEDITION_WAREHOUSE + "/edit/" + body._id,
-                method: 'PUT',
-                data: body,
-            }),
-        }),
-
-        // delete medition warehouse
-        deleteMeditionWarehouse: builder.mutation({
-            query: (id) => ({
-                url: API_URL.MEDITION_WAREHOUSE + "/delete/" + id,
+                url: API_URL.WAREHOUSE_CATEGORY + "/" + id,
                 method: 'DELETE',
             }),
         }),
@@ -85,12 +48,8 @@ export const warehouseApi = createApi({
 });
 
 export const {
-    useGetListFoodWarehouseQuery,
-    useGetListMeditionWarehouseQuery,
-    useAddFoodWarehouseMutation,
-    useAddMeditionWarehouseMutation,
-    useDeleteFoodWarehouseMutation,
-    useDeleteMeditionWarehouseMutation,
-    useEditFoodWarehouseMutation,
-    useEditMeditionWarehouseMutation
+    useGetListWarehouseCategoryQuery,
+    useAddWarehouseCategoryMutation,
+    useDeleteWarehouseCategoryMutation,
+    useEditWarehouseCategoryMutation
 } = warehouseApi;
