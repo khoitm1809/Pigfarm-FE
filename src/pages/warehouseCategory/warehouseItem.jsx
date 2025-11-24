@@ -9,11 +9,13 @@ import EditDataDialog from "../../components/EditDataDialog";
 import AddDataDialog from "../../components/AddDataDialog";
 import { useLocation } from "react-router";
 import { useGetListWarehouseCategoryQuery } from "../../store/warehouse/warehouseAction";
+import { ROLES } from "../../utils/rolesConstant";
 
 const WareHouseItem = () => {
     const location = useLocation();
     const warehouseCategoryID = location?.state;
     const UID = localStorage.getItem("UID");
+    const role = localStorage.getItem("role");
     const [addWareHouseItem] = useAddWarehouseItemMutation();
     const [editWareHouseItem] = useEditWarehouseItemMutation();
     const [deleteWareHouseItem] = useDeleteWarehouseItemMutation();
@@ -25,7 +27,7 @@ const WareHouseItem = () => {
         refetch
     } = useGetListWarehouseItemQuery({
         warehouseCategoryID: warehouseCategoryID,
-        UID: UID
+        UID: role == ROLES.OWNER ? null : UID
     }, { refetchOnMountOrArgChange: true })
 
     const {

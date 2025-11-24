@@ -7,11 +7,14 @@ import { convertToDropdown } from "../../components/convertToDropdown";
 import AddDataDialog from "../../components/AddDataDialog";
 import EditDataDialog from "../../components/EditDataDialog";
 import { useSelector } from "react-redux";
+import { useGetListUserQuery } from "../../store/auth/authAction";
+import { useGetListBarnQuery } from "../../store/area/areaAction";
 
 const DetailBarnPage = () => {
     const location = useLocation();
     const barnId = location?.state
     const { modalType } = useSelector((state) => state.helper);
+
     const [addPig] = useAddPigMutation();
     const [editPig] = useEditPigMutation();
     const [deletePig] = useDeletePigMutation();
@@ -31,11 +34,24 @@ const DetailBarnPage = () => {
         { refetchOnMountOrArgChange: true }
     );
 
+    const {
+        data: listUser,
+        isLoading: loadingListUser,
+    } = useGetListUserQuery({}, { refetchOnMountOrArgChange: true })
+
+    const {
+        data: listBarn,
+        isLoading: loadingBarn,
+    } = useGetListBarnQuery({
+        areaId: areaId,
+    }, { refetchOnMountOrArgChange: true })
+
     const title = [
         { key: "pigCode", label: "Mã heo" },
         { key: "healthStatus", label: "Sức khỏe" },
         { key: "weight", label: "Cân nặng", },
         { key: "barn.name", label: "Chuồng" },
+        { key: "note", label: "Ghi chú" },
 
     ];
 
@@ -59,17 +75,25 @@ const DetailBarnPage = () => {
             label: "Loại heo",
             isDropDown: true,
             list: convertToDropdown(listPigType?.data),
-            mappingKey: "type_pig.id"
+            mappingKey: "type_pig.documentId"
         },
 
         {
             key: "barn",
             label: "Chuồng",
             isDropDown: true,
-            mappingKey: "barn.id"
+            mappingKey: "barn.documentId"
         },
 
-        { key: "note", label: "Ghi chú" },
+        
+
+        {
+            key: "users_permissions_user",
+            label: "Người phụ trách",
+            isDropDown: true,
+            list: convertToDropdown(listUser?.data), // Giả định list User được truyền vào
+            mappingKey: "users_permissions_user.id"
+        },
     ];
 
     return (

@@ -97,6 +97,15 @@ const FormField = React.memo(({ field, value, onChange }) => {
     );
 });
 
+const getStatusStyleMui = (value) => {
+    const lowerValue = String(value)?.toLowerCase();
+    switch (lowerValue) {
+        case "true": case "active": return { background: '#e8f5e9', color: '#388e3c' };
+        case "inactive": return { background: '#fff3e0', color: '#f57c00' };
+        case "false": return { background: '#ffebee', color: '#d32f2f' };
+        default: return { background: (theme) => theme.palette.grey[100], color: (theme) => theme.palette.text.secondary };
+    }
+};
 
 export default function CustomTable({ title, data, isEdit, detailNavigate, mutationAddFunction, mutationEditFunction, mutationDeleteFunction, loading, refetch }) {
     const navigate = useNavigate()

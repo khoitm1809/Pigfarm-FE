@@ -6,8 +6,10 @@ export const API_URL = {
   REGISTER: '/api/auth/register',
   PIG: '/api/pigs',
   BARN: '/api/barns',
-  TYPE_PIG: 'api/type-pigs',
+  TYPE_PIG: 'api/pig-types',
   AREA: 'api/areas',
   WAREHOUSE_CATEGORY: '/api/warehouse-categories',
-  WAREHOUSE_ITEM: '/api/warehouse-items'
+  WAREHOUSE_ITEM: '/api/warehouse-items',
+  PIG_GROWTH_RECORDS: '/api/pig-growth-records',
+  FEED_SETTING: '/api/feed-settings'
 };
