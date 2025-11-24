@@ -3,12 +3,12 @@ import { API_URL } from '../../utils/ApiConstants';
 import { LOCAL_STORAGE_NAME } from '../../utils/constant';
 import { axiosBaseQuery } from '../../services/axiosBaseQuery';
 
-export const warehouseApi = createApi({
-    reducerPath: 'warehouseApi',
+export const feedSettingApi = createApi({
+    reducerPath: 'feedSettingApi',
     baseQuery: axiosBaseQuery(),
     endpoints: (builder) => ({
         // Get List Off Spring
-        getListWarehouseCategory: builder.query({
+        getListFeedSetting: builder.query({
             query: (params) => ({
                 url: API_URL.WAREHOUSE_CATEGORY + "?populate=*",
                 method: 'GET',
@@ -19,7 +19,7 @@ export const warehouseApi = createApi({
         }),
 
         // add off spring
-        addWarehouseCategory: builder.mutation({
+        addFeedSetting: builder.mutation({
             query: (body) => ({
                 url: API_URL.WAREHOUSE_CATEGORY,
                 method: 'POST',
@@ -28,7 +28,7 @@ export const warehouseApi = createApi({
         }),
 
         // edit off spring
-        editWarehouseCategory: builder.mutation({
+        editFeedSetting: builder.mutation({
             query: (body) => ({
                 url: API_URL.WAREHOUSE_CATEGORY + "/" + body.id,
                 method: 'PUT',
@@ -37,7 +37,7 @@ export const warehouseApi = createApi({
         }),
 
         // delete off spring
-        deleteWarehouseCategory: builder.mutation({
+        deleteFeedSetting: builder.mutation({
             query: (id) => ({
                 url: API_URL.WAREHOUSE_CATEGORY + "/" + id,
                 method: 'DELETE',
@@ -48,8 +48,8 @@ export const warehouseApi = createApi({
 });
 
 export const {
-    useGetListWarehouseCategoryQuery,
-    useAddWarehouseCategoryMutation,
-    useDeleteWarehouseCategoryMutation,
-    useEditWarehouseCategoryMutation
-} = warehouseApi;
+    useGetListFeedSettingQuery,
+    useAddFeedSettingMutation,
+    useDeleteFeedSettingMutation,
+    useEditFeedSettingMutation
+} = feedSettingApi;

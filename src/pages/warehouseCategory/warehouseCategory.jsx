@@ -167,7 +167,7 @@ const WareHouseCategory = () => {
                     {role == ROLES.OWNER && <Button
                         variant="contained"
                         startIcon={<AddOutlinedIcon />}
-                        onClick={toggleAddDialog}
+                        onClick={handleOpenAdd}
                         sx={{
                             height: "44px",
                             width: { xs: "100%", sm: "10rem" },

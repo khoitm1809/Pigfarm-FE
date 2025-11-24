@@ -11,7 +11,7 @@ import { areaApi } from "./area/areaAction";
 import { typePigApi } from "./typePig/typePigAction";
 import { warehouseApi } from "./warehouse/warehouseAction";
 import { warehouseItemApi } from "./warehouse/warehouseItemAction";
-import { pigGrowthRecordApi } from "./pig/pigGrowthRecordAction";
+import { pigGrowthRecordApi } from "./pigGrowthRecord/pigGrowthRecordAction";
 import { feedSettingApi } from "./warehouse/feedSettingsAction";
 
 

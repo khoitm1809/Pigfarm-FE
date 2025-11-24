@@ -270,31 +270,43 @@ const BarnPage = () => {
                     flexWrap: 'wrap',
                     gap: '2rem',
                 }}>
-                    {listBarn?.data?.map((barn, index) => (
-                        <Box key={index}
-                            sx={{
-                                flex: {
-                                    xs: "1 1 50%",
-                                    sm: "1 1 calc(50% - 1rem)",
-                                },
-                            }}
-                            onClick={() => navigate(ROUTES.PIG_PAGE, { state: barn?.id })}>
-                            <CardInfo
-                                name={barn?.name}
-                                description={barn?.description}
-                                publishedAt={barn?.publishedAt}
-                                nameCount={"Số lợn: "}
-                                arrayCount={barn?.pigs?.length}
-                                isOwner={role == ROLES.OWNER}
-                                isAssign={true}
-                                onActionAssign={() => handleOpenAssignWorkerDialog(barn?.documentId)}
-                                isEdit={true}
-                                isDelete={true}
-                                onActionDelete={() => handleOpenDeleteDialog(barn)}
-                                feedSetting={true}
-                            />
-                        </Box>
-                    ))}
+                    {loadingBarn ? (
+                        <Typography>Đang tải danh sách chuồng...</Typography>
+                    ) : listBarn?.data?.length === 0 ? (
+                        <Typography>Chưa có chuồng nào trong khu vực này.</Typography>
+                    ) : (
+                        listBarn?.data?.map((barn, index) => (
+                            <Box key={index}
+                                onClick={() => navigate(ROUTES.PIG_PAGE, {
+                                    state: {
+                                        barnId: barn?.id,
+                                        areaId: areaId
+                                    }
+                                })}
+                                sx={{
+                                    flex: {
+                                        xs: "1 1 50%",
+                                        sm: "1 1 calc(50% - 1rem)",
+                                    },
+                                }}
+                            >
+                                <CardInfo
+                                    name={barn?.name}
+                                    description={barn?.description}
+                                    publishedAt={barn?.publishedAt}
+                                    nameCount={"Số lợn: "}
+                                    arrayCount={barn?.pigs?.length}
+                                    isOwner={role == ROLES.OWNER}
+                                    isAssign={true}
+                                    onActionAssign={() => handleOpenAssignWorkerDialog(barn?.documentId)}
+                                    isEdit={true}
+                                    isDelete={true}
+                                    onActionDelete={() => handleOpenDeleteDialog(barn)}
+                                    feedSetting={true}
+                                />
+                            </Box>
+                        ))
+                    )}
                 </Row>
 
                 {/* ADD ZONE DIALOG */}
@@ -482,8 +494,8 @@ const BarnPage = () => {
                             <FormControl fullWidth>
                                 <Select
                                     displayEmpty
-                                    value={selectedWorkerId || ''} 
-                                    onChange={handleWorkerSelect} 
+                                    value={selectedWorkerId || ''}
+                                    onChange={handleWorkerSelect}
                                     sx={{
                                         height: 44,
                                         borderRadius: 2,

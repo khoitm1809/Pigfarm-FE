@@ -12,6 +12,7 @@ import { useGetListBarnQuery } from "../../store/area/areaAction";
 
 const DetailBarnPage = () => {
     const location = useLocation();
+    const { state } = location;
     const barnId = location?.state
     const { modalType } = useSelector((state) => state.helper);
 
@@ -82,6 +83,7 @@ const DetailBarnPage = () => {
             key: "barn",
             label: "Chuồng",
             isDropDown: true,
+            list: convertToDropdown(listBarn?.data),
             mappingKey: "barn.documentId"
         },
 
