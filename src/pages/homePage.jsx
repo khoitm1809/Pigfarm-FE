@@ -12,7 +12,7 @@ import {
 import { useMemo, useState } from "react";
 import { useGetListPigQuery } from "../store/pig/pigAction";
 import { useGetListAreaQuery } from "../store/area/areaAction";
-
+import { t } from "i18next";
 
 
 
@@ -64,10 +64,10 @@ const Home = () => {
             {/* TITLE */}
             <Box mb={4}>
                 <Typography variant="h4" fontWeight={600} mb={1}>
-                    Dashboard Quản Lý
+                    {t("home.title")}
                 </Typography>
                 <Typography color="text.secondary">
-                    Tổng quan trang trại và hiệu suất chăn nuôi
+                    {t("home.heading")}
                 </Typography>
             </Box>
 
@@ -82,49 +82,49 @@ const Home = () => {
                 <Paper elevation={2} sx={{ p: 3 }}>
                     <Box display="flex" justifyContent="space-between" alignItems="center">
                         <Box>
-                            <Typography color="text.secondary" fontSize={14}>Tổng số heo</Typography>
+                            <Typography color="text.secondary" fontSize={14}>{t("home.pigTotal")}</Typography>
                             <Typography variant="h5" mt={1}>{totalPigs}</Typography>
                         </Box>
                         <Box sx={{ width: 48, height: 48, bgcolor: "green.100", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
                             <TrendingUp color="#16a34a" />
                         </Box>
                     </Box>
-                    <Typography fontSize={12} mt={2} color="text.secondary">Dữ liệu từ nhập kho</Typography>
+                    <Typography fontSize={12} mt={2} color="text.secondary">{t("home.dataFromWarehouse")}</Typography>
                 </Paper>
 
                 {/* CARD 2: TỔNG SỐ KHU VỰC (Mới) */}
                 <Paper elevation={2} sx={{ p: 3 }}>
                     <Box display="flex" justifyContent="space-between" alignItems="center">
                         <Box>
-                            <Typography color="text.secondary" fontSize={14}>Tổng khu vực</Typography>
+                            <Typography color="text.secondary" fontSize={14}>{t("home.areaTotal")}</Typography>
                             <Typography variant="h5" mt={1}>{totalAreas}</Typography>
                         </Box>
                         <Box sx={{ width: 48, height: 48, bgcolor: "blue.100", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
                             <Layout color="#2563eb" />
                         </Box>
                     </Box>
-                    <Typography fontSize={12} mt={2} color="text.secondary">Khu chăn nuôi chính</Typography>
+                    <Typography fontSize={12} mt={2} color="text.secondary">{t("home.primaryArea")}</Typography>
                 </Paper>
 
                 {/* CARD 3: TỔNG SỐ CHUỒNG (Mới) */}
                 <Paper elevation={2} sx={{ p: 3 }}>
                     <Box display="flex" justifyContent="space-between" alignItems="center">
                         <Box>
-                            <Typography color="text.secondary" fontSize={14}>Tổng số chuồng</Typography>
+                            <Typography color="text.secondary" fontSize={14}>{t("home.barnTotal")}</Typography>
                             <Typography variant="h5" mt={1}>{totalBarns}</Typography>
                         </Box>
                         <Box sx={{ width: 48, height: 48, bgcolor: "orange.100", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
                             <HomeIcon color="#fb923c" />
                         </Box>
                     </Box>
-                    <Typography fontSize={12} mt={2} color="text.secondary">Sức chứa toàn trại</Typography>
+                    <Typography fontSize={12} mt={2} color="text.secondary">{t("home.barnCapacity")}</Typography>
                 </Paper>
 
                 {/* CARD 4: TRUNG BÌNH (Ví dụ tính toán) */}
                 <Paper elevation={2} sx={{ p: 3 }}>
                     <Box display="flex" justifyContent="space-between" alignItems="center">
                         <Box>
-                            <Typography color="text.secondary" fontSize={14}>Mật độ trung bình</Typography>
+                            <Typography color="text.secondary" fontSize={14}>{t("home.average")}</Typography>
                             <Typography variant="h5" mt={1}>
                                 {totalBarns > 0 ? (totalPigs / totalBarns).toFixed(1) : 0}
                             </Typography>
@@ -133,7 +133,7 @@ const Home = () => {
                             <Grid color="#7e22ce" />
                         </Box>
                     </Box>
-                    <Typography fontSize={12} mt={2} color="text.secondary">Heo / Chuồng</Typography>
+                    <Typography fontSize={12} mt={2} color="text.secondary">{t("home.pigBarn")}</Typography>
                 </Paper>
             </Box>
 
@@ -147,16 +147,16 @@ const Home = () => {
             >
                 {/* CHART 1: AREA CHART - BIẾN ĐỘNG CÂN NẶNG HEO (Giữ nguyên) */}
                 <Paper elevation={2} sx={{ p: 3 }}>
-                    <Typography variant="h6" mb={2}>Biến động cân nặng nhập kho</Typography>
+                    <Typography variant="h6" mb={2}>{t("home.weightFluctuation")}</Typography>
                     <Box width="100%" height={350}>
                         <ResponsiveContainer width="100%" height="100%">
                             <AreaChart data={pigChartData}>
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <XAxis dataKey="date" />
                                 <YAxis />
-                                <Tooltip labelFormatter={(label, p) => p?.[0] ? `Ngày: ${p[0].payload.fullDate}` : label} formatter={(value, name, props) => [`${value} kg`, `Mã: ${props.payload.pigCode}`]} />
+                                <Tooltip labelFormatter={(label, p) => p?.[0] ? `Date: ${p[0].payload.fullDate}` : label} formatter={(value, name, props) => [`${value} kg`, `ID: ${props.payload.pigCode}`]} />
                                 <Legend />
-                                <Area type="monotone" dataKey="weight" stroke="#3b82f6" fill="#93c5fd" name="Cân nặng (kg)" />
+                                <Area type="monotone" dataKey="weight" stroke="#3b82f6" fill="#93c5fd" name={t("home.weightChart")} />
                             </AreaChart>
                         </ResponsiveContainer>
                     </Box>
@@ -164,7 +164,7 @@ const Home = () => {
 
                 {/* CHART 2: BAR CHART - CƠ CẤU CHUỒNG TRẠI (Dùng Area Data mới) */}
                 <Paper elevation={2} sx={{ p: 3 }}>
-                    <Typography variant="h6" mb={2}>Số lượng chuồng theo khu vực</Typography>
+                    <Typography variant="h6" mb={2}>{t("home.barnQuantity")}</Typography>
                     <Box width="100%" height={350}>
                         <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={areaChartData}>
@@ -175,7 +175,7 @@ const Home = () => {
                                 <Legend />
                                 <Bar
                                     dataKey="barnCount"
-                                    name="Số lượng chuồng"
+                                    name={t("home.quantityChart")}
                                     fill="#82ca9d"
                                     barSize={50}
                                     radius={[4, 4, 0, 0]}

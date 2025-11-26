@@ -1,15 +1,4 @@
 {
-  "register": {
-    "register": "Đăng ký tài khoản",
-    "fullName": "Họ và tên",
-    "fullNameReq": "Vui lòng nhập họ và tên",
-    "userName": "Tên đăng nhập",
-    "emailRequired": "Vui lòng nhập tên đăng nhập",
-    "passWord": "Mật khẩu",
-    "passWordReq": "Vui lòng nhập mật khẩu",
-    "accExist": "Đã có tài khoản?"
-  },
-
   "login": {
     "login": "Đăng nhập",
     "registering": "Đang đăng ký...",
@@ -27,6 +16,29 @@
     "notice": "Nhập thông tin để truy cập hệ thống",
     "forgotPassword": "Quên mật khẩu?",
     "remember": "Ghi nhớ đăng nhập"
+  },
+
+  "dialog": {
+    "add": "Thêm mới",
+    "save": "Lưu",
+    "update": "Cập nhật"
+  },
+
+  "home": {
+    "title": "Thống kê chăn nuôi",
+    "heading": "Tổng quan trang trại và hiệu suất chăn nuôi",
+    "pigTotal": "Tổng số heo",
+    "dataFromWarehouse": "Dữ liệu từ nhập kho",
+    "areaTotal": "Tổng khu vực",
+    "primaryArea": "Khu chăn nuôi chính",
+    "barnTotal": "Tổng số chuồng",
+    "barnCapacity": "Sức chứa toàn trại",
+    "average": "Mật độ trung bình",
+    "weightFluctuation": "Biến động cân nặng nhập kho",
+    "pigBarn": "Heo / Chuồng",
+    "weightChart": "Cân nặng (kg)",
+    "barnQuantity": "Số lượng chuồng theo khu vực",
+    "quantityChart": "Số lượng chuồng"
   },
 
   "meditionWarehouse": {
@@ -111,19 +123,20 @@
   },
   
   "navigation": {
+    "home": "Trang chủ",
     "accList": "Quản lý tài khoản",
     "createWorkerAcc": "Tạo tài khoản cho nhân công",
-    "foodRation": "Thiết lập thức ăn và dinh dưỡng",
-    "drugUse": "Thiết lập sử dụng thuốc",
-    "toDoList": "Giao việc cho công nhân",
-    "offSpring": "Quản lý giống và đàn lợn",
-    "herdBreedManagement": "Quản lý khu và chuồng nuôi",
-    "foodWarehouse": "Quản lý  kho hàng hóa",
+    "area": "Quản lý khu vực",
+    "todoList": "Giao việc cho công nhân",
+    "pigType": "Quản lý giống và đàn lợn",
+    "myBarn": "Khu vực của tôi",
+    "warehouse": "Quản lý  kho hàng hóa",
     "invoice": "Quản lý hóa đơn nhập hàng",
     "growthRecord": "Ghi nhận tốc độ tăng trưởng",
-    "meditionWarehouse": "Kho hàng vắc xin",
+    "warehouseImport": "Nhập vào kho hàng",
     "logout": "Đăng xuất",
     "settings": "Cài đặt",
-    "tasks": "Công việc được giao"
+    "tasks": "Công việc được giao",
+    "lang": "Tiếng Việt"
   }
 }

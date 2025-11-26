@@ -38,21 +38,20 @@ export default function TopBar({
     }, [role])
     const menuItems = [
         // chu trai
-        { text: "Home", icon: <HomeOutlinedIcon />, path: ROUTES.HOME, role: ROLES.OWNER },
-        { text: "Tạo tài khoản cho nhân công", icon: <GroupAddOutlinedIcon />, path: ROUTES.LIST_USER, role: ROLES.OWNER },
-        { text: "Quản lý khu vực", icon: <GroupAddOutlinedIcon />, path: ROUTES.AREA, role: ROLES.OWNER },
-        { text: "Quản lý giống và đàn lợn", icon: <AgricultureOutlinedIcon />, path: ROUTES.HOME, role: ROLES.OWNER },
-        { text: "Quản lý  kho hàng hóa", icon: <WarehouseOutlinedIcon />, path: ROUTES.HOME, role: ROLES.OWNER },
-        { text: "Giao việc cho công nhân", icon: <ContactMailOutlinedIcon />, path: ROUTES.HOME, role: ROLES.OWNER },
+        { text: t("navigation.home"), icon: <HomeOutlinedIcon />, path: ROUTES.HOME, role: ROLES.OWNER },
+        { text: t("navigation.accList"), icon: <GroupAddOutlinedIcon />, path: ROUTES.LIST_USER, role: ROLES.OWNER },
+        { text: t("navigation.area"), icon: <GroupAddOutlinedIcon />, path: ROUTES.AREA, role: ROLES.OWNER },
+        { text: t("navigation.pigType"), icon: <AgricultureOutlinedIcon />, path: ROUTES.PIG_TYPE, role: ROLES.OWNER },
+        { text: t("navigation.warehouse"), icon: <WarehouseOutlinedIcon />, path: ROUTES.WAREHOUSE_CATEGORY, role: ROLES.OWNER },
+        { text: t("navigation.todoList"), icon: <ContactMailOutlinedIcon />, path: ROUTES.TODO, role: ROLES.OWNER },
         // cong nhan
-        { text: "Home", icon: <HomeOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
-        { text: "Khu vực của tôi", icon: <GroupAddOutlinedIcon />, path: ROUTES.BARN, role: ROLES.WORKER },
+        { text: t("navigation.home"), icon: <HomeOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
+        { text: t("navigation.myBarn"), icon: <GroupAddOutlinedIcon />, path: ROUTES.BARN, role: ROLES.WORKER },
 
         // { text: "Nhập nguồn gốc giống lợn", icon: <UploadFileOutlinedIcon />, path: ROUTES.PIG_PAGE, role: ROLES.WORKER },
-        { text: "Ghi nhận tốc độ tăng trưởng", icon: <AreaChartOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
-        { text: "Nhập vào kho hàng, vacxin ", icon: <WarehouseOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
-        { text: "To do list các việc mà chủ trang trại giao", icon: <ChecklistOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
-        { text: "Thiết lập thức ăn và dinh dưỡng", icon: <SoupKitchenOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
+        { text: t("navigation.growthRecord"), icon: <AreaChartOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
+        { text: t("navigation.warehouseImport"), icon: <WarehouseOutlinedIcon />, path: ROUTES.WAREHOUSE_CATEGORY, role: ROLES.WORKER },
+        { text: t("navigation.tasks"), icon: <ChecklistOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
     ];
 
     return (
@@ -66,7 +65,7 @@ export default function TopBar({
             })}
         >
             <Toolbar sx={{ color: 'black' }}>
-                <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center',  }}>
+                <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
 
                     <Avatar sx={{ bgcolor: deepOrange[500] }}>H</Avatar>
 

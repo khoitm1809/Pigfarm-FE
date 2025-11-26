@@ -22,20 +22,14 @@ import AgricultureOutlinedIcon from '@mui/icons-material/AgricultureOutlined';
 import SoupKitchenOutlinedIcon from '@mui/icons-material/SoupKitchenOutlined';
 import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
 import WarehouseOutlinedIcon from '@mui/icons-material/WarehouseOutlined';
-import UploadFileOutlinedIcon from '@mui/icons-material/UploadFileOutlined';
 import AreaChartOutlinedIcon from '@mui/icons-material/AreaChartOutlined';
 import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
-import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
-import PreviewOutlinedIcon from '@mui/icons-material/PreviewOutlined';
-import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import ChecklistOutlinedIcon from '@mui/icons-material/ChecklistOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/Logout';
-import VaccinesOutlinedIcon from '@mui/icons-material/VaccinesOutlined';
 import { ROUTES } from "../router/routerConstants";
 import { ROLES } from "../utils/rolesConstant";
 import { THEME } from "../utils/ThemeConstants";
 import { useEffect, useState } from "react";
-import TranslateIcon from "@mui/icons-material/Translate";
 import { LANGUAGE_CODE_EN, LANGUAGE_CODE_VI, LOCAL_STORAGE_NAME, MESSAGE_TYPE } from "../utils/constant";
 import { useTranslation } from "react-i18next";
 import i18next, { t } from "i18next";
@@ -57,21 +51,20 @@ export default function LeftBar({ open, onClose, drawerWidth, isMobile }) {
     }, [role])
     const menuItems = [
         // chu trai
-        { text: "Home", icon: <HomeOutlinedIcon />, path: ROUTES.HOME, role: ROLES.OWNER },
+        { text: t("navigation.home"), icon: <HomeOutlinedIcon />, path: ROUTES.HOME, role: ROLES.OWNER },
         { text: t("navigation.accList"), icon: <GroupAddOutlinedIcon />, path: ROUTES.LIST_USER, role: ROLES.OWNER },
-        { text: "Quản lý khu vực", icon: <GroupAddOutlinedIcon />, path: ROUTES.AREA, role: ROLES.OWNER },
-        { text: "Quản lý giống và đàn lợn", icon: <AgricultureOutlinedIcon />, path: ROUTES.PIG_TYPE, role: ROLES.OWNER },
-        { text: "Quản lý  kho hàng hóa", icon: <WarehouseOutlinedIcon />, path: ROUTES.WAREHOUSE_CATEGORY, role: ROLES.OWNER },
-        { text: "Giao việc cho công nhân", icon: <ContactMailOutlinedIcon />, path: ROUTES.TODO, role: ROLES.OWNER },
+        { text: t("navigation.area"), icon: <GroupAddOutlinedIcon />, path: ROUTES.AREA, role: ROLES.OWNER },
+        { text: t("navigation.pigType"), icon: <AgricultureOutlinedIcon />, path: ROUTES.PIG_TYPE, role: ROLES.OWNER },
+        { text: t("navigation.warehouse"), icon: <WarehouseOutlinedIcon />, path: ROUTES.WAREHOUSE_CATEGORY, role: ROLES.OWNER },
+        { text: t("navigation.todoList"), icon: <ContactMailOutlinedIcon />, path: ROUTES.TODO, role: ROLES.OWNER },
         // cong nhan
-        { text: "Home", icon: <HomeOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
-        { text: "Khu vực của tôi", icon: <GroupAddOutlinedIcon />, path: ROUTES.BARN, role: ROLES.WORKER },
+        { text: t("navigation.home"), icon: <HomeOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
+        { text: t("navigation.myBarn"), icon: <GroupAddOutlinedIcon />, path: ROUTES.BARN, role: ROLES.WORKER },
 
         // { text: "Nhập nguồn gốc giống lợn", icon: <UploadFileOutlinedIcon />, path: ROUTES.PIG_PAGE, role: ROLES.WORKER },
-        { text: "Ghi nhận tốc độ tăng trưởng", icon: <AreaChartOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
-        { text: "Nhập vào kho hàng, vacxin ", icon: <WarehouseOutlinedIcon />, path: ROUTES.WAREHOUSE_CATEGORY, role: ROLES.WORKER },
-        { text: "To do list các việc mà chủ trang trại giao", icon: <ChecklistOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
-        { text: "Thiết lập thức ăn và dinh dưỡng", icon: <SoupKitchenOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
+        { text: t("navigation.growthRecord"), icon: <AreaChartOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
+        { text: t("navigation.warehouseImport"), icon: <WarehouseOutlinedIcon />, path: ROUTES.WAREHOUSE_CATEGORY, role: ROLES.WORKER },
+        { text: t("navigation.tasks"), icon: <ChecklistOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
 
     ];
 
@@ -203,7 +196,7 @@ export default function LeftBar({ open, onClose, drawerWidth, isMobile }) {
                     <IconButton sx={{ color: THEME.SECONDARY_TEXT_BUTTON }}>
                         <LanguageOutlinedIcon />
                     </IconButton>
-                    <Typography sx={{ color: THEME.SECONDARY_TEXT_BUTTON }}>Tiếng Việt</Typography>
+                    <Typography sx={{ color: THEME.SECONDARY_TEXT_BUTTON }}>{t("navigation.lang")}</Typography>
                 </Box>
                 {/* Logout */}
                 <Box

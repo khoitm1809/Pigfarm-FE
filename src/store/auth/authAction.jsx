@@ -93,4 +93,4 @@ export const authApi = createApi({
     }),
 });
 
-export const { useUserLoginMutation, useGetListRoleQuery, useLazyGetUserRoleQuery, useGetListUserQuery, useUserRegisterMutation, useDeleteUserMutation, useEditUserMutation } = authApi;
+export const { useUserLoginMutation, useGetListRoleQuery, useLazyGetUserRoleQuery, useGetListUserQuery, useUserRegisterMutation, useDeleteUserMutation, useEditUserMutation, useGetCurrentUserQuery } = authApi;

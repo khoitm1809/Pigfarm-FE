@@ -7,27 +7,28 @@ import { convertToDropdown } from "../../components/convertToDropdown";
 import AddDataDialog from "../../components/AddDataDialog";
 import EditDataDialog from "../../components/EditDataDialog";
 import { useSelector } from "react-redux";
-import { useGetListUserQuery } from "../../store/auth/authAction";
+import { useGetCurrentUserQuery, useGetListUserQuery } from "../../store/auth/authAction";
 import { useGetListBarnQuery } from "../../store/area/areaAction";
 
 const DetailBarnPage = () => {
+    const UID = localStorage.getItem("UID");
     const location = useLocation();
     const { state } = location;
     const barnId = state?.barnId;
     const areaId = state?.areaId;
     const { modalType } = useSelector((state) => state.helper);
-
+    // API Hooks
     const [addPig] = useAddPigMutation();
     const [editPig] = useEditPigMutation();
     const [deletePig] = useDeletePigMutation();
-
     const {
         data: listPig,
         isLoading: loadingListPig,
         refetch
     } = useGetListPigQuery(
         { barnId },
-        { refetchOnMountOrArgChange: true });
+        { refetchOnMountOrArgChange: true }
+    );
 
     const {
         data: listPigType,
@@ -37,9 +38,10 @@ const DetailBarnPage = () => {
     );
 
     const {
-        data: listUser,
-        isLoading: loadingListUser,
-    } = useGetListUserQuery({}, { refetchOnMountOrArgChange: true })
+        data: user,
+        isLoading: loadingUser,
+    } = useGetCurrentUserQuery({ UID }, { refetchOnMountOrArgChange: true })
+
 
     const {
         data: listBarn,
@@ -47,13 +49,14 @@ const DetailBarnPage = () => {
     } = useGetListBarnQuery({
         areaId: areaId,
     }, { refetchOnMountOrArgChange: true })
-
+    // Config Table
     const title = [
         { key: "pigCode", label: "Mã heo" },
         { key: "healthStatus", label: "Sức khỏe" },
         { key: "weight", label: "Cân nặng", },
         { key: "barn.name", label: "Chuồng" },
-        { key: "note", label: "Ghi chú" },
+        { key: "pig_growth_records.weight", label: "Tăng trưởng" },
+        { key: "price", label: "Giá" }
 
     ];
 
@@ -62,39 +65,29 @@ const DetailBarnPage = () => {
         { key: "weight", label: "Cân nặng", isNumber: true },
         { key: "age", label: "Tuổi", isNumber: true },
         { key: "healthStatus", label: "Sức khỏe" },
-
-
-        {
-            key: "users_permissions_user",
-            label: "Người phụ trách",
-            isDropDown: true,
-            isNumber: true,
-            mappingKey: "users_permissions_user.id"
-        },
-
-        {
-            key: "type_pig",
-            label: "Loại heo",
-            isDropDown: true,
-            list: convertToDropdown(listPigType?.data),
-            mappingKey: "type_pig.documentId"
-        },
+        { key: "note", label: "Ghi chú" },
 
         {
             key: "barn",
             label: "Chuồng",
-            isDropDown: true,
-            list: convertToDropdown(listBarn?.data),
-            mappingKey: "barn.documentId"
+            defaultValue: barnId, // Set giá trị mặc định là barnId
+            isDisable: true, // Khóa chỉnh sửa
+            mappingKey: "barn.id"
         },
 
-        
+        {
+            key: "pig_type",
+            label: "Loại heo",
+            isDropDown: true,
+            list: convertToDropdown(listPigType?.data),
+            mappingKey: "pig_type.id"
+        },
 
         {
             key: "users_permissions_user",
             label: "Người phụ trách",
-            isDropDown: true,
-            list: convertToDropdown(listUser?.data), // Giả định list User được truyền vào
+            isDisable: true,
+            defaultValue: user?.id,
             mappingKey: "users_permissions_user.id"
         },
     ];
@@ -109,6 +102,7 @@ const DetailBarnPage = () => {
                 />
             )}
 
+
             {modalType === 'edit' && (
                 <EditDataDialog
                     dialogTitle={dialogTitle}
@@ -121,13 +115,12 @@ const DetailBarnPage = () => {
                 title={title}
                 data={listPig?.data}
                 isEdit={true}
-                mutationAddFunction={addPig}
-                mutationEditFunction={editPig}
                 mutationDeleteFunction={deletePig}
                 loading={loadingListPig}
                 refetch={refetch}
             />
         </BoxContainer>
-    )
+    );
 }
+
 export default DetailBarnPage;

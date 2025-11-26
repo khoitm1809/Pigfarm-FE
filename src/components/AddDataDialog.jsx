@@ -5,6 +5,7 @@ import { BoxBeetwen, CloseButton, CloseIcon, MainButton } from './commonStyled';
 import { closeModal } from '../store/helper/helperSlice';
 import dayjs from 'dayjs';
 import FormField from './FormField';
+import { t } from "i18next";
 
 const transformPayload = (formData, dialogTitle) => {
     return Object.keys(formData).reduce((acc, key) => {
@@ -85,7 +86,7 @@ export default function AddDataDialog({
         <Dialog open={isOpen} onClose={() => dispatch(closeModal())} maxWidth="md" fullWidth>
             <DialogTitle>
                 <BoxBeetwen>
-                    <Typography fontWeight="bold">Thêm mới</Typography>
+                    <Typography fontWeight="bold">{(t("Add"))}</Typography>
                     <CloseButton onClick={() => dispatch(closeModal())}><CloseIcon /></CloseButton>
                 </BoxBeetwen>
             </DialogTitle>
@@ -105,7 +106,7 @@ export default function AddDataDialog({
             </DialogContent>
 
             <DialogActions sx={{ justifyContent: 'center', pb: 2 }}>
-                <MainButton onClick={handleSave} variant="contained">Lưu</MainButton>
+                <MainButton onClick={handleSave} variant="contained">{t("dialog.save")}</MainButton>
             </DialogActions>
         </Dialog>
     );

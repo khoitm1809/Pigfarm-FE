@@ -1,14 +1,4 @@
 {
-  "register": {
-    "register": "Register Account",
-    "fullName": "Full Name",
-    "fullNameReq": "Please enter your full name",
-    "userName": "Username",
-    "emailRequired": "Please enter a username",
-    "passWord": "Password",
-    "passWordReq": "Please enter a password",
-    "accExist": "Already have an account?"
-  },
   "login": {
     "login": "Login",
     "registering": "Registering...",
@@ -27,6 +17,24 @@
     "forgotPassword": "Forgot password?",
     "remember": "Remember me"
   },
+
+  "home": {
+    "title": "Dashboard",
+    "heading": "Farm overview and livestock demonstration",
+    "pigTotal": "Pig Total",
+    "dataFromWarehouse": "Data from Warehouse Import",
+    "areaTotal": "Area Total",
+    "primaryArea": "Primary Area",
+    "barnTotal": "Barn Total",
+    "barnCapacity": "Barn Capacity",
+    "average": "Average Density",
+    "weightFluctuation": "Inventory Weight Fluctuation",
+    "pigBarn": "Pig / Barn",
+    "weightChart": "Weight (kg)",
+    "barnQuantity": "Barn Quantity by Area",
+    "quantityChart": "Barn Quantity"
+  },
+
   "meditionWarehouse": {
     "meditionWarehouse": "Vaccine Warehouse Management",
     "name": "Medicine Name",
@@ -101,21 +109,20 @@
     "edit": "Edit"
   },
   "navigation": {
+    "home": "Home",
     "accList": "Account Management",
     "createWorkerAcc": "Create Worker Account",
-    "foodRation": "Feed and Nutrition Setup",
-    "drugUse": "Additional Medication Setup",
-    "toDoList": "Assign Tasks to Workers",
-    "offSpring": "Breeding and Pig Herd Management",
-    "herdBreedManagement": "Area and Barn Management",
-    "foodWarehouse": "Food Warehouse Management",
+    "area": "Area Management",
+    "todoList": "Assign tasks to worker",
+    "pigType": "Pig Management",
+    "myBarn": "My Area",
+    "warehouse": "Food Warehouse Management",
     "invoice": "Purchase Invoice Management",
     "growthRecord": "Record Growth Rate",
-    "meditionWarehouse": "Vaccine Warehouse",
-    "theo_gioi_chu_ki_ong_duc_cua_lon": "Monitor Estrus Cycle of Sows",
-    "ghi_nhan_va_tinh_ngay_phoi_giong": "Record and Calculate Breeding Date",
+    "warehouseImport": "Warehouse Import",
     "logout": "Logout",
     "settings": "Settings",
-    "tasks": "Assigned Tasks"
+    "tasks": "Assigned Tasks",
+    "lang": "English"
   }
 }
