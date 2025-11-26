@@ -1,5 +1,5 @@
 export const THEME = {
-    MAIN_BUTTON: "#1976d2",
+    MAIN_BUTTON: "#black",
     MAIN_TEXT_BUTTON: "#FFFFFF",
     SECONDARY_BUTTON: "#242424ff",
     SECONDARY_TEXT_BUTTON: "black",

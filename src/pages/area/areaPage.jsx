@@ -1,6 +1,5 @@
-import { Box, Button, Card, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from "@mui/material";
 import { BoxContainer, Row } from "../../components/commonStyled";
-import CustomTable from "../../components/CustomTable";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
@@ -10,6 +9,8 @@ import CardInfo from "../../components/CardInfo";
 import { useAddAreaMutation, useDeleteAreaMutation, useEditAreaMutation, useGetListAreaQuery } from "../../store/area/areaAction";
 import { ROUTES } from "../../router/routerConstants";
 import { ROLES } from "../../utils/rolesConstant";
+import { MESSAGE_TYPE } from "../../utils/constant";
+import { useConfirmDialog } from "../../components/confirmDialog";
 
 const AreaPage = () => {
     const role = localStorage.getItem("role");
@@ -26,6 +27,7 @@ const AreaPage = () => {
     const [editArea] = useEditAreaMutation();
     const [deleteArea] = useDeleteAreaMutation();
 
+    const { openDialog } = useConfirmDialog()
     const {
         data: listArea,
         isLoading: loadingArea,
@@ -49,7 +51,6 @@ const AreaPage = () => {
         const formData = new FormData(e.currentTarget);
         const name = formData.get('name');
         const description = formData.get('description');
-        const users_permissions_user = formData.get('users_permissions_user');
 
         try {
             await addArea({ name, description, users_permissions_user: UID }).unwrap();
@@ -58,6 +59,13 @@ const AreaPage = () => {
             refetch();
         } catch (error) {
             console.error("Lỗi khi thêm khu vực:", error);
+            const errorMessage = error.data?.message || error.error || "Không thể thêm khu vực. Vui lòng thử lại.";
+            openDialog({
+                type: MESSAGE_TYPE.ERROR,
+                message: `Lỗi khi thêm khu vực: ${errorMessage}`,
+                isShowCloseBtn: true,
+                isHideAction: true,
+            });
         } finally {
             setIsSubmitting(false);
         }
@@ -82,323 +90,224 @@ const AreaPage = () => {
         };
 
         try {
-            await editArea(updateData).unwrap();
+            await editArea({
+                id: editingArea.documentId,
+                updateData
+            }).unwrap();
 
             handleCloseEditDialog();
-            refetch(); // Tải lại danh sách
+            refetch();
         } catch (error) {
-            console.error("Lỗi khi sửa khu vực:", error);
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
+            const errorMessage = error.data?.message || error.error || "Không thể sửa khu vực. Vui lòng thử lại.";
+            openDialog({
+                type: MESSAGE_TYPE.ERROR,
+                message: `Lỗi khi sửa khu vực: ${errorMessage}`,
+                isShowCloseBtn: true,
+                isHideAction: true,
+            });
+        };
 
-    const handleDelete = async (areaId) => {
+        const handleDelete = async (areaId) => {
+            // Tìm khu vực cụ thể cần xóa để kiểm tra số chuồng liên quan
+            const areaToDelete = listArea?.data?.find(area => area.documentId === areaId);
+            const barnCount = areaToDelete?.barns?.length || 0;
 
-        try {
-            await deleteArea(areaId).unwrap();
+            if (barnCount > 0) {
+                openDialog({
+                    type: MESSAGE_TYPE.WARNING,
+                    // Hiển thị số lượng chuồng cần xóa
+                    message: `Bạn phải xóa ${barnCount} chuồng mới được xóa khu này`,
+                    isShowCloseBtn: true,
+                    isHideAction: true,
+                    customSecondText: "Xác nhận"
+                });
+            } else {
+                try {
+                    await deleteArea(areaId).unwrap();
+                    refetch();
+                } catch (error) {
+                    console.error("Lỗi khi xóa khu vực:", error);
 
-            refetch(); // Tải lại danh sách
-        } catch (error) {
-            console.error("Lỗi khi xóa khu vực:", error);
-        }
-    };
+                    // THAY THẾ console.error bằng openDialog để hiển thị lỗi cho người dùng
+                    const errorMessage = error.data?.message || error.error || "Không thể xóa khu vực. Vui lòng thử lại.";
 
-    // Áp dụng tìm kiếm
-    const filteredArea = listArea?.data?.filter(area =>
-        area?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        area?.description?.toLowerCase().includes(searchTerm.toLowerCase())
-    ) || [];
+                    openDialog({
+                        type: MESSAGE_TYPE.ERROR,
+                        message: `Lỗi khi xóa khu vực: ${errorMessage}`,
+                        isShowCloseBtn: true,
+                        isHideAction: true,
+                    });
+                }
+            }
+        };
+
+        // Áp dụng tìm kiếm
+        const filteredArea = listArea?.data?.filter(area =>
+            area?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            area?.description?.toLowerCase().includes(searchTerm.toLowerCase())
+        ) || [];
 
 
-    return (
-        <BoxContainer padding={'2rem'}>
-            <Box mb={4}>
-                <Box sx={{ marginBottom: '2rem' }}>
-                    <Typography
-                        variant="h4"
-                        fontWeight={700}
-                        sx={{ mb: 1 }}
-                    >
-                        Quản lý khu vực
-                    </Typography>
+        return (
+            <BoxContainer padding={'2rem'}>
+                <Box mb={4}>
+                    <Box sx={{ marginBottom: '2rem' }}>
+                        <Typography
+                            variant="h4"
+                            fontWeight={700}
+                            sx={{ mb: 1 }}
+                        >
+                            Quản lý khu vực
+                        </Typography>
 
-                    {/* SUBTITLE */}
-                    <Typography
-                        variant="subtitle1"
-                        color="text.secondary"
-                    >
-                        Quản lý toàn bộ khu vực
-                    </Typography>
-                </Box>
+                        {/* SUBTITLE */}
+                        <Typography
+                            variant="subtitle1"
+                            color="text.secondary"
+                        >
+                            Quản lý toàn bộ khu vực
+                        </Typography>
+                    </Box>
 
-                {/* SEARCH + BUTTON */}
-                <Box
-                    display="flex"
-                    flexDirection={{ xs: "column", sm: "row" }}
-                    alignItems={{ xs: "stretch", sm: "center" }}
-                    gap={2}
-                    mb={2}
-                    sx={{
-                        width: "100%",
-                    }}
-                >
-                    {/* Search Input */}
-                    <TextField
-                        fullWidth
-                        placeholder="Tìm kiếm..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        InputProps={{
-                            startAdornment: (
-                                <SearchOutlinedIcon sx={{ color: "action.active", mr: 1 }} />
-                            ),
-                            sx: {
-                                backgroundColor: "#f2f2f2",
-                                borderRadius: "8px",
-                                height: "44px",
-                                paddingLeft: "8px",
-                                border: "none",
-
-                                "& fieldset": { border: "none" },
-                                "&:hover fieldset": { border: "none" },
-                                "&.Mui-focused fieldset": { border: "none" },
-                            },
-                        }}
-                    />
-
-                    {/* Nút Lọc */}
-                    <Button
-                        variant="outlined"
-                        startIcon={<TuneOutlinedIcon />}
+                    {/* SEARCH + BUTTON */}
+                    <Box
+                        display="flex"
+                        flexDirection={{ xs: "column", sm: "row" }}
+                        alignItems={{ xs: "stretch", sm: "center" }}
+                        gap={2}
+                        mb={2}
                         sx={{
-                            height: "44px",
-                            minWidth: { xs: "100%", sm: "auto" },
-                            bgcolor: "#fff",
-                            borderColor: "#ccc",
-                            color: "#333",
-                            textTransform: "none",
-                            "&:hover": {
-                                borderColor: "#999",
-                                backgroundColor: "#f7f7f7",
-                            },
+                            width: "100%",
                         }}
                     >
-                        Lọc
-                    </Button>
+                        {/* Search Input */}
+                        <TextField
+                            fullWidth
+                            placeholder="Tìm kiếm..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            InputProps={{
+                                startAdornment: (
+                                    <SearchOutlinedIcon sx={{ color: "action.active", mr: 1 }} />
+                                ),
+                                sx: {
+                                    backgroundColor: "#f2f2f2",
+                                    borderRadius: "8px",
+                                    height: "44px",
+                                    paddingLeft: "8px",
+                                    border: "none",
 
-                    {/* Nút Thêm */}
-                    <Button
-                        variant="contained"
-                        startIcon={<AddOutlinedIcon />}
-                        onClick={toggleAddDialog}
-                        sx={{
-                            height: "44px",
-                            width: { xs: "100%", sm: "10rem" },
-                            bgcolor: "#000",
-                            color: "#fff",
-                            textTransform: "none",
-                            "&:hover": {
-                                bgcolor: "#222",
-                            },
-                        }}
-                    >
-                        Thêm mới
-                    </Button>
-                </Box>
-
-                {/* CardInfor */}
-                <Row sx={{
-                    width: '100%',
-                    flexWrap: 'wrap',
-                    gap: '2rem',
-                }}>
-                    {listArea?.data?.map((area, index) => (
-                        <Box key={index}
-                            sx={{
-                                flex: {
-                                    xs: "1 1 50%",
-                                    sm: "1 1 calc(50% - 1rem)",
+                                    "& fieldset": { border: "none" },
+                                    "&:hover fieldset": { border: "none" },
+                                    "&.Mui-focused fieldset": { border: "none" },
                                 },
                             }}
-                            onClick={() => navigate(ROUTES.BARN, { state: area?.id })}>
-                            <CardInfo
-                                isShowAction={false}
-                                name={area?.name}
-                                description={area?.description}
-                                publishedAt={area?.publishedAt}
-                                arrayCount={area?.barns?.length}
-                                isOwner={role === ROLES.OWNER}
-                                nameCount={"Số chuồng: "}
-                                isEdit={true}
-                                isAssign={false}
-                                isDelete={true}
-                                // THÊM PROPS CHO HÀNH ĐỘNG
-                                onActionEdit={() => {
-                                    handleOpenEditDialog(area);
-                                }}
-                                onActionDelete={() => {
-                                    handleDelete(area.documentId);
-                                }}
-                            />
-                        </Box>
-                    ))}
-                    {!loadingArea && filteredArea.length === 0 && (
-                        <Typography sx={{ p: 2, color: 'text.secondary' }}>Không tìm thấy khu vực nào.</Typography>
-                    )}
-                </Row>
+                        />
 
-                {/* ADD ZONE DIALOG */}
-                <Dialog
-                    fullWidth
-                    open={openAddDialog}
-                    onClose={toggleAddDialog}
-                    PaperProps={{
-                        sx: {
-                            borderRadius: "12px",
-                            paddingTop: "4px"
-                        }
-                    }}
-                >
-                    <DialogTitle
-                        sx={{
-                            fontSize: "1.25rem",
-                            fontWeight: 700,
-                            pb: 1.5,
-                        }}
-                    >
-                        Tạo khu mới
-                    </DialogTitle>
-
-                    <form onSubmit={(e) => e.preventDefault()}>
-                        <DialogContent
-                            dividers
+                        {/* Nút Lọc */}
+                        <Button
+                            variant="outlined"
+                            startIcon={<TuneOutlinedIcon />}
                             sx={{
-                                border: "none",
-                                pt: 2,
-                                pb: 1,
-                                "& .MuiDialogContent-root": {
-                                    border: "none",
+                                height: "44px",
+                                minWidth: { xs: "100%", sm: "auto" },
+                                bgcolor: "#fff",
+                                borderColor: "#ccc",
+                                color: "#333",
+                                textTransform: "none",
+                                "&:hover": {
+                                    borderColor: "#999",
+                                    backgroundColor: "#f7f7f7",
                                 },
                             }}
                         >
-                            <TextField
-                                fullWidth
-                                placeholder="Tên khu..."
-                                name="name"
-                                required
-                                value={formData.name}
-                                onChange={handleChange}
+                            Lọc
+                        </Button>
+
+                        {/* Nút Thêm */}
+                        <Button
+                            variant="contained"
+                            startIcon={<AddOutlinedIcon />}
+                            onClick={toggleAddDialog}
+                            sx={{
+                                height: "44px",
+                                width: { xs: "100%", sm: "10rem" },
+                                bgcolor: "#000",
+                                color: "#fff",
+                                textTransform: "none",
+                                "&:hover": {
+                                    bgcolor: "#222",
+                                },
+                            }}
+                        >
+                            Thêm mới
+                        </Button>
+                    </Box>
+
+                    {/* CardInfor */}
+                    <Row sx={{
+                        width: '100%',
+                        flexWrap: 'wrap',
+                        gap: '2rem',
+                    }}>
+                        {listArea?.data?.map((area, index) => (
+                            <Box key={index}
                                 sx={{
-                                    mb: 2,
-                                    "& .MuiOutlinedInput-root": {
-                                        backgroundColor: "#f5f5f5",
-                                        borderRadius: "8px",
-                                        height: "44px",
-                                        paddingLeft: "10px",
-
-                                        "& fieldset": { border: "none" },
-                                        "&:hover fieldset": { border: "none" },
-                                        "&.Mui-focused fieldset": { border: "none" },
-
-                                        // text style
-                                        "& input": {
-                                            fontSize: "0.95rem",
-                                        },
-                                    },
-                                    "& .MuiInputBase-input::placeholder": {
-                                        color: "#999",
-                                    },
-                                }}
-                            />
-
-                            <TextField
-                                fullWidth
-                                placeholder="Mô tả..."
-                                name="description"
-                                required
-                                value={formData.description}
-                                onChange={handleChange}
-                                multiline
-                                rows={3}
-                                sx={{
-                                    "& .MuiOutlinedInput-root": {
-                                        backgroundColor: "#f5f5f5",
-                                        borderRadius: "8px",
-
-                                        "& fieldset": { border: "none" },
-                                        "&:hover fieldset": { border: "none" },
-                                        "&.Mui-focused fieldset": { border: "none" },
-
-                                        "& textarea": {
-                                            fontSize: "0.95rem",
-                                        },
-                                    },
-                                    "& .MuiInputBase-input::placeholder": {
-                                        color: "#999",
+                                    flex: {
+                                        xs: "1 1 50%",
+                                        sm: "1 1 calc(50% - 1rem)",
                                     },
                                 }}
-                            />
-                        </DialogContent>
+                                onClick={() => navigate(ROUTES.BARN, { state: area?.id })}>
+                                <CardInfo
+                                    isShowAction={false}
+                                    name={area?.name}
+                                    description={area?.description}
+                                    publishedAt={area?.publishedAt}
+                                    arrayCount={area?.barns?.length}
+                                    isOwner={role === ROLES.OWNER}
+                                    nameCount={"Số chuồng: "}
+                                    isEdit={true}
+                                    isAssign={false}
+                                    isDelete={true}
+                                    // THÊM PROPS CHO HÀNH ĐỘNG
+                                    onActionEdit={() => {
+                                        handleOpenEditDialog(area);
+                                    }}
+                                    onActionDelete={() => {
+                                        handleDelete(area.documentId);
+                                    }}
+                                />
+                            </Box>
+                        ))}
+                        {!loadingArea && filteredArea.length === 0 && (
+                            <Typography sx={{ p: 2, color: 'text.secondary' }}>Không tìm thấy khu vực nào.</Typography>
+                        )}
+                    </Row>
 
-                        <DialogActions sx={{ p: 2 }}>
-                            <Button
-                                onClick={toggleAddDialog}
-                                sx={{
-                                    textTransform: "none",
-                                    color: "#444",
-                                    borderRadius: "8px",
-                                    px: 2,
-                                    "&:hover": { backgroundColor: "#eee" }
-                                }}
-                                disabled={isSubmitting}
-                            >
-                                Hủy
-                            </Button>
-
-
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                // disabled={!isFormValid}
-                                sx={{
-                                    textTransform: "none",
-                                    borderRadius: "8px",
-                                    px: 3,
-                                    backgroundColor: "black"
-                                }}
-                                disabled={isSubmitting}
-                            >
-                                {isSubmitting ? 'Đang tạo...' : 'Tạo'}
-                            </Button>
-                        </DialogActions>
-                    </form>
-                </Dialog>
-
-                <Dialog
-                    fullWidth
-                    open={openEditDialog}
-                    onClose={handleCloseEditDialog}
-                    PaperProps={{
-                        sx: {
-                            borderRadius: "12px",
-                            paddingTop: "4px"
-                        }
-                    }}
-                >
-                    <DialogTitle
-                        sx={{
-                            fontSize: "1.25rem",
-                            fontWeight: 700,
-                            pb: 1.5,
+                    {/* ADD ZONE DIALOG */}
+                    <Dialog
+                        fullWidth
+                        open={openAddDialog}
+                        onClose={toggleAddDialog}
+                        PaperProps={{
+                            sx: {
+                                borderRadius: "12px",
+                                paddingTop: "4px"
+                            }
                         }}
                     >
-                        Chỉnh sửa Khu vực: {editingArea?.name}
-                    </DialogTitle>
+                        <DialogTitle
+                            sx={{
+                                fontSize: "1.25rem",
+                                fontWeight: 700,
+                                pb: 1.5,
+                            }}
+                        >
+                            Tạo khu mới
+                        </DialogTitle>
 
-                    {/* Form chỉ được render khi có editingArea để tránh lỗi undefined */}
-                    {editingArea && (
-                        <form onSubmit={handleSubmitEdit}>
+                        <form onSubmit={handleSubmitAdd}>
                             <DialogContent
                                 dividers
                                 sx={{
@@ -410,15 +319,12 @@ const AreaPage = () => {
                                     },
                                 }}
                             >
-                                {/* Input Tên Khu */}
                                 <TextField
                                     fullWidth
                                     placeholder="Tên khu..."
                                     name="name"
                                     required
-                                    // Sử dụng defaultValue để form được kiểm soát tốt hơn khi chỉnh sửa
-                                    defaultValue={editingArea?.name || ''}
-                                    disabled={isSubmitting}
+                                    value={FormData.name}
                                     sx={{
                                         mb: 2,
                                         "& .MuiOutlinedInput-root": {
@@ -426,42 +332,53 @@ const AreaPage = () => {
                                             borderRadius: "8px",
                                             height: "44px",
                                             paddingLeft: "10px",
+
                                             "& fieldset": { border: "none" },
                                             "&:hover fieldset": { border: "none" },
                                             "&.Mui-focused fieldset": { border: "none" },
-                                            "& input": { fontSize: "0.95rem" },
+
+                                            // text style
+                                            "& input": {
+                                                fontSize: "0.95rem",
+                                            },
                                         },
-                                        "& .MuiInputBase-input::placeholder": { color: "#999" },
+                                        "& .MuiInputBase-input::placeholder": {
+                                            color: "#999",
+                                        },
                                     }}
                                 />
 
-                                {/* Input Mô tả */}
                                 <TextField
                                     fullWidth
                                     placeholder="Mô tả..."
                                     name="description"
                                     required
+                                    value={FormData.description}
                                     multiline
                                     rows={3}
-                                    defaultValue={editingArea?.description || ''}
-                                    disabled={isSubmitting}
                                     sx={{
                                         "& .MuiOutlinedInput-root": {
                                             backgroundColor: "#f5f5f5",
                                             borderRadius: "8px",
+
                                             "& fieldset": { border: "none" },
                                             "&:hover fieldset": { border: "none" },
                                             "&.Mui-focused fieldset": { border: "none" },
-                                            "& textarea": { fontSize: "0.95rem" },
+
+                                            "& textarea": {
+                                                fontSize: "0.95rem",
+                                            },
                                         },
-                                        "& .MuiInputBase-input::placeholder": { color: "#999" },
+                                        "& .MuiInputBase-input::placeholder": {
+                                            color: "#999",
+                                        },
                                     }}
                                 />
                             </DialogContent>
 
                             <DialogActions sx={{ p: 2 }}>
                                 <Button
-                                    onClick={handleCloseEditDialog}
+                                    onClick={toggleAddDialog}
                                     sx={{
                                         textTransform: "none",
                                         color: "#444",
@@ -474,26 +391,145 @@ const AreaPage = () => {
                                     Hủy
                                 </Button>
 
+
                                 <Button
                                     type="submit"
                                     variant="contained"
+                                    // disabled={!isFormValid}
                                     sx={{
                                         textTransform: "none",
                                         borderRadius: "8px",
                                         px: 3,
+                                        backgroundColor: "black"
                                     }}
                                     disabled={isSubmitting}
                                 >
-                                    {isSubmitting ? 'Đang lưu...' : 'Lưu thay đổi'}
+                                    {isSubmitting ? 'Đang tạo...' : 'Tạo'}
                                 </Button>
                             </DialogActions>
                         </form>
-                    )}
-                </Dialog>
+                    </Dialog>
 
-            </Box>
-        </BoxContainer>
-    )
+                    <Dialog
+                        fullWidth
+                        open={openEditDialog}
+                        onClose={handleCloseEditDialog}
+                        PaperProps={{
+                            sx: {
+                                borderRadius: "12px",
+                                paddingTop: "4px"
+                            }
+                        }}
+                    >
+                        <DialogTitle
+                            sx={{
+                                fontSize: "1.25rem",
+                                fontWeight: 700,
+                                pb: 1.5,
+                            }}
+                        >
+                            Chỉnh sửa Khu vực: {editingArea?.name}
+                        </DialogTitle>
+
+                        {/* Form chỉ được render khi có editingArea để tránh lỗi undefined */}
+                        {editingArea && (
+                            <form onSubmit={handleSubmitEdit}>
+                                <DialogContent
+                                    dividers
+                                    sx={{
+                                        border: "none",
+                                        pt: 2,
+                                        pb: 1,
+                                        "& .MuiDialogContent-root": {
+                                            border: "none",
+                                        },
+                                    }}
+                                >
+                                    {/* Input Tên Khu */}
+                                    <TextField
+                                        fullWidth
+                                        placeholder="Tên khu..."
+                                        name="name"
+                                        required
+                                        // Sử dụng defaultValue để form được kiểm soát tốt hơn khi chỉnh sửa
+                                        defaultValue={editingArea?.name || ''}
+                                        disabled={isSubmitting}
+                                        sx={{
+                                            mb: 2,
+                                            "& .MuiOutlinedInput-root": {
+                                                backgroundColor: "#f5f5f5",
+                                                borderRadius: "8px",
+                                                height: "44px",
+                                                paddingLeft: "10px",
+                                                "& fieldset": { border: "none" },
+                                                "&:hover fieldset": { border: "none" },
+                                                "&.Mui-focused fieldset": { border: "none" },
+                                                "& input": { fontSize: "0.95rem" },
+                                            },
+                                            "& .MuiInputBase-input::placeholder": { color: "#999" },
+                                        }}
+                                    />
+
+                                    {/* Input Mô tả */}
+                                    <TextField
+                                        fullWidth
+                                        placeholder="Mô tả..."
+                                        name="description"
+                                        required
+                                        multiline
+                                        rows={3}
+                                        defaultValue={editingArea?.description || ''}
+                                        disabled={isSubmitting}
+                                        sx={{
+                                            "& .MuiOutlinedInput-root": {
+                                                backgroundColor: "#f5f5f5",
+                                                borderRadius: "8px",
+                                                "& fieldset": { border: "none" },
+                                                "&:hover fieldset": { border: "none" },
+                                                "&.Mui-focused fieldset": { border: "none" },
+                                                "& textarea": { fontSize: "0.95rem" },
+                                            },
+                                            "& .MuiInputBase-input::placeholder": { color: "#999" },
+                                        }}
+                                    />
+                                </DialogContent>
+
+                                <DialogActions sx={{ p: 2 }}>
+                                    <Button
+                                        onClick={handleCloseEditDialog}
+                                        sx={{
+                                            textTransform: "none",
+                                            color: "#444",
+                                            borderRadius: "8px",
+                                            px: 2,
+                                            "&:hover": { backgroundColor: "#eee" }
+                                        }}
+                                        disabled={isSubmitting}
+                                    >
+                                        Hủy
+                                    </Button>
+
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        sx={{
+                                            textTransform: "none",
+                                            borderRadius: "8px",
+                                            px: 3,
+                                        }}
+                                        disabled={isSubmitting}
+                                    >
+                                        {isSubmitting ? 'Đang lưu...' : 'Lưu thay đổi'}
+                                    </Button>
+                                </DialogActions>
+                            </form>
+                        )}
+                    </Dialog>
+
+                </Box>
+            </BoxContainer>
+        )
+    }
 }
 
 export default AreaPage;

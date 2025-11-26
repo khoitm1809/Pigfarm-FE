@@ -13,7 +13,8 @@ import { useGetListBarnQuery } from "../../store/area/areaAction";
 const DetailBarnPage = () => {
     const location = useLocation();
     const { state } = location;
-    const barnId = location?.state
+    const barnId = state?.barnId;
+    const areaId = state?.areaId;
     const { modalType } = useSelector((state) => state.helper);
 
     const [addPig] = useAddPigMutation();

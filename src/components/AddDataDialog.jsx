@@ -10,7 +10,7 @@ const transformPayload = (formData, dialogTitle) => {
     return Object.keys(formData).reduce((acc, key) => {
         const value = formData[key];
         const fieldConfig = dialogTitle.find(f => f.key === key);
-        
+
         let finalValue;
 
         if (dayjs.isDayjs(value)) {
@@ -36,18 +36,18 @@ const transformPayload = (formData, dialogTitle) => {
         if (finalValue !== null) {
             acc[key] = finalValue;
         }
-        
+
         return acc;
     }, {});
 };
 
 export default function AddDataDialog({
     dialogTitle,
-    mutationAddFunction, 
+    mutationAddFunction,
     refetch
 }) {
     const dispatch = useDispatch();
-    const { isOpen } = useSelector((state) => state.helper); 
+    const { isOpen } = useSelector((state) => state.helper);
 
     const [formData, setFormData] = React.useState({});
 
@@ -55,7 +55,9 @@ export default function AddDataDialog({
     React.useEffect(() => {
         if (isOpen) {
             const defaults = dialogTitle.reduce((acc, f) => {
-                acc[f.key] = "";
+                const defaultValue = f.defaultValue !== undefined && f.defaultValue !== null
+                    ? f.defaultValue
+                    : "";
                 return acc;
             }, {});
             setFormData(defaults);
@@ -69,11 +71,11 @@ export default function AddDataDialog({
     const handleSave = async () => {
         try {
             const finalPayload = transformPayload(formData, dialogTitle);
-            
-            await mutationAddFunction(finalPayload).unwrap(); 
+
+            await mutationAddFunction(finalPayload).unwrap();
 
             refetch();
-            dispatch(closeModal()); 
+            dispatch(closeModal());
         } catch (error) {
             console.error("Save (Add) error:", error);
         }
@@ -96,6 +98,7 @@ export default function AddDataDialog({
                             field={field}
                             value={formData[field.key]}
                             onChange={handleChange}
+                            disabled={field.isDisable}
                         />
                     ))}
                 </Grid>

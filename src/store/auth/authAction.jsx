@@ -51,6 +51,20 @@ export const authApi = createApi({
             },
         }),
 
+        getCurrentUser: builder.query({
+            query: (params) => {
+                const { UID, ...rest } = params || {};
+                return {
+                    url: API_URL.LIST_USER + "/" + UID,
+                    method: "GET",
+                    params: {
+                        ...rest,
+                        // ...(UID ? { "filters[users_permissions_user][id]": UID } : {}),
+                    },
+                };
+            },
+        }),
+
         userRegister: builder.mutation({
             query: (body) => ({
                 url: API_URL.LIST_USER,

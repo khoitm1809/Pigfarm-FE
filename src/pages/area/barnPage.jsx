@@ -348,7 +348,7 @@ const BarnPage = () => {
                                 placeholder="Tên chuồng..."
                                 name="name"
                                 required
-                                value={formData.name}
+                                value={FormData.name}
                                 onChange={handleInputChange}
                                 sx={{
                                     mb: 2,
@@ -378,8 +378,7 @@ const BarnPage = () => {
                                 placeholder="Mô tả..."
                                 name="description"
                                 required
-                                value={formData.description}
-                                onChange={handleChange}
+                                value={FormData.description}
                                 multiline
                                 rows={3}
                                 sx={{
@@ -419,7 +418,7 @@ const BarnPage = () => {
                             <Button
                                 type="submit"
                                 variant="contained"
-                                disabled={!isFormValid && isAddingBarn}
+                                disabled={isAddingBarn}
                                 sx={{
                                     textTransform: "none",
                                     borderRadius: "8px",

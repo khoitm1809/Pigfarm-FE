@@ -11,5 +11,6 @@ export const API_URL = {
   WAREHOUSE_CATEGORY: '/api/warehouse-categories',
   WAREHOUSE_ITEM: '/api/warehouse-items',
   PIG_GROWTH_RECORDS: '/api/pig-growth-records',
-  FEED_SETTING: '/api/feed-settings'
+  FEED_SETTING: '/api/feed-settings',
+  TODO: '/api/todos',
 };

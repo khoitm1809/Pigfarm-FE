@@ -27,28 +27,42 @@ const transformDataForEdit = (selectedData, dialogTitle) => {
     if (!selectedData) return {};
 
     // Khởi tạo form data bằng dữ liệu gốc
-    let transformedData = { ...selectedData };
+    const transformedData = {};
     
     dialogTitle.forEach(field => {
-        // Kiểm tra nếu đây là Dropdown và có mappingKey
-        if (field.isDropDown && field.mappingKey) {
-            // Lấy ID/Giá trị từ đường dẫn lồng nhau (ví dụ: "role.id")
-            const value = getNestedValue(selectedData, field.mappingKey); 
-            
-            // Đặt giá trị ID này vào key chính của form (ví dụ: key: "role")
-            transformedData[field.key] = value;
+        const fieldKey = field.key;
+        let fieldValue = selectedData[fieldKey]; // Giá trị gốc
+
+        if (field.mappingKey) {
+            // Trường có mappingKey (ví dụ: barn.id)
+            fieldValue = getNestedValue(selectedData, field.mappingKey);
+        } else if (typeof fieldValue === 'object' && fieldValue !== null && (fieldValue.documentId || fieldValue.id)) {
+            // Trường quan hệ không có mappingKey (ví dụ: pig_type, users_permissions_user)
+            fieldValue = fieldValue.id; // Lấy ID số nguyên của quan hệ
+        }
+
+        // Đặt giá trị vào transformedData
+        if (fieldValue !== undefined) {
+            transformedData[fieldKey] = fieldValue;
         }
         
-        // Xử lý các trường có thể bị ẩn trong form Edit (ví dụ: password)
-        if (field.key === 'password' || field.isHiddenInEdit) {
-            delete transformedData[field.key];
-        }
-        
-        // Đảm bảo các giá trị date/time được chuyển thành đối tượng Dayjs
-        if (field.isDateTime && transformedData[field.key]) {
-            transformedData[field.key] = dayjs(transformedData[field.key]);
+        if (field.isDisable && transformedData[fieldKey] === undefined && field.defaultValue !== undefined) {
+            transformedData[fieldKey] = field.defaultValue;
         }
     });
+
+    Object.keys(transformedData).forEach(key => {
+        const field = dialogTitle.find(f => f.key === key);
+        if (field?.isDateTime && transformedData[key]) {
+            transformedData[key] = dayjs(transformedData[key]);
+        }
+    });
+
+    delete transformedData.documentId;
+    delete transformedData.createdAt;
+    delete transformedData.updatedAt;
+    delete transformedData.publishedAt;
+    delete transformedData.id;
 
     return transformedData;
 };
@@ -59,6 +73,9 @@ const transformPayload = (formData, dialogTitle) => {
         const value = formData[key];
         const fieldConfig = dialogTitle.find(f => f.key === key);
         
+        if (key === 'id') {
+            return acc;
+        }
         let finalValue;
 
         if (dayjs.isDayjs(value)) {
@@ -81,7 +98,7 @@ const transformPayload = (formData, dialogTitle) => {
             finalValue = value;
         }
 
-        // LOẠI BỎ LOGIC: Nếu finalValue là null, KHÔNG thêm trường đó vào acc
+        //Chỉ thêm vào payload nếu giá trị không phải là null
         if (finalValue !== null) {
             acc[key] = finalValue;
         }
@@ -92,7 +109,7 @@ const transformPayload = (formData, dialogTitle) => {
 
 export default function EditDataDialog({
     dialogTitle,
-    mutationEditFunction, // Chỉ cần Edit function
+    mutationEditFunction,
     refetch
 }) {
     const dispatch = useDispatch();
@@ -106,7 +123,7 @@ export default function EditDataDialog({
             
             setFormData(prefilledData);
         }
-    }, [isOpen, selectedData, dialogTitle]); // dialogTitle cần là dependency vì nó chứa mapping config
+    }, [isOpen, selectedData, dialogTitle]); 
 
     const handleChange = (key, value) => {
         setFormData(prev => ({ ...prev, [key]: value }));
@@ -114,13 +131,12 @@ export default function EditDataDialog({
 
     const handleSave = async () => {
         try {
-            // 1. Lấy dữ liệu form
-            const payloadWithId = { ...formData };
-            
-            // 2. Chuyển đổi payload (loại bỏ null/empty string)
-            // Lưu ý: ID của đối tượng (ví dụ: user.id) phải được truyền vào mutationEditFunction
-            // Bạn cần đảm bảo ID (ví dụ: key 'id') được giữ lại trong formData
-            const finalPayload = transformPayload(payloadWithId, dialogTitle);
+            const finalPayloadData = transformPayload(formData, dialogTitle);
+
+            const finalPayload = {
+                id: selectedData?.documentId,
+                ...finalPayloadData
+            };
 
             // 3. THỰC HIỆN CHỈNH SỬA
             await mutationEditFunction(finalPayload).unwrap();
@@ -144,11 +160,12 @@ export default function EditDataDialog({
             <DialogContent>
                 <Grid container spacing={2} sx={{ mt: 1 }}>
                     {dialogTitle
-                        ?.filter(field => !field.isHiddenInEdit) // Lọc bỏ các trường không muốn hiển thị khi Edit
+                        ?.filter(field => !field.isHiddenInEdit) 
                         .map((field) => (
                         <FormField
                             key={field.key}
                             field={field}
+                            disabled={field.isDisable}
                             value={formData[field.key]} 
                             onChange={handleChange}
                         />

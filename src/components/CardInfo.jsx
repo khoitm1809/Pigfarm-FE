@@ -12,6 +12,8 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import dayjs from "dayjs";
+import { useGetListFeedSettingQuery } from "../store/warehouse/feedSettingsAction";
+import { SettingsIcon } from "lucide-react";
 
 const CardInfo = ({
     name,

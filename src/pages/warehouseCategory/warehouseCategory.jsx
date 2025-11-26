@@ -1,4 +1,4 @@
-import { Box, Button, Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, TextField, Typography, CircularProgress, DialogTitle } from "@mui/material";
 import { BoxContainer, Row } from "../../components/commonStyled";
 import { ROUTES } from "../../router/routerConstants";
 import { convertToDropdown } from "../../components/convertToDropdown";
@@ -10,6 +10,8 @@ import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import CardInfo from "../../components/CardInfo";
 import { ROLES } from "../../utils/rolesConstant";
 import { useNavigate } from "react-router";
+import { MESSAGE_TYPE } from "../../utils/constant";
+import { useConfirmDialog } from "../../components/confirmDialog";
 
 export const status = [
     { value: "true", label: "Khỏe" },
@@ -23,9 +25,11 @@ const WareHouseCategory = () => {
     const [isAssignDialogOpen, setIsAssignDialogOpen] = useState(false);
     const role = localStorage.getItem("role");
     const navigate = useNavigate();
+    const [formData, setFormData] = useState({ name: '', description: '' });
+    const [editingId, setEditingId] = useState(null);
 
-    const [addWareHouseCategory] = useAddWarehouseCategoryMutation();
-    const [editWareHouseCategory] = useEditWarehouseCategoryMutation();
+    const [addWareHouseCategory, { isLoading: isAdding }] = useAddWarehouseCategoryMutation();
+    const [editWareHouseCategory, { isLoading: isEditing }] = useEditWarehouseCategoryMutation();
     const [deleteWareHouseCategory] = useDeleteWarehouseCategoryMutation();
     const {
         data: listWareHouseCategory,
