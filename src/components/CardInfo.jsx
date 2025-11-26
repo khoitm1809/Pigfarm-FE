@@ -14,6 +14,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import dayjs from "dayjs";
 import { useGetListFeedSettingQuery } from "../store/warehouse/feedSettingsAction";
 import { SettingsIcon } from "lucide-react";
+import { t } from "i18next";
 
 const CardInfo = ({
     name,
@@ -68,7 +69,7 @@ const CardInfo = ({
                 </Typography>
 
                 {isOwner && <Box>
-                    {isAssign && <Tooltip title="Phân công" >
+                    {isAssign && <Tooltip title={t("card.assign")} >
                         <IconButton size="small" onClick={(e) => {
                             e.stopPropagation();
                             onActionAssign?.();
@@ -76,7 +77,7 @@ const CardInfo = ({
                             <AddIcon fontSize="small" />
                         </IconButton>
                     </Tooltip>}
-                    {isEdit && <Tooltip title="Edit">
+                    {isEdit && <Tooltip title={t("card.edit")}>
                         <IconButton size="small" onClick={(e) => {
                             e.stopPropagation();
                             onActionEdit?.();
@@ -84,7 +85,7 @@ const CardInfo = ({
                             <EditIcon fontSize="small" />
                         </IconButton>
                     </Tooltip>}
-                    {isDelete && <Tooltip title="Xóa">
+                    {isDelete && <Tooltip title={t("card.delete")}>
                         <IconButton size="small" color="error" onClick={(e) => {
                             e.stopPropagation();
                             onActionDelete?.();
@@ -93,7 +94,7 @@ const CardInfo = ({
                         </IconButton>
                     </Tooltip>}
                 </Box>}
-                {feedSetting && <Tooltip title="Cài đặt Thức ăn">
+                {feedSetting && <Tooltip title={t("card.feed")}>
                         <IconButton size="small" color="primary" onClick={(e) => {
                             e.stopPropagation(); // Ngăn chặn sự kiện click lan truyền lên Card
                         }}>
@@ -114,7 +115,7 @@ const CardInfo = ({
                         variant="caption"
                         sx={{ color: "text.secondary", mt: 1, display: "block" }}
                     >
-                        Ngày tạo: {dayjs(publishedAt).format("DD/MM/YYYY")}
+                        {t("card.createdDate")}: {dayjs(publishedAt).format("DD/MM/YYYY")}
                     </Typography>
                 )}
                 <Box

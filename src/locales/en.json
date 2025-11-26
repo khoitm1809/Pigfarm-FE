@@ -35,6 +35,24 @@
     "quantityChart": "Barn Quantity"
   },
 
+  "dialog": {
+    "add": "Create New",
+    "save": "Save",
+    "update": "Update"
+  },
+
+  "card": {
+    "assign": "Assign",
+    "edit": "Edit",
+    "delete": "Delete",
+    "feed": "Feed Ration",
+    "createdDate": "Created Date"
+  },
+
+  "detailLayout": {
+    "total": "Total"
+  },
+
   "meditionWarehouse": {
     "meditionWarehouse": "Vaccine Warehouse Management",
     "name": "Medicine Name",
@@ -99,14 +117,19 @@
     "meditionMeal": "Dosage Amount"
   },
   "accList": "Account List",
+
   "customTable": {
-    "create": "Add Product",
+    "create": "Create",
     "save": "Save",
     "list": "List Table",
     "createNew": "Create New",
     "search": "Search...",
     "filters": "Filters",
-    "edit": "Edit"
+    "edit": "Edit",
+    "accManage": "Account Management",
+    "accList": "Account Management List",
+    "action": "Action",
+    "none": "Data Unavailable."
   },
   "navigation": {
     "home": "Home",

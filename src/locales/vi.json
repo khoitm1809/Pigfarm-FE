@@ -24,6 +24,18 @@
     "update": "Cập nhật"
   },
 
+  "card": {
+    "assign": "Phân công",
+    "edit": "Sửa",
+    "delete": "Xóa",
+    "feed": "Cài đặt Thức ăn",
+    "createdDate": "Ngày tạo"
+  },
+
+  "detailLayout": {
+    "total": "Tổng"
+  },
+
   "home": {
     "title": "Thống kê chăn nuôi",
     "heading": "Tổng quan trang trại và hiệu suất chăn nuôi",
@@ -119,7 +131,11 @@
     "createNew": "Thêm mới",
     "search": "Tìm kiếm...",
     "filters": "Lọc",
-    "edit": "Sửa"
+    "edit": "Sửa",
+    "accManage": "Quản lý tài khoản",
+    "accList": "Quản lý danh sách tài khoản",
+    "action": "Thao tác",
+    "none": "Không có dữ liệu nào phù hợp."
   },
   
   "navigation": {

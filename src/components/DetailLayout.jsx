@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, CardContent } from "@mui/material";
+import { t } from "i18next";
 
 export default function DetailList({ data }) {
   return (
@@ -30,7 +31,7 @@ export default function DetailList({ data }) {
 
               <div className="flex items-start justify-end text-right">
                 <div>
-                  <p className="font-semibold text-lg">Tổng</p>
+                  <p className="font-semibold text-lg">{t("detailLayout.total")}</p>
                   <p className="text-xl font-bold text-blue-600">{item.total} Kg</p>
                 </div>
               </div>

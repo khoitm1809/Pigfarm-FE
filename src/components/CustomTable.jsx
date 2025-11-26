@@ -13,6 +13,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
 import { NumericFormat } from 'react-number-format';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { t } from "i18next";
 
 function PaperComponent(props) {
     const nodeRef = React.useRef(null);
@@ -299,7 +300,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
                 <DialogActions sx={{ width: '100%', justifyContent: "center" }}>
                     <BoxBeetwen>
                         <MainButton onClick={handleSave} sx={{backgroundColor: "black"}} variant="contained" disabled={!isFormValid}>
-                            Lưu
+                            {t("customTable.save")}
                         </MainButton>
                     </BoxBeetwen>
                 </DialogActions>
@@ -314,7 +315,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
                     fontWeight={700}
                     sx={{ mb: 1 }}
                 >
-                    Quản lý tài khoản
+                    {t("customTable.accManage")}
                 </Typography>
 
                 {/* SUBTITLE */}
@@ -322,7 +323,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
                     variant="subtitle1"
                     color="text.secondary"
                 >
-                    Quản lý danh sách tài khoản
+                    {t("customTable.accList")}
                 </Typography>
             </Box>
 
@@ -339,7 +340,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
                 {/* Search Input */}
                 <TextField
                     fullWidth
-                    placeholder="Tìm kiếm..."
+                    placeholder={t("customTable.search")}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     InputProps={{
@@ -377,7 +378,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
                         },
                     }}
                 >
-                    Lọc
+                    {t("customTable.filters")}
                 </Button>
 
                 {/* Nút Thêm */}
@@ -396,7 +397,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
                         },
                     }}
                 >
-                    Thêm mới
+                    {t("customTable.create")}
                 </Button>
             </Box>
 
@@ -431,7 +432,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
                             ))}
                             {isEdit && (
                                 <TableCell sx={{ fontWeight: 600, color: (theme) => theme.palette.text.primary, padding: '12px 16px' }}>
-                                    Thao tác
+                                    {t("customTable.action")}
                                 </TableCell>
                             )}
                         </TableRow>
@@ -539,7 +540,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
                             <TableRow>
                                 <TableCell colSpan={title?.length + (isEdit ? 1 : 0)} align="center">
                                     <Typography variant="body1" sx={{ color: 'text.secondary', py: 3 }}>
-                                        Không có dữ liệu nào phù hợp.
+                                        {t("customTable.none")}
                                     </Typography>
                                 </TableCell>
                             </TableRow>
