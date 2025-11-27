@@ -11,6 +11,7 @@ import { ROUTES } from "../../router/routerConstants";
 import { ROLES } from "../../utils/rolesConstant";
 import { MESSAGE_TYPE } from "../../utils/constant";
 import { useConfirmDialog } from "../../components/confirmDialog";
+import { t } from "i18next";
 
 const AreaPage = () => {
     const role = localStorage.getItem("role");
@@ -58,11 +59,11 @@ const AreaPage = () => {
             toggleAddDialog();
             refetch();
         } catch (error) {
-            console.error("Lỗi khi thêm khu vực:", error);
+            console.error("Error while create: ", error);
             const errorMessage = error.data?.message || error.error || "Không thể thêm khu vực. Vui lòng thử lại.";
             openDialog({
                 type: MESSAGE_TYPE.ERROR,
-                message: `Lỗi khi thêm khu vực: ${errorMessage}`,
+                message: `Error while create: ${errorMessage}`,
                 isShowCloseBtn: true,
                 isHideAction: true,
             });
@@ -94,10 +95,10 @@ const AreaPage = () => {
             handleCloseEditDialog();
             refetch();
         } catch (error) {
-            const errorMessage = error.data?.message || error.error || "Không thể sửa khu vực. Vui lòng thử lại.";
+            const errorMessage = error.data?.message || error.error || "Cannot use this area, please try again";
             openDialog({
                 type: MESSAGE_TYPE.ERROR,
-                message: `Lỗi khi sửa khu vực: ${errorMessage}`,
+                message: `You have to delete ${barnCount} that can be deleted area`,
                 isShowCloseBtn: true,
                 isHideAction: true,
             });
@@ -118,24 +119,24 @@ const AreaPage = () => {
             openDialog({
                 type: MESSAGE_TYPE.WARNING,
                 // Hiển thị số lượng chuồng cần xóa
-                message: `Bạn phải xóa ${barnCount} chuồng mới được xóa khu này`,
+                message: "Error while delete",
                 isShowCloseBtn: true,
                 isHideAction: true,
-                customSecondText: "Xác nhận"
+                customSecondText: t("area.confirm")
             });
         } else {
             try {
                 await deleteArea(areaId).unwrap();
                 refetch();
             } catch (error) {
-                console.error("Lỗi khi xóa khu vực:", error);
+                console.error("Error while delete: ", error);
 
                 // THAY THẾ console.error bằng openDialog để hiển thị lỗi cho người dùng
                 const errorMessage = error.data?.message || error.error || "Không thể xóa khu vực. Vui lòng thử lại.";
 
                 openDialog({
                     type: MESSAGE_TYPE.ERROR,
-                    message: `Lỗi khi xóa khu vực: ${errorMessage}`,
+                    message: `Error while delete: ${errorMessage}`,
                     isShowCloseBtn: true,
                     isHideAction: true,
                 });
@@ -158,13 +159,13 @@ const AreaPage = () => {
                         fontWeight={700}
                         sx={{ mb: 1 }}
                     >
-                        Quản lý khu vực
+                        {t("area.title")}
                     </Typography>
                     <Typography
                         variant="subtitle1"
                         color="text.secondary"
                     >
-                        Quản lý toàn bộ khu vực
+                        {t("area.heading")}
                     </Typography>
                 </Box>
                 
@@ -179,7 +180,7 @@ const AreaPage = () => {
                 >
                     <TextField
                         fullWidth
-                        placeholder="Tìm kiếm..."
+                        placeholder={t("customTable.search")}
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         InputProps={{
@@ -215,7 +216,7 @@ const AreaPage = () => {
                             },
                         }}
                     >
-                        Lọc
+                        {t("customTable.filters")}
                     </Button>
 
                     <Button
@@ -233,7 +234,7 @@ const AreaPage = () => {
                             },
                         }}
                     >
-                        Thêm mới
+                        {t("customTable.create")}
                     </Button>
                 </Box>
                 
@@ -258,7 +259,7 @@ const AreaPage = () => {
                                 publishedAt={area?.publishedAt}
                                 arrayCount={area?.barns?.length}
                                 isOwner={role === ROLES.OWNER}
-                                nameCount={"Số chuồng: "}
+                                nameCount={t("area.barnQuantity")}
                                 isEdit={true}
                                 isAssign={false}
                                 isDelete={true}
@@ -272,7 +273,7 @@ const AreaPage = () => {
                         </Box>
                     ))}
                     {!loadingArea && filteredArea.length === 0 && (
-                        <Typography sx={{ p: 2, color: 'text.secondary' }}>Không tìm thấy khu vực nào.</Typography>
+                        <Typography sx={{ p: 2, color: 'text.secondary' }}>{t("area.none")}</Typography>
                     )}
                 </Row>
 
@@ -295,7 +296,7 @@ const AreaPage = () => {
                             pb: 1.5,
                         }}
                     >
-                        Tạo khu mới
+                        {t("area.create")}
                     </DialogTitle>
 
                     <form onSubmit={handleSubmitAdd}>
@@ -312,7 +313,7 @@ const AreaPage = () => {
                         >
                             <TextField
                                 fullWidth
-                                placeholder="Tên khu..."
+                                placeholder={t("area.nameField")}
                                 name="name"
                                 required
                                 disabled={isSubmitting}
@@ -336,7 +337,7 @@ const AreaPage = () => {
 
                             <TextField
                                 fullWidth
-                                placeholder="Mô tả..."
+                                placeholder={t("area.descField")}
                                 name="description"
                                 required
                                 multiline
@@ -370,7 +371,7 @@ const AreaPage = () => {
                                 }}
                                 disabled={isSubmitting}
                             >
-                                Hủy
+                                {t("area.cancel")}
                             </Button>
 
                             <Button
@@ -383,7 +384,7 @@ const AreaPage = () => {
                                 }}
                                 disabled={isSubmitting}
                             >
-                                {isSubmitting ? 'Đang tạo...' : 'Tạo'}
+                                {isSubmitting ? t("area.creating") : t("area.addForm")}
                             </Button>
                         </DialogActions>
                     </form>
@@ -408,7 +409,7 @@ const AreaPage = () => {
                             pb: 1.5,
                         }}
                     >
-                        Chỉnh sửa Khu vực: {editingArea?.name}
+                        {t("area.edit")} {editingArea?.name}
                     </DialogTitle>
 
                     {editingArea && (
@@ -426,7 +427,7 @@ const AreaPage = () => {
                             >
                                 <TextField
                                     fullWidth
-                                    placeholder="Tên khu..."
+                                    placeholder={t("nameField")}
                                     name="name"
                                     required
                                     defaultValue={editingArea?.name || ''}
@@ -449,7 +450,7 @@ const AreaPage = () => {
 
                                 <TextField
                                     fullWidth
-                                    placeholder="Mô tả..."
+                                    placeholder={t("area.descField")}
                                     name="description"
                                     required
                                     multiline
@@ -482,7 +483,7 @@ const AreaPage = () => {
                                     }}
                                     disabled={isSubmitting}
                                 >
-                                    Hủy
+                                    {t("area.cancel")}
                                 </Button>
 
                                 <Button
@@ -495,7 +496,7 @@ const AreaPage = () => {
                                     }}
                                     disabled={isSubmitting}
                                 >
-                                    {isSubmitting ? 'Đang lưu...' : 'Lưu thay đổi'}
+                                    {isSubmitting ? t("area.saving") : t("area.save")}
                                 </Button>
                             </DialogActions>
                         </form>

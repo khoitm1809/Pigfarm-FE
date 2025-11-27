@@ -9,6 +9,7 @@ import EditDataDialog from "../../components/EditDataDialog";
 import { useSelector } from "react-redux";
 import { useGetCurrentUserQuery, useGetListUserQuery } from "../../store/auth/authAction";
 import { useGetListBarnQuery } from "../../store/area/areaAction";
+import { t } from "i18next";
 
 const DetailBarnPage = () => {
     const UID = localStorage.getItem("UID");
@@ -51,25 +52,25 @@ const DetailBarnPage = () => {
     }, { refetchOnMountOrArgChange: true })
     // Config Table
     const title = [
-        { key: "pigCode", label: "Mã heo" },
-        { key: "healthStatus", label: "Sức khỏe" },
-        { key: "weight", label: "Cân nặng", },
-        { key: "barn.name", label: "Chuồng" },
-        { key: "pig_growth_records.weight", label: "Tăng trưởng" },
-        { key: "price", label: "Giá" }
+        { key: "pigCode", label: t("detailBarn.id") },
+        { key: "healthStatus", label: t("detailBarn.health") },
+        { key: "weight", label: t("detailBarn.weight") },
+        { key: "barn.name", label: t("detailBarn.barn") },
+        { key: "pig_growth_records.weight", label: t("detailBarn.growth") },
+        { key: "price", label: t("detailBarn.price") }
 
     ];
 
     const dialogTitle = [
-        { key: "pigCode", label: "Mã heo" },
-        { key: "weight", label: "Cân nặng", isNumber: true },
-        { key: "age", label: "Tuổi", isNumber: true },
-        { key: "healthStatus", label: "Sức khỏe" },
-        { key: "note", label: "Ghi chú" },
+        { key: "pigCode", label: t("detailBarn.id") },
+        { key: "weight", label: t("detailBarn.weight"), isNumber: true },
+        { key: "age", label: t("detailBarn.age"), isNumber: true },
+        { key: "healthStatus", label: t("detailBarn.health") },
+        { key: "note", label: t("detailBarn.note") },
 
         {
             key: "barn",
-            label: "Chuồng",
+            label: t("detailBarn.barn"),
             defaultValue: barnId, // Set giá trị mặc định là barnId
             isDisable: true, // Khóa chỉnh sửa
             mappingKey: "barn.id"
@@ -77,7 +78,7 @@ const DetailBarnPage = () => {
 
         {
             key: "pig_type",
-            label: "Loại heo",
+            label: t("detailBarn.type"),
             isDropDown: true,
             list: convertToDropdown(listPigType?.data),
             mappingKey: "pig_type.id"
@@ -85,7 +86,7 @@ const DetailBarnPage = () => {
 
         {
             key: "users_permissions_user",
-            label: "Người phụ trách",
+            label: t("detailBarn.worker"),
             isDisable: true,
             defaultValue: user?.id,
             mappingKey: "users_permissions_user.id"

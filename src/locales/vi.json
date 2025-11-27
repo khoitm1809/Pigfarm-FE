@@ -97,8 +97,9 @@
     "date": "Ngày tạo"
   },
 
-  "herdBreedManagement": {
-    "herdBreedManagement": "Quản lý khu và chuồng nuôi",
+  "area": {
+    "title": "Quản lý khu vực",
+    "heading": "Quản lý toàn bộ khu vực",
     "areaName": "Tên khu",
     "acreage": "Diện tích",
     "stableQuantity": "Số chuồng",
@@ -107,8 +108,56 @@
     "barnList": "Danh sách kho",
     "stableName": "Tên chuồng",
     "capacity": "Sức chứa",
-    "fromArea": "Thuộc khu"
+    "fromArea": "Thuộc khu",
+    "confirm": "Xác nhận",
+    "barnQuantity": "Số chuồng: ",
+    "none": "Không tìm thấy khu vực nào.",
+    "create": "Tạo khu mới",
+    "nameField": "Tên khu...",
+    "descField": "Mô tả...",
+    "cancel": "Hủy",
+    "creating": "Đang tạo...",
+    "addForm": "Tạo",
+    "edit": "Chỉnh sửa Khu vực:",
+    "saving": "Đang lưu...",
+    "save": "Lưu thay đổi"
   },
+
+  "barn": {
+    "errorAssign": "Lỗi khi phân công nhân viên",
+    "title": "Quản lý Chuồng",
+    "heading": "Quản lý toàn bộ chuồng trong khu vực",
+    "loading": "Đang tải danh sách chuồng...",
+    "none": "Không tìm thấy chuồng nào.",
+    "pigCount": "Số lợn: ",
+    "create": "Tạo Chuồng mới",
+    "nameField": "Tên chuồng...",
+    "descField": "Mô tả...",
+    "cancel": "Hủy",
+    "creating": "Đang tạo...",
+    "addForm": "Tạo",
+    "edit": "Chỉnh sửa Chuồng:",
+    "saving": "Đang lưu...",
+    "save": "Lưu thay đổi",
+    "assign": "Phân công nhân viên",
+    "choose": "Chọn nhân viên phụ trách chuồng",
+    "notAssign": "Không phân công (Chủ trang trại phụ trách)",
+    "saveAssign": "Lưu phân công"
+  },
+
+  "detailBarn": {
+    "id": "Mã heo",
+    "health": "Sức khỏe",
+    "barn": "Chuồng",
+    "weight": "Cân nặng (kg)",
+    "growth": "Tăng trưởng trung bình",
+    "price": "Giá",
+    "age": "Tuổi",
+    "note": "Ghi chú",
+    "type": "Loại heo",
+    "worker": "Nhân công phụ trách"
+  },
+
   "foodRation": {
     "foodRation": "Thiết lập chuỗi thức ăn",
     "trialDiet": "Chế độ ăn thử",
@@ -125,10 +174,9 @@
   "accList": "Danh sách tài khoản",
 
   "customTable": {
-    "create": "Thêm hàng hóa",
     "save": "Lưu",
     "list": "Bảng danh sách",
-    "createNew": "Thêm mới",
+    "create": "Thêm mới",
     "search": "Tìm kiếm...",
     "filters": "Lọc",
     "edit": "Sửa",

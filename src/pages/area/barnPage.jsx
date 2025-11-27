@@ -12,6 +12,7 @@ import { ROLES } from "../../utils/rolesConstant";
 import { useGetListUserQuery } from "../../store/auth/authAction";
 import { useConfirmDialog } from "../../components/confirmDialog";
 import { MESSAGE_TYPE } from "../../utils/constant";
+import { t } from "i18next";
 
 const BarnPage = () => {
     const location = useLocation();
@@ -133,7 +134,7 @@ const BarnPage = () => {
             toggleAddDialog();
             await refetch();
         } catch (error) {
-            console.error("Lỗi khi thêm chuồng:", error);
+            console.error("Error while add barn", error);
         }
     };
 
@@ -156,7 +157,7 @@ const BarnPage = () => {
             handleCloseEditDialog();
             await refetch();
         } catch (error) {
-            console.error("Lỗi khi sửa chuồng:", error);
+            console.error("Error while edit barn", error);
         }
     };
 
@@ -168,10 +169,10 @@ const BarnPage = () => {
         if (barnToDelete.pigs?.length > 0) {
             openDialog({
                 type: MESSAGE_TYPE.WARNING,
-                message: `Chuồng còn ${barnToDelete.pigs.length} con lợn. Bạn phải xóa hết lợn khỏi chuồng trước khi xóa chuồng này.`,
+                message: `You have to delete ${barnToDelete.pigs.length} pigs that can be deleted barn.`,
                 isShowCloseBtn: true,
                 isHideAction: true,
-                customSecondText: "Đã hiểu"
+                customSecondText: "Understood"
             });
             return;
         }
@@ -182,19 +183,19 @@ const BarnPage = () => {
                 await deleteBarn(barnToDelete.documentId).unwrap();
                 await refetch();
                 // Tùy chọn: Hiển thị thông báo thành công
-                console.log("Chuồng đã được xóa thành công.");
+                console.log("Delete barn success.");
             } catch (error) {
-                console.error("Lỗi khi xóa chuồng:", error);
+                console.error("Error while delete barn: ", error);
                 // Tùy chọn: Hiển thị thông báo lỗi
             }
         };
 
         openDialog({
             type: MESSAGE_TYPE.CONFIRM, // Giả định có loại CONFIRM
-            message: `Bạn có chắc chắn muốn xóa chuồng **${barnToDelete.name}**? Hành động này không thể hoàn tác.`,
+            message: `Are you sure to delete **${barnToDelete.name}**? This action won't be undo.`,
             isShowCloseBtn: true,
             isHideAction: false, // Để nút xác nhận được hiển thị
-            customSecondText: "Xóa", // Tên nút xác nhận
+            customSecondText: "Delete", // Tên nút xác nhận
             // Sử dụng onConfirm để gọi hàm xóa khi người dùng xác nhận
             onConfirm: confirmDelete,
         });
@@ -217,7 +218,7 @@ const BarnPage = () => {
         } catch (error) {
             openDialog({
                 type: MESSAGE_TYPE.ERROR,
-                message: `Lỗi khi phân công nhân viên`,
+                message: t("barn.errorAssign"),
                 isShowCloseBtn: true,
                 isHideAction: true,
             });
@@ -239,14 +240,14 @@ const BarnPage = () => {
                         fontWeight={700}
                         sx={{ mb: 1 }}
                     >
-                        Quản lý Chuồng
+                        {t("barn.title")}
                     </Typography>
 
                     <Typography
                         variant="subtitle1"
                         color="text.secondary"
                     >
-                        Quản lý toàn bộ chuồng trong khu vực {areaId}
+                        {t("barn.heading")} {areaId}
                     </Typography>
                 </Box>
 
@@ -261,7 +262,7 @@ const BarnPage = () => {
                 >
                     <TextField
                         fullWidth
-                        placeholder="Tìm kiếm..."
+                        placeholder={t("customTable.search")}
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         InputProps={{
@@ -297,7 +298,7 @@ const BarnPage = () => {
                             },
                         }}
                     >
-                        Lọc
+                        {t("customTable.filters")}
                     </Button>
 
                     {role === ROLES.OWNER && <Button
@@ -315,7 +316,7 @@ const BarnPage = () => {
                             },
                         }}
                     >
-                        Thêm mới
+                        {t("customTable.create")}
                     </Button>}
                 </Box>
 
@@ -326,9 +327,9 @@ const BarnPage = () => {
                     gap: '2rem',
                 }}>
                     {loadingBarn ? (
-                        <Typography sx={{ p: 2, color: 'text.secondary' }}>Đang tải danh sách chuồng...</Typography>
+                        <Typography sx={{ p: 2, color: 'text.secondary' }}>{t("barn.loading")}</Typography>
                     ) : filteredBarns.length === 0 ? (
-                        <Typography sx={{ p: 2, color: 'text.secondary' }}>Không tìm thấy chuồng nào.</Typography>
+                        <Typography sx={{ p: 2, color: 'text.secondary' }}>{t("barn.none")}</Typography>
                     ) : (
                         filteredBarns.map((barn, index) => (
                             <Box key={barn?.id || index}
@@ -349,7 +350,7 @@ const BarnPage = () => {
                                     name={barn?.name}
                                     description={barn?.description}
                                     publishedAt={barn?.publishedAt}
-                                    nameCount={"Số lợn: "}
+                                    nameCount={t("barn.pigCount")}
                                     arrayCount={barn?.pigs?.length}
                                     isOwner={role === ROLES.OWNER}
                                     isAssign={true}
@@ -381,7 +382,7 @@ const BarnPage = () => {
                     <DialogTitle
                         sx={{ fontSize: "1.25rem", fontWeight: 700, pb: 1.5 }}
                     >
-                        Tạo Chuồng mới
+                        {t("barn.create")}
                     </DialogTitle>
 
                     <form onSubmit={handleAddBarnSubmit}>
@@ -391,7 +392,7 @@ const BarnPage = () => {
                         >
                             <TextField
                                 fullWidth
-                                placeholder="Tên chuồng..."
+                                placeholder={t("barn.nameField")}
                                 name="name"
                                 onChange={handleInputChange}
                                 value={newBarnData.name}
@@ -406,7 +407,7 @@ const BarnPage = () => {
 
                             <TextField
                                 fullWidth
-                                placeholder="Mô tả..."
+                                placeholder={t("barn.descField")}
                                 name="description"
                                 onChange={handleInputChange}
                                 value={newBarnData.description}
@@ -427,7 +428,7 @@ const BarnPage = () => {
                                 disabled={isAddingBarn}
                                 sx={{ textTransform: "none", color: "#444", borderRadius: "8px", px: 2, "&:hover": { backgroundColor: "#eee" } }}
                             >
-                                Hủy
+                                {t("barn.cancel")}
                             </Button>
 
                             <Button
@@ -436,7 +437,7 @@ const BarnPage = () => {
                                 disabled={isAddingBarn}
                                 sx={{ textTransform: "none", borderRadius: "8px", px: 3 }}
                             >
-                                {isAddingBarn ? 'Đang tạo...' : 'Tạo'}
+                                {isAddingBarn ? t("barn.creating") : t("barn.addForm")}
                             </Button>
                         </DialogActions>
                     </form>
@@ -454,7 +455,7 @@ const BarnPage = () => {
                     <DialogTitle
                         sx={{ fontSize: "1.25rem", fontWeight: 700, pb: 1.5 }}
                     >
-                        Chỉnh sửa Chuồng: {editingBarn?.name}
+                        {t("barn.edit")} {editingBarn?.name}
                     </DialogTitle>
 
                     {editingBarn && (
@@ -465,7 +466,7 @@ const BarnPage = () => {
                             >
                                 <TextField
                                     fullWidth
-                                    placeholder="Tên chuồng..."
+                                    placeholder={t("barn.nameField")}
                                     name="name"
                                     required
                                     defaultValue={editingBarn.name || ''}
@@ -480,7 +481,7 @@ const BarnPage = () => {
 
                                 <TextField
                                     fullWidth
-                                    placeholder="Mô tả..."
+                                    placeholder={t("barn.descField")}
                                     name="description"
                                     required
                                     multiline
@@ -501,7 +502,7 @@ const BarnPage = () => {
                                     disabled={isEditingBarn}
                                     sx={{ textTransform: "none", color: "#444", borderRadius: "8px", px: 2, "&:hover": { backgroundColor: "#eee" } }}
                                 >
-                                    Hủy
+                                    {t("barn.cancel")}
                                 </Button>
 
                                 <Button
@@ -510,7 +511,7 @@ const BarnPage = () => {
                                     disabled={isEditingBarn}
                                     sx={{ textTransform: "none", borderRadius: "8px", px: 3 }}
                                 >
-                                    {isEditingBarn ? 'Đang lưu...' : 'Lưu thay đổi'}
+                                    {isEditingBarn ? t("barn.saving") : t("barn.save")}
                                 </Button>
                             </DialogActions>
                         </form>
@@ -528,11 +529,11 @@ const BarnPage = () => {
                     fullWidth
                     maxWidth="sm"
                 >
-                    <DialogTitle>Phân công nhân viên</DialogTitle>
+                    <DialogTitle>{t("barn.assign")}</DialogTitle>
 
                     <DialogContent dividers>
                         <DialogContentText sx={{ mb: 2 }}>
-                            Chọn nhân viên phụ trách chuồng **{listBarn?.data?.find(barn => barn.documentId === selectedBarnId)?.name}**:
+                            {t("barn.choose")} **{listBarn?.data?.find(barn => barn.documentId === selectedBarnId)?.name}**:
                         </DialogContentText>
 
                         <Box sx={{
@@ -554,7 +555,7 @@ const BarnPage = () => {
                                     }}
                                 >
                                     <MenuItem value="">
-                                        <span style={{ color: "#888" }}>Không phân công (Chủ trang trại phụ trách)</span>
+                                        <span style={{ color: "#888" }}>{t("barn.notAssign")}</span>
                                     </MenuItem>
                                     {listWorker?.map((worker) => (
                                         <MenuItem key={worker.id} value={worker.id}>
@@ -572,7 +573,7 @@ const BarnPage = () => {
                             onClick={handleCloseAssignDialog}
                             disabled={isEditingBarn}
                         >
-                            Hủy
+                            {t("customTable.cancel")}
                         </Button>
 
                         <Button
@@ -581,7 +582,7 @@ const BarnPage = () => {
                             onClick={handleAssignEmployees}
                             disabled={isEditingBarn}
                         >
-                            {isEditingBarn ? 'Đang lưu...' : 'Lưu phân công'}
+                            {isEditingBarn ? t("barn.saving") : t("barn.saveAssign")}
                         </Button>
                     </DialogActions>
                 </Dialog>

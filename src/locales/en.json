@@ -36,7 +36,7 @@
   },
 
   "dialog": {
-    "add": "Create New",
+    "add": "Create",
     "save": "Save",
     "update": "Update"
   },
@@ -92,18 +92,68 @@
     "paymentStatus": "Payment Status",
     "date": "Created Date"
   },
-  "herdBreedManagement": {
-    "herdBreedManagement": "Area and Barn Management",
+
+  "area": {
+    "title": "Area Management",
+    "heading": "Manage all area",
     "areaName": "Area Name",
-    "acreage": "Acreage",
-    "stableQuantity": "Number of Barns",
-    "status": "Status",
-    "startDate": "Start Date",
-    "barnList": "Barn List",
-    "stableName": "Barn Name",
-    "capacity": "Capacity",
-    "fromArea": "From Area"
+    "acreage": "Diện tích",
+    "stableQuantity": "Số chuồng",
+    "status": "Trạng thái",
+    "startDate": "Ngày bắt đầu",
+    "barnList": "Danh sách kho",
+    "stableName": "Tên chuồng",
+    "capacity": "Sức chứa",
+    "fromArea": "Thuộc khu",
+    "confirm": "Confirm",
+    "barnQuantity": "Barn quantity: ",
+    "none": "Area unavailable.",
+    "create": "Create New Area",
+    "nameField": "Area name...",
+    "descField": "Description...",
+    "cancel": "Cancel",
+    "creating": "Creating...",
+    "addForm": "Create",
+    "edit": "Edit area:",
+    "saving": "Saving...",
+    "save": "Save change"
   },
+
+  "barn": {
+    "errorAssign": "Error while assign to worker",
+    "title": "Barn Management",
+    "heading": "Manage all barn in",
+    "loading": "Loading barn list...",
+    "none": "Barn unavailable.",
+    "pigCount": "Pig Quantity: ",
+    "create": "Create New Barn",
+    "nameField": "Barn name...",
+    "descField": "Description...",
+    "cancel": "Cancel",
+    "creating": "Creating...",
+    "addForm": "Create",
+    "edit": "Edit barn:",
+    "saving": "Saving...",
+    "save": "Save change",
+    "assign": "Assign to worker",
+    "choose": "Select worker to assign",
+    "notAssign": "Cannot assign owner",
+    "saveAssign": "Confirm"
+  },
+
+  "detailBarn": {
+    "id": "Pig ID",
+    "barn": "Barn",
+    "health": "Health Status",
+    "weight": "Weight (kg)",
+    "growth": "Growth Average",
+    "price": "Price",
+    "age": "Age",
+    "note": "Note",
+    "type": "Pig Type",
+    "worker": "Worker"
+  },
+
   "foodRation": {
     "foodRation": "Feed Chain Setup",
     "trialDiet": "Trial Diet",
@@ -119,10 +169,9 @@
   "accList": "Account List",
 
   "customTable": {
-    "create": "Create",
     "save": "Save",
     "list": "List Table",
-    "createNew": "Create New",
+    "create": "Create",
     "search": "Search...",
     "filters": "Filters",
     "edit": "Edit",
