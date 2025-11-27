@@ -35,6 +35,31 @@
     "quantityChart": "Barn Quantity"
   },
 
+  "profile": {
+    "title": "Profile",
+    "heading": "View the profile",
+    "role": "Owner",
+    "avatar": "Change Avatar",
+    "info": "Personal Information",
+    "phone": "Phone Number",
+    "address": "Address",
+    "description": "Description",
+    "submit": "Save Change",
+    "cancel": "Cancel",
+    "activity": "Activity",
+    "assigned": "Assigned Tasks",
+    "assigning": "Assigning Tasks",
+    "rate": "Work Rate",
+    "time": "Work hours"
+  },
+
+  "user": {
+    "name": "User name",
+    "date": "Created Date",
+    "passWord": "Password",
+    "role": "Role"
+  },
+
   "dialog": {
     "add": "Create",
     "save": "Save",
@@ -74,18 +99,12 @@
     "calories": "Calories",
     "importDate": "Import Date"
   },
-  "setting_page": "Setting Page",
-  "offSpring": {
-    "offSpring": "Breeding and Pig Herd Management",
-    "pig": "Pig Type",
-    "origin": "Origin",
-    "importDate": "Date of Import",
-    "type": "Type",
-    "gender": "Gender",
-    "importWeight": "Weight at Import",
-    "health": "Health",
-    "vaccination": "Vaccination"
+
+  "pigType": {
+    "name": "Pig Type",
+    "description": "Description"
   },
+
   "invoice": {
     "invoice": "Purchase Invoice Management",
     "discount": "Discount",

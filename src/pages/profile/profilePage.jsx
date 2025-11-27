@@ -10,6 +10,7 @@ import {
     Typography,
 } from "@mui/material";
 import { Mail, Phone, MapPin, Calendar } from "lucide-react";
+import { t } from "i18next";
 
 export function ProfilePage() {
     return (
@@ -17,10 +18,10 @@ export function ProfilePage() {
             {/* Title */}
             <Box mb={4}>
                 <Typography variant="h4" mb={1}>
-                    Trang cá nhân
+                    {t("profile.title")}
                 </Typography>
                 <Typography color="text.secondary">
-                    Quản lý thông tin cá nhân của bạn
+                    {t("profile.heading")}
                 </Typography>
             </Box>
 
@@ -37,12 +38,12 @@ export function ProfilePage() {
                                 <Box textAlign="center" mt={2}>
                                     <Typography variant="h5">Nguyễn Văn A</Typography>
                                     <Typography color="text.secondary">
-                                        Quản trị viên
+                                        {t("profile.role")}
                                     </Typography>
                                 </Box>
 
                                 <Button fullWidth sx={{ mt: 2 }} variant="contained">
-                                    Thay đổi ảnh
+                                    {t("profile.avatar")}
                                 </Button>
                             </Box>
 
@@ -82,7 +83,7 @@ export function ProfilePage() {
                 <Grid item xs={12} lg={8} sx={{ marginY: '2rem' }}>
                     <Card>
                         <CardHeader
-                            title={<Typography variant="h6">Thông tin cá nhân</Typography>}
+                            title={<Typography variant="h6">{t("profile.info")}</Typography>}
                         />
                         <CardContent>
                             <Box component="form" display="flex" flexDirection="column" gap={2}>
@@ -108,19 +109,19 @@ export function ProfilePage() {
 
                                 <TextField
                                     fullWidth
-                                    label="Số điện thoại"
+                                    label={t("profile.phone")}
                                     defaultValue="+84 123 456 789"
                                 />
 
                                 <TextField
                                     fullWidth
-                                    label="Địa chỉ"
+                                    label={t("profile.address")}
                                     defaultValue="Hà Nội, Việt Nam"
                                 />
 
                                 <TextField
                                     fullWidth
-                                    label="Giới thiệu"
+                                    label={t("profile.description")}
                                     multiline
                                     rows={4}
                                     defaultValue="Tôi là một quản trị viên hệ thống với nhiều năm kinh nghiệm trong lĩnh vực công nghệ thông tin."
@@ -128,10 +129,10 @@ export function ProfilePage() {
 
                                 <Box display="flex" gap={2} pt={2}>
                                     <Button variant="contained" type="submit">
-                                        Lưu thay đổi
+                                        {t("profile.submit")}
                                     </Button>
                                     <Button variant="outlined" type="button">
-                                        Hủy
+                                        {t("profile.cancel")}
                                     </Button>
                                 </Box>
                             </Box>
@@ -143,7 +144,7 @@ export function ProfilePage() {
                 <Grid item xs={12} sx={{ marginY: '2rem' }}>
                     <Card>
                         <CardHeader
-                            title={<Typography variant="h6">Thống kê hoạt động</Typography>}
+                            title={<Typography variant="h6">{t("profile.activity")}</Typography>}
                         />
                         <CardContent>
                             <Grid container spacing={2}>
@@ -154,7 +155,7 @@ export function ProfilePage() {
                                         sx={{ backgroundColor: "#e3f2fd" }}
                                     >
                                         <Typography color="text.secondary">
-                                            Dự án hoàn thành
+                                            {t("profile.assigned")}
                                         </Typography>
                                         <Typography variant="h4">24</Typography>
                                     </Box>
@@ -167,7 +168,7 @@ export function ProfilePage() {
                                         sx={{ backgroundColor: "#e8f5e9" }}
                                     >
                                         <Typography color="text.secondary">
-                                            Nhiệm vụ đang thực hiện
+                                            {t("profile.assigning")}
                                         </Typography>
                                         <Typography variant="h4">8</Typography>
                                     </Box>
@@ -180,7 +181,7 @@ export function ProfilePage() {
                                         sx={{ backgroundColor: "#fff9c4" }}
                                     >
                                         <Typography color="text.secondary">
-                                            Đánh giá trung bình
+                                            {t("profile.rate")}
                                         </Typography>
                                         <Typography variant="h4">4.8</Typography>
                                     </Box>
@@ -192,7 +193,7 @@ export function ProfilePage() {
                                         borderRadius={2}
                                         sx={{ backgroundColor: "#f3e5f5" }}
                                     >
-                                        <Typography color="text.secondary">Giờ làm việc</Typography>
+                                        <Typography color="text.secondary">{t("profile.time")}</Typography>
                                         <Typography variant="h4">1,240</Typography>
                                     </Box>
                                 </Grid>

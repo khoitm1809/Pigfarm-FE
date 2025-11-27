@@ -53,6 +53,31 @@
     "quantityChart": "Số lượng chuồng"
   },
 
+  "profile": {
+    "title": "Trang cá nhân",
+    "heading": "Quản lý thông tin cá nhân",
+    "role": "Chủ trang trại",
+    "avatar": "Thay đổi ảnh",
+    "info": "Thông tin cá nhân",
+    "phone": "Số điện thoại",
+    "address": "Địa chỉ",
+    "description": "Giới thiệu",
+    "submit": "Lưu thay đổi",
+    "cancel": "Hủy",
+    "activity": "Thống kê hoạt động",
+    "assigned": "Hoàn thành giao việc",
+    "assigning": "Đang giao việc",
+    "rate": "Đánh giá trung bình",
+    "time": "Giờ làm việc"
+  },
+
+  "user": {
+    "name": "Tên người dùng",
+    "date": "Ngày tạo",
+    "passWord": "Mật khẩu",
+    "role": "Vai trò"
+  },
+
   "meditionWarehouse": {
     "meditionWarehouse": "Quản lý kho thuốc",
     "name": "Tên thuốc",
@@ -76,18 +101,9 @@
     "importDate": "Ngày nhập"
   },
 
-  "setting_page": "Setting page",
-
-  "offSpring": {
-    "offSpring": "Quản lý giống và đàn lợn",
-    "pig": "Loại heo",
-    "origin": "Xuất xứ",
-    "importDate": "Ngày nhập vào",
-    "type": "Loại",
-    "gender": "Giới tính",
-    "importWeight": "Cân nặng lúc nhập",
-    "health": "Sức khỏe",
-    "vaccination": "Tiêm chủng"
+  "pigType": {
+    "name": "Tên loại lợn",
+    "description": "Mô tả"
   },
 
   "invoice": {
@@ -156,6 +172,10 @@
     "note": "Ghi chú",
     "type": "Loại heo",
     "worker": "Nhân công phụ trách"
+  },
+
+  "pigGrowth": {
+
   },
 
   "foodRation": {

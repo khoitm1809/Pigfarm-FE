@@ -4,6 +4,7 @@ import CustomTable from "../../components/CustomTable";
 import { useDeleteUserMutation, useEditUserMutation, useGetListRoleQuery, useGetListUserQuery, useUserRegisterMutation } from "../../store/auth/authAction";
 import { useSelector } from "react-redux";
 import { convertToDropdown } from "../../components/convertToDropdown";
+import { t } from "i18next";
 
 const ListUserPage = () => {
     const [registerUser] = useUserRegisterMutation();
@@ -16,16 +17,16 @@ const ListUserPage = () => {
     } = useGetListRoleQuery({}, { refetchOnMountOrArgChange: true })
 
     const title = [
-        { key: "username", label: "Tên người dùng" },
+        { key: "username", label: t("user.name") },
         { key: "email", label: "Email" },
-        { key: "createdAt", label: "Ngày tạo" },
-        { key: "password", label: "Mật khẩu" },
+        { key: "createdAt", label: t("user.date") },
+        { key: "password", label: t("user.passWord") },
     ];
     const titleDialog = [
-        { key: "username", label: "Tên người dùng" },
+        { key: "username", label: t("user.name") },
         { key: "email", label: "Email" },
-        { key: "password", label: "Mật khẩu", isHiddenInEdit: true }, // Nên ẩn mật khẩu khi Edit
-        { key: "role", label: "Role", isDropDown: true, list: convertToDropdown(listRole?.roles), mappingKey: "role.id" },
+        { key: "password", label: t("user.passWord"), isHiddenInEdit: true }, // Nên ẩn mật khẩu khi Edit
+        { key: "role", label: t("user.role"), isDropDown: true, list: convertToDropdown(listRole?.roles), mappingKey: "role.id" },
     ];
     const {
         data: listUser,

@@ -272,7 +272,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
             >
                 <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
                     <BoxBeetwen>
-                        <Typography style={{ fontWeight: "bold" }}>Thêm mới</Typography>
+                        <Typography style={{ fontWeight: "bold" }}>{t("customTable.create")}</Typography>
                         <CloseButton onClick={handleClose}>
                             <CloseIcon />
                         </CloseButton>

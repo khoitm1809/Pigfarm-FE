@@ -4,6 +4,7 @@ import CustomTable from "../../components/CustomTable";
 import { useAddTypePigMutation, useDeleteTypePigMutation, useEditTypePigMutation, useGetListTypePigQuery } from "../../store/typePig/typePigAction";
 import AddDataDialog from "../../components/AddDataDialog";
 import EditDataDialog from "../../components/EditDataDialog";
+import { t } from "i18next";
 
 export function PigTypesPage() {
     const [addPigType] = useAddTypePigMutation();
@@ -18,13 +19,13 @@ export function PigTypesPage() {
     } = useGetListTypePigQuery({}, { refetchOnMountOrArgChange: true })
 
     const title = [
-        { key: "name", label: "Tên loại lợn" },
-        { key: "description", label: "Mô tả" },
+        { key: "name", label: t("pigType.name") },
+        { key: "description", label: t("pigType.description") },
     ];
 
     const titleDialog = [
-        { key: "name", label: "Tên Loại lợn" },
-        { key: "description", label: "Mô tả" },
+        { key: "name", label: t("pigType.name") },
+        { key: "description", label: t("pigType.description") },
     ];
 
     return (
