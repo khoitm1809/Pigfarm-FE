@@ -78,26 +78,28 @@
     "total": "Total"
   },
 
-  "meditionWarehouse": {
-    "meditionWarehouse": "Vaccine Warehouse Management",
-    "name": "Medicine Name",
-    "brand": "Brand",
-    "type": "Type",
-    "instruction": "Usage Instructions",
+  "warehouseCate": {
+    "title": "Warehouse Management",
+    "heading": "Manage food and medicine",
+    "quantity": "Quantity",
+    "dialog": "Add more goods",
+    "category": "Category name...",
+    "description": "Description",
+    "cancel": "Cancel",
+    "saving": "Saving...",
+    "save": "Save change",
+    "creating": "Creating...",
+    "addForm": "Create"
+  },
+
+  "warehouseItem": {
+    "name": "Item name",
     "quantity": "Quantity",
     "unit": "Unit",
-    "capacity": "Volume",
-    "importPrice": "Import Price",
-    "productDate": "Manufacture Date",
-    "expiryDate": "Expiration Date"
-  },
-  "foodWarehouse": {
-    "foodWarehouse": "Food Warehouse Management",
-    "name": "Product Name",
-    "weight": "Weight (kg)",
-    "protein": "Protein Content",
-    "calories": "Calories",
-    "importDate": "Import Date"
+    "category": "Category",
+    "user": "Importer",
+    "date": "Import Date",
+    "worker": "Assigned Worker"
   },
 
   "pigType": {
@@ -157,7 +159,8 @@
     "assign": "Assign to worker",
     "choose": "Select worker to assign",
     "notAssign": "Cannot assign owner",
-    "saveAssign": "Confirm"
+    "saveAssign": "Confirm",
+    "createBy": "Assigned worker"
   },
 
   "detailBarn": {

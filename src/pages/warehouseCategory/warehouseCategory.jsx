@@ -12,6 +12,7 @@ import { ROLES } from "../../utils/rolesConstant";
 import { useNavigate } from "react-router";
 import { MESSAGE_TYPE } from "../../utils/constant";
 import { useConfirmDialog } from "../../components/confirmDialog";
+import { t } from "i18next";
 
 export const status = [
     { value: "true", label: "Khỏe" },
@@ -55,8 +56,45 @@ const WareHouseCategory = () => {
             name: item.name,
             description: item.description
         });
-        setEditingId(item.id); // Chế độ Edit (Lưu ID)
+        setEditingId(item.documentId); // Chế độ Edit (Lưu ID)
         setOpenAddDialog(true);
+    };
+
+    const handleDelete = async (category) => {
+        const itemArray = category?.warehouse_items || [];
+        const itemCount = itemArray.length;
+
+        if (itemCount > 0) {
+            // Hiển thị cảnh báo nếu danh mục đang chứa mặt hàng
+            openDialog({
+                type: MESSAGE_TYPE.WARNING,
+                message: `Danh mục này đang chứa ${itemCount} mặt hàng. Bạn phải xóa hết các mặt hàng liên quan trước khi xóa danh mục.`,
+                isShowCloseBtn: true,
+                isHideAction: true,
+            });
+            return; // Ngăn chặn việc xóa
+        }
+
+        // Mở dialog xác nhận xóa
+        openDialog({
+            type: MESSAGE_TYPE.CONFIRM,
+            message: `Bạn có chắc chắn muốn xóa danh mục ?`,
+            actionConfirm: async () => {
+                try {
+                    // category.id là ID để API biết xóa cái nào
+                    await deleteWareHouseCategory(category?.documentId).unwrap();
+                    refetch();
+                } catch (error) {
+                    console.error("Lỗi khi xóa danh mục");
+                    openDialog({
+                        type: MESSAGE_TYPE.ERROR,
+                        message: `Lỗi khi xóa danh mục`,
+                        isShowCloseBtn: true,
+                        isHideAction: true,
+                    });
+                }
+            },
+        });
     };
 
     const toggleAddDialog = () => setOpenAddDialog(prev => !prev);
@@ -87,7 +125,7 @@ const WareHouseCategory = () => {
             setEditingId(null);
 
         } catch (error) {
-            console.error("Lỗi khi lưu:", error);
+            console.error("Error while save");
         }
     };
 
@@ -100,7 +138,7 @@ const WareHouseCategory = () => {
                         fontWeight={700}
                         sx={{ mb: 1 }}
                     >
-                        Quản lý Chuồng
+                        {t("warehouseCate.title")}
                     </Typography>
 
                     {/* SUBTITLE */}
@@ -108,7 +146,7 @@ const WareHouseCategory = () => {
                         variant="subtitle1"
                         color="text.secondary"
                     >
-                        Quản lý toàn bộ khu vực
+                        {t("warehouseCate.heading")}
                     </Typography>
                 </Box>
 
@@ -126,7 +164,7 @@ const WareHouseCategory = () => {
                     {/* Search Input */}
                     <TextField
                         fullWidth
-                        placeholder="Tìm kiếm..."
+                        placeholder={t("customTable.search")}
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         InputProps={{
@@ -164,7 +202,7 @@ const WareHouseCategory = () => {
                             },
                         }}
                     >
-                        Lọc
+                        {t("customTable.filters")}
                     </Button>
 
                     {/* Nút Thêm */}
@@ -183,7 +221,7 @@ const WareHouseCategory = () => {
                             },
                         }}
                     >
-                        Thêm mới
+                        {t("customTable.create")}
                     </Button>}
                 </Box>
 
@@ -206,7 +244,7 @@ const WareHouseCategory = () => {
                                 name={category?.name}
                                 description={category?.description}
                                 publishedAt={category?.publishedAt}
-                                nameCount={"Số lợn: "}
+                                nameCount={t("warehouseCate.quantity")}
                                 arrayCount={category?.warehouse_items?.length}
                                 isOwner={role == ROLES.OWNER}
                                 isEdit={true}
@@ -239,14 +277,14 @@ const WareHouseCategory = () => {
                             pb: 1.5,
                         }}
                     >
-                        Tạo khu mới
+                        {t("warehouseCate.dialog")}
                     </DialogTitle>
 
                     <form onSubmit={handleSubmit}>
                         <DialogContent dividers sx={{ border: "none", pt: 2, pb: 1, "& .MuiDialogContent-root": { border: "none" } }}>
                             <TextField
                                 fullWidth
-                                placeholder="Tên danh mục..."
+                                placeholder={t("warehouseCate.category")}
                                 name="name"
                                 value={formData.name}       // Binding value
                                 onChange={handleInputChange} // Binding onChange
@@ -256,7 +294,7 @@ const WareHouseCategory = () => {
 
                             <TextField
                                 fullWidth
-                                placeholder="Mô tả..."
+                                placeholder={t("warehouseCate.description")}
                                 name="description"
                                 value={formData.description} // Binding value
                                 onChange={handleInputChange} // Binding onChange
@@ -269,7 +307,7 @@ const WareHouseCategory = () => {
 
                         <DialogActions sx={{ p: 2 }}>
                             <Button onClick={toggleAddDialog} sx={{ textTransform: "none", color: "#444", borderRadius: "8px", px: 2, "&:hover": { backgroundColor: "#eee" } }}>
-                                Hủy
+                                {t("warehouseCate.cancel")}
                             </Button>
 
                             <Button
@@ -280,8 +318,8 @@ const WareHouseCategory = () => {
                             >
                                 {/* Đổi text nút bấm */}
                                 {editingId
-                                    ? (isEditing ? 'Đang lưu...' : 'Lưu thay đổi')
-                                    : (isAdding ? 'Đang tạo...' : 'Tạo')
+                                    ? (isEditing ? t("warehouseCate.saving") : t("warehouseCate.save"))
+                                    : (isAdding ? t("warehouseCate.creating") : t("warehouseCate.addForm"))
                                 }
                             </Button>
                         </DialogActions>

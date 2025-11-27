@@ -1,10 +1,9 @@
 import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, Grid, InputAdornment, InputLabel, MenuItem, Paper, Select, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, TextField, Button } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router";
-import { BoxBeetwen, CloseButton, CloseIcon, DeleteButton, EditButton, FilterButton, MainButton, Row, TextFieldCustom } from "./commonStyled";
+import { BoxBeetwen, CloseButton, CloseIcon, DeleteButton, EditButton, MainButton, Row, TextFieldCustom } from "./commonStyled";
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import dayjs from "dayjs";
@@ -132,39 +131,43 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
 
     const getValueByPath = (obj, path) => {
         if (!obj || !path) return null;
+        const parts = path.split('.');
 
-        const keys = path.split(".");
+        // Nếu path là "pig_growth_records.weight", ta sẽ chỉ lấy mảng pig_growth_records
+        // và để logic xử lý cân nặng (map, sort) cho formatValue.
+        if (path.startsWith("pig_growth_records.")) {
+            return obj.pig_growth_records;
+        }
 
-        const traverse = (data, index) => {
-            if (index === keys.length) return data;
-
-            const key = keys[index];
-
-            if (Array.isArray(data)) {
-                return data
-                    .map(item => traverse(item[key], index + 1))
-                    .filter(v => v !== undefined && v !== null);
-            }
-
-            if (typeof data === "object" && data !== null) {
-                return traverse(data[key], index + 1);
-            }
-
-            return null;
-        };
-
-        return traverse(obj, 0);
+        // Xử lý thông thường cho các path khác
+        return parts.reduce((acc, key) => (acc && acc[key] !== undefined ? acc[key] : null), obj);
     };
 
 
-    const formatValue = (key, value) => {
+    const formatValue = (key, value, isArrayField = false) => {
         if (value === null || value === undefined) return "-";
-        console.log(value);
+        // --- Logic xử lý MẢNG đặc biệt (Chỉ áp dụng cho các cột được đánh dấu isArray) ---
+        if (isArrayField && Array.isArray(value)) {
+            // Trường hợp cụ thể: Cân nặng lợn
+            if (key === "pig_growth_records.weight" && value.length > 0) {
 
-        // Nếu là mảng, format từng phần tử rồi nối lại
-        if (Array.isArray(value)) {
-            return value.map(v => formatValue(key, v)).join(", ");
+                // 1. Sắp xếp theo recordDate tăng dần (từ cũ đến mới)
+                const sortedRecords = value
+                    .slice()
+                    .sort((a, b) => new Date(a.recordDate).getTime() - new Date(b.recordDate).getTime());
+
+                // 2. Lấy mảng cân nặng và định dạng
+                const weights = sortedRecords.map(record => record.weight);
+                // Trả về chuỗi định dạng mong muốn: [65kg, 70kg]
+                return `[${weights.map(w => `${w}kg`).join(', ')}]`;
+            }
+
+            // Trường hợp mảng chung khác (nếu có, có thể cần logic tùy chỉnh khác)
+            // Ví dụ: return value.join(', ');
+            return value.toString();
         }
+
+        // --- Logic xử lý giá trị đơn giản ---
 
         if (typeof value === "boolean") {
             return value ? "true" : "false";
@@ -205,7 +208,12 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
 
         return data?.filter((item) =>
             title?.some((col) => {
-                const value = getValueByPath(item, col.key);
+                const rawValue = getValueByPath(item, col.key);
+
+                // Sử dụng formatValue để có được giá trị đã định dạng (bao gồm cả chuỗi mảng)
+                const value = formatValue(col.key, rawValue, col.isArray);
+
+                // Chuyển đổi giá trị sang chuỗi để tìm kiếm
                 return value?.toString()?.toLowerCase()?.includes(lowerSearch);
             })
         );
@@ -247,8 +255,14 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
 
     const handleDelete = async (id) => {
         try {
-            await mutationDeleteFunction(id).unwrap();
-            refetch();
+            // Kiểm tra xem mutationDeleteFunction có tồn tại không
+            if (mutationDeleteFunction) {
+                await mutationDeleteFunction(id).unwrap();
+                // Kiểm tra xem refetch có tồn tại không
+                if (refetch) refetch();
+            } else {
+                console.warn("Delete function (mutationDeleteFunction) is not provided.");
+            }
         } catch (error) {
             console.error("Error deleting data:", error);
         }
@@ -299,7 +313,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
 
                 <DialogActions sx={{ width: '100%', justifyContent: "center" }}>
                     <BoxBeetwen>
-                        <MainButton onClick={handleSave} sx={{backgroundColor: "black"}} variant="contained" disabled={!isFormValid}>
+                        <MainButton onClick={handleSave} sx={{ backgroundColor: "black" }} variant="contained" disabled={!isFormValid}>
                             {t("customTable.save")}
                         </MainButton>
                     </BoxBeetwen>
@@ -442,7 +456,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
                         {loading ? (
                             [...Array(5)].map((_, rowIndex) => (
                                 <TableRow key={rowIndex}>
-                                    {title?.map((_, colIndex) => (
+                                    {title?.filter(col => col.key !== "password")?.map((_, colIndex) => (
                                         <TableCell key={colIndex}>
                                             <Skeleton variant="rectangular" width="90%" height={24} sx={{ borderRadius: 1 }} />
                                         </TableCell>
@@ -483,8 +497,13 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
                                         {title?.filter(col => col.key !== "password")?.map((col, colIndex) => {
                                             const rawValue = getValueByPath(item, col.key);
                                             const isStatusField = col.key.toLowerCase().includes('status');
-                                            const cellContent = formatValue(col.key, rawValue);
-                                            const statusStyles = isStatusField ? getStatusStyleMui(rawValue) : {};
+                                            const cellRawValue = isStatusField ? String(rawValue) : rawValue;
+
+                                            // 2. Định dạng nội dung hiển thị (sử dụng formatValue và truyền cờ isArray)
+                                            const displayContent = formatValue(col?.key, cellRawValue, col.isArray);
+
+                                            // 3. Lấy style cho status
+                                            const statusStyles = isStatusField ? getStatusStyleMui(cellRawValue) : {};
 
                                             return (
                                                 <TableCell
@@ -509,7 +528,7 @@ export default function CustomTable({ title, data, isEdit, detailNavigate, mutat
                                                             color: isStatusField ? statusStyles.color : (theme) => theme.palette.text.secondary
                                                         }}
                                                     >
-                                                        {cellContent}
+                                                        {displayContent}
                                                     </Typography>
                                                 </TableCell>
                                             );

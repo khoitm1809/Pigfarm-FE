@@ -5,7 +5,8 @@ import {
     Chip,
     Typography,
     Box,
-    Tooltip
+    Tooltip,
+    Divider
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
@@ -15,6 +16,8 @@ import dayjs from "dayjs";
 import { useGetListFeedSettingQuery } from "../store/warehouse/feedSettingsAction";
 import { SettingsIcon } from "lucide-react";
 import { t } from "i18next";
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import { Row } from "./commonStyled";
 
 const CardInfo = ({
     name,
@@ -22,9 +25,8 @@ const CardInfo = ({
     nameCount,
     publishedAt,
     arrayCount,
+    createBy,
     isOwner,
-    onEdit,
-    onDelete,
     onClick,
     isEdit,
     isAssign,
@@ -32,8 +34,8 @@ const CardInfo = ({
     onActionAssign,
     onActionEdit,
     onActionDelete,
-    feedSetting
-
+    feedSetting,
+    feedSettingData
 }) => {
     const {
         data: listfeedSettings,
@@ -95,13 +97,21 @@ const CardInfo = ({
                     </Tooltip>}
                 </Box>}
                 {feedSetting && <Tooltip title={t("card.feed")}>
-                        <IconButton size="small" color="primary" onClick={(e) => {
-                            e.stopPropagation(); // Ngăn chặn sự kiện click lan truyền lên Card
-                        }}>
-                            <SettingsIcon fontSize="small" />
-                        </IconButton>
-                    </Tooltip>}
+                    <IconButton size="small" color="primary" onClick={(e) => {
+                        e.stopPropagation(); // Ngăn chặn sự kiện click lan truyền lên Card
+                    }}>
+                        <SettingsIcon fontSize="small" />
+                    </IconButton>
+                </Tooltip>}
             </Box>
+            <Row gap={'0.4rem'} px={2} pb={0}>
+                <Typography
+                    variant="body2"
+                    sx={{ color: "gray", }}>
+                    {createBy}
+                </Typography>
+            </Row>
+            <Divider sx={{ marginTop: '1rem' }} />
 
             <CardContent>
                 <Typography
@@ -110,6 +120,18 @@ const CardInfo = ({
                 >
                     {description}
                 </Typography>
+                {feedSetting && <Row gap={'0.4rem'}>
+                    <Typography
+                        variant="body2"
+                        sx={{ color: "gray", minHeight: "20px" }}>
+                        Feed Setting:
+                    </Typography>
+                    {/* {feeedSettingData?.map((item, index) => (
+                        <Row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <Typography>{item?.amountPerDay}</Typography>
+                        </Row>
+                    ))} */}
+                </Row>}
                 {publishedAt && (
                     <Typography
                         variant="caption"
@@ -124,18 +146,18 @@ const CardInfo = ({
                     justifyContent="space-between"
                     alignItems="center"
                 >
-                    <Chip
-                        label={`${nameCount}${arrayCount}`}
-                        sx={{
-                            bgcolor: "#f2f2f2",
-                            fontWeight: 500,
-                        }}
-                    />
+                    <Box>
+                        <Chip
+                            label={`${nameCount}${arrayCount}`}
+                            sx={{
+                                bgcolor: "#f2f2f2",
+                                fontWeight: 500,
+                            }}
+                        />
+                    </Box>
                     <ChevronRightIcon sx={{ color: "gray" }} />
                 </Box>
             </CardContent>
-
-
         </Card>
     );
 };

@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { BoxContainer, Row } from "../../components/commonStyled";
 import { useLocation, useNavigate } from "react-router";
 import { useState } from "react";
@@ -33,9 +33,8 @@ const BarnPage = () => {
     const [selectedBarnId, setSelectedBarnId] = useState(null);
     const [selectedWorkerId, setSelectedWorkerId] = useState(null);
 
-    // Cần thêm state cho Dialog chỉnh sửa (Edit Dialog)
     const [openEditDialog, setOpenEditDialog] = useState(false);
-    const [editingBarn, setEditingBarn] = useState(null); // Lưu chuồng đang chỉnh sửa
+    const [editingBarn, setEditingBarn] = useState(null); 
 
     const [newBarnData, setNewBarnData] = useState({
         name: '',
@@ -151,7 +150,8 @@ const BarnPage = () => {
         try {
             await editBarn({
                 id: editingBarn.documentId,
-                updateData: updateData
+                name: editingBarn.name,
+                description: editingBarn.description
             }).unwrap();
 
             handleCloseEditDialog();
@@ -191,13 +191,12 @@ const BarnPage = () => {
         };
 
         openDialog({
-            type: MESSAGE_TYPE.CONFIRM, // Giả định có loại CONFIRM
+            type: MESSAGE_TYPE.CONFIRM,
             message: `Are you sure to delete **${barnToDelete.name}**? This action won't be undo.`,
             isShowCloseBtn: true,
-            isHideAction: false, // Để nút xác nhận được hiển thị
-            customSecondText: "Delete", // Tên nút xác nhận
-            // Sử dụng onConfirm để gọi hàm xóa khi người dùng xác nhận
-            onConfirm: confirmDelete,
+            isHideAction: false,
+            customSecondText: "Delete",
+            actionConfirm: confirmDelete,
         });
     };
 
@@ -335,7 +334,7 @@ const BarnPage = () => {
                             <Box key={barn?.id || index}
                                 onClick={() => navigate(ROUTES.PIG_PAGE, {
                                     state: {
-                                        barnId: barn?.id, // Dùng documentId
+                                        barnId: barn?.id,
                                         areaId: areaId
                                     }
                                 })}
@@ -353,6 +352,7 @@ const BarnPage = () => {
                                     nameCount={t("barn.pigCount")}
                                     arrayCount={barn?.pigs?.length}
                                     isOwner={role === ROLES.OWNER}
+                                    createBy={t("barn.createBy")}
                                     isAssign={true}
                                     onActionAssign={() => handleOpenAssignWorkerDialog(barn?.documentId)}
                                     isEdit={true}
@@ -364,13 +364,14 @@ const BarnPage = () => {
                                         handleDeleteBarn(barn);
                                     }}
                                     feedSetting={true}
+                                    feedSettingData={barn?.feed_settings}
                                 />
                             </Box>
                         ))
                     )}
                 </Row>
 
-                {/* ADD BARN DIALOG (Giống AreaPage) */}
+                {/* ADD BARN DIALOG */}
                 <Dialog
                     fullWidth
                     open={openAddDialog}
@@ -443,7 +444,7 @@ const BarnPage = () => {
                     </form>
                 </Dialog>
 
-                {/* EDIT BARN DIALOG (Tạo mới, dựa trên logic của AreaPage) */}
+                {/* EDIT BARN DIALOG */}
                 <Dialog
                     fullWidth
                     open={openEditDialog}
@@ -470,7 +471,7 @@ const BarnPage = () => {
                                     name="name"
                                     required
                                     defaultValue={editingBarn.name || ''}
-                                    onChange={(e) => handleInputChange(e)} // Dùng lại handleInputChange
+                                    onChange={(e) => handleInputChange(e)}
                                     disabled={isEditingBarn}
                                     sx={{
                                         mb: 2,
@@ -487,7 +488,7 @@ const BarnPage = () => {
                                     multiline
                                     rows={3}
                                     defaultValue={editingBarn.description || ''}
-                                    onChange={(e) => handleInputChange(e)} // Dùng lại handleInputChange
+                                    onChange={(e) => handleInputChange(e)} 
                                     disabled={isEditingBarn}
                                     sx={{
                                         "& .MuiOutlinedInput-root": { backgroundColor: "#f5f5f5", borderRadius: "8px", "& fieldset": { border: "none" }, "&:hover fieldset": { border: "none" }, "&.Mui-focused fieldset": { border: "none" }, "& textarea": { fontSize: "0.95rem" } },
@@ -517,10 +518,6 @@ const BarnPage = () => {
                         </form>
                     )}
                 </Dialog>
-
-
-                {/* XÓA: DELETE BARN DIALOG đã được xóa */}
-
 
                 {/* Phân công DIALOG */}
                 <Dialog

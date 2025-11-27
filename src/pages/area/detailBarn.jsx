@@ -57,7 +57,7 @@ const DetailBarnPage = () => {
         { key: "weight", label: t("detailBarn.weight") },
         { key: "barn.name", label: t("detailBarn.barn") },
         { key: "pig_growth_records.weight", label: t("detailBarn.growth") },
-        { key: "price", label: t("detailBarn.price") }
+        { key: "price", label: t("detailBarn.price"), isNumber: true }
 
     ];
 
@@ -91,6 +91,8 @@ const DetailBarnPage = () => {
             defaultValue: user?.id,
             mappingKey: "users_permissions_user.id"
         },
+
+        { key: "note", label: t("detailBarn.note") },
     ];
 
     return (

@@ -78,27 +78,28 @@
     "role": "Vai trò"
   },
 
-  "meditionWarehouse": {
-    "meditionWarehouse": "Quản lý kho thuốc",
-    "name": "Tên thuốc",
-    "brand": "Hãng",
-    "type": "Loại thuốc",
-    "instruction": "Cách sử dụng",
-    "quantity": "Số lượng",
-    "unit": "Đơn vị",
-    "capacity": "Dung tích",
-    "importPrice": "Giá nhập",
-    "productDate": "Ngày sản xuất",
-    "expiryDate": "Ngày hết hạn"
+  "warehouseCate": {
+    "title": "Quản lý kho hàng",
+    "heading": "Quản lý kho thức ăn và thuốc",
+    "quantity": "Tổng số lượng",
+    "dialog": "Thêm hàng hóa",
+    "category": "Tên danh mục...",
+    "description": "Mô tả",
+    "cancel": "Hủy",
+    "saving": "Đang lưu...",
+    "save": "Lưu thay đổi",
+    "creating": "Đang tạo...",
+    "addForm": "Tạo"
   },
 
-  "foodWarehouse": {
-    "foodWarehouse": "Quản lý  kho hàng hóa",
-    "name": "Tên hàng hóa",
-    "weight": "Trọng lượng (kg)",
-    "protein": "Lượng protein",
-    "calories": "Năng lượng",
-    "importDate": "Ngày nhập"
+  "warehouseItem": {
+    "name": "Tên vật phẩm",
+    "quantity": "Số lượng",
+    "unit": "Đơn vị",
+    "category": "Danh mục",
+    "user": "Người nhập hàng",
+    "date": "Ngày nhập hàng",
+    "worker": "Nhân công phụ trách"
   },
 
   "pigType": {
@@ -136,11 +137,12 @@
     "addForm": "Tạo",
     "edit": "Chỉnh sửa Khu vực:",
     "saving": "Đang lưu...",
-    "save": "Lưu thay đổi"
+    "save": "Lưu thay đổi",
+    "createBy": "Người tạo"
   },
 
   "barn": {
-    "errorAssign": "Lỗi khi phân công nhân viên",
+    "errorAssign": "Lỗi khi phân công nhân công",
     "title": "Quản lý Chuồng",
     "heading": "Quản lý toàn bộ chuồng trong khu vực",
     "loading": "Đang tải danh sách chuồng...",
@@ -155,10 +157,11 @@
     "edit": "Chỉnh sửa Chuồng:",
     "saving": "Đang lưu...",
     "save": "Lưu thay đổi",
-    "assign": "Phân công nhân viên",
-    "choose": "Chọn nhân viên phụ trách chuồng",
+    "assign": "Phân công nhân công",
+    "choose": "Chọn nhân công phụ trách chuồng",
     "notAssign": "Không phân công (Chủ trang trại phụ trách)",
-    "saveAssign": "Lưu phân công"
+    "saveAssign": "Lưu phân công",
+    "createBy": "Nhân công phụ trách"
   },
 
   "detailBarn": {

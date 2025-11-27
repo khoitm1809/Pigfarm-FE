@@ -10,6 +10,7 @@ import AddDataDialog from "../../components/AddDataDialog";
 import { useLocation } from "react-router";
 import { useGetListWarehouseCategoryQuery } from "../../store/warehouse/warehouseAction";
 import { ROLES } from "../../utils/rolesConstant";
+import { t } from "i18next";
 
 const WareHouseItem = () => {
     const location = useLocation();
@@ -37,22 +38,22 @@ const WareHouseItem = () => {
     }, { refetchOnMountOrArgChange: true })
 
     const title = [
-        { key: "name", label: "Tên vật phẩm" },
-        { key: "quantity", label: "Số lượng" },
-        { key: "unit", label: "Đơn vị" },
-        { key: "warehouse_category.name", label: "Danh mục" },
-        { key: "users_permissions_user.username", label: "Người tạo" },
-        { key: "createdAt", label: "Ngày tạo" },
+        { key: "name", label: t("warehouseItem.name") },
+        { key: "quantity", label: t("warehouseItem.quantity") },
+        { key: "unit", label: t("warehouseItem.unit") },
+        { key: "warehouse_category.name", label: t("warehouseItem.category") },
+        { key: "users_permissions_user.username", label: t("warehouseItem.user") },
+        { key: "createdAt", label: t("warehouseItem.date") },
     ];
 
     const dialogTitle = [ 
-        { key: "name", label: "Tên vật phẩm" },
-        { key: "quantity", label: "Số lượng", isNumber: true },
-        { key: "unit", label: "Đơn vị" },
+        { key: "name", label: t("warehouseItem.name") },
+        { key: "quantity", label: t("warehouseItem.quantity"), isNumber: true },
+        { key: "unit", label: t("warehouseItem.unit") },
 
         {
             key: "warehouse_category",
-            label: "Danh mục",
+            label: t("warehouseItem.category"),
             isDropDown: true,
             list: convertToDropdown(listWareHouseCategory?.data),
             mappingKey: "warehouse_category.id" 
@@ -60,7 +61,7 @@ const WareHouseItem = () => {
 
         {
             key: "users_permissions_user",
-            label: "Người phụ trách",
+            label: t("warehouseItem.worker"),
             isDropDown: true,
             // list: convertToDropdown(listUser), 
             mappingKey: "users_permissions_user.id" 
