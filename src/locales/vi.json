@@ -57,6 +57,7 @@
     "title": "Trang cá nhân",
     "heading": "Quản lý thông tin cá nhân",
     "role": "Chủ trang trại",
+    "name":"Tên người dùng",
     "avatar": "Thay đổi ảnh",
     "info": "Thông tin cá nhân",
     "phone": "Số điện thoại",
@@ -68,7 +69,9 @@
     "assigned": "Hoàn thành giao việc",
     "assigning": "Đang giao việc",
     "rate": "Đánh giá trung bình",
-    "time": "Giờ làm việc"
+    "time": "Giờ làm việc",
+    "loading": "Đang tải thông tin người dùng...",
+    "join": "Tham gia: "
   },
 
   "user": {
@@ -81,7 +84,7 @@
   "warehouseCate": {
     "title": "Quản lý kho hàng",
     "heading": "Quản lý kho thức ăn và thuốc",
-    "quantity": "Tổng số lượng",
+    "quantity": "Tổng số lượng: ",
     "dialog": "Thêm hàng hóa",
     "category": "Tên danh mục...",
     "description": "Mô tả",
@@ -178,7 +181,34 @@
   },
 
   "pigGrowth": {
+    "good": "Khỏe",
+    "weak": "Yếu",
+    "date": "Ngày ghi nhận",
+    "weight": "Cân nặng (kg)",
+    "id": "Mã heo",
+    "worker": "Nhân công phụ trách",
+    "note": "Ghi chú"
+  },
 
+  "todo": {
+    "title": "Quản lý công việc 📋",
+    "heading": "Quản lý và phân công công việc cho đội ngũ",
+    "unAssigned": "Chưa giao",
+    "assigned": "Đã giao",
+    "doing": "Đang làm",
+    "done": "Đã xong",
+    "expired": "Quá hạn",
+    "total": "Tổng công việc",
+    "errorAdd": "Không thể thêm công việc mới. Vui lòng thử lại.",
+    "unAssignedMsg": "Công việc chưa được phân công. Vui lòng sử dụng chức năng (Phân công) để giao việc, trạng thái sẽ tự động chuyển sang (Đã giao).",
+    "errorEdit": "Cập nhật trạng thái thất bại. Vui lòng thử lại.",
+    "errorAssign": "Phân công thất bại. Vui lòng thử lại.",
+    "loading": "Đang tải danh sách công việc...",
+    "create": "Thêm mới công việc",
+    "name": "Tên Công Việc",
+    "description": "Mô tả",
+    "cancel": "Hủy",
+    "status": "Thay đổi Trạng thái"
   },
 
   "foodRation": {
@@ -193,8 +223,6 @@
     "dosage": "Liều thuốc sử dụng",
     "meditionMeal": "Liều lượng"
   },
-
-  "accList": "Danh sách tài khoản",
 
   "customTable": {
     "save": "Lưu",
@@ -221,6 +249,7 @@
     "invoice": "Quản lý hóa đơn nhập hàng",
     "growthRecord": "Ghi nhận tốc độ tăng trưởng",
     "warehouseImport": "Nhập vào kho hàng",
+    "export": "Xuất chuồng",
     "logout": "Đăng xuất",
     "settings": "Cài đặt",
     "tasks": "Công việc được giao",

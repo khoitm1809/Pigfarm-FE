@@ -10,13 +10,8 @@ axios.defaults.timeoutErrorMessage = "timeout";
 
 const http = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
-  // withCredentials: false,
-  // headers: {
-  //   "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-  // },
 });
 
-// Add a request interceptor
 http.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem(LOCAL_STORAGE_NAME.TOKEN);

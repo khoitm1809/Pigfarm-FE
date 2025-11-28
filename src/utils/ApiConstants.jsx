@@ -13,4 +13,5 @@ export const API_URL = {
   PIG_GROWTH_RECORDS: '/api/pig-growth-records',
   FEED_SETTING: '/api/feed-settings',
   TODO: '/api/todos',
+  INVOICE: '/api/invoices'
 };

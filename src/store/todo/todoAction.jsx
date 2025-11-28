@@ -7,19 +7,20 @@ export const todoApi = createApi({
     reducerPath: 'todoApi',
     baseQuery: axiosBaseQuery(),
     endpoints: (builder) => ({
-        query: (params) => {
-            const { UID, ...rest } = params || {};
-            return {
-                url: API_URL.TODO + "?populate=*",
-                method: "GET",
-                params: {
-                    ...rest,
-                    ...(UID ? { "filters[users_permissions_user][id]": UID } : {}),
-                },
-            };
-        },
+        getListTodo: builder.query({
+            query: (params) => {
+                const { UID, ...rest } = params || {};
+                return {
+                    url: API_URL.TODO + "?populate=*",
+                    method: "GET",
+                    params: {
+                        ...rest,
+                        ...(UID ? { "filters[users_permissions_user][id]": UID } : {}),
+                    },
+                };
+            },
+        }),
 
-        // add off spring
         addTodo: builder.mutation({
             query: (payload) => ({
                 url: API_URL.TODO,
@@ -28,7 +29,6 @@ export const todoApi = createApi({
             }),
         }),
 
-        // edit off spring
         editTodo: builder.mutation({
             query: ({ id, ...updateData }) => ({
                 url: API_URL.TODO + "/" + id,

@@ -59,6 +59,7 @@ export default function AddDataDialog({
                 const defaultValue = f.defaultValue !== undefined && f.defaultValue !== null
                     ? f.defaultValue
                     : "";
+                    acc[f.key] = f.defaultValue ?? "";
                 return acc;
             }, {});
             setFormData(defaults);
@@ -91,7 +92,7 @@ export default function AddDataDialog({
                 </BoxBeetwen>
             </DialogTitle>
 
-            <DialogContent>
+            <DialogContent sx={{backgroundColor:"#f2f2f2ff"}}>
                 <Grid container spacing={2} sx={{ mt: 1 }}>
                     {dialogTitle?.map((field) => (
                         <FormField
@@ -106,7 +107,7 @@ export default function AddDataDialog({
             </DialogContent>
 
             <DialogActions sx={{ justifyContent: 'center', pb: 2 }}>
-                <MainButton onClick={handleSave} variant="contained">{t("dialog.save")}</MainButton>
+                <MainButton onClick={handleSave} variant="contained" sx={{backgroundColor:"black"}}>{t("dialog.save")}</MainButton>
             </DialogActions>
         </Dialog>
     );

@@ -10,15 +10,16 @@ import CardStatus from "../../components/CardStatus";
 import { TodoItem } from './component/TodoItem';
 import { AddTodoDialog } from './component/AddTodoDialog';
 import { ROLES } from '../../utils/rolesConstant';
+import { t } from 'i18next';
 
 
 // Cố định danh sách trạng thái
 export const todoStatus = [
-    { value: "unAssigned", label: "Chưa giao" },
-    { value: "assigned", label: "Đã giao" },
-    { value: "doing", label: "Đang làm" },
-    { value: "done", label: "Đã xong" },
-    { value: "expired", label: "Quá hạn" }
+    { value: "unAssigned", label: t("todo.unAssigned") },
+    { value: "assigned", label: t("todo.assigned") },
+    { value: "doing", label: t("todo.doing") },
+    { value: "done", label: t("todo.done") },
+    { value: "expired", label: t("todo.expired") }
 ];
 
 const OWNER_COLUMN_STATUS = ['unAssigned', 'assigned', 'doing', 'done', 'expired'];
@@ -68,12 +69,12 @@ const TodoPage = () => {
 
     // --- CẬP NHẬT DỮ LIỆU THỐNG KÊ TỔNG QUAN ---
     const todoData = [
-        { title: 'Tổng công việc', count: totalCount, iconKey: 'tổng công việc' },
-        { title: 'Đã giao', count: classifiedTodos.assigned.length, iconKey: 'chưa làm' },
-        { title: 'Chưa giao', count: classifiedTodos.unAssigned.length, iconKey: 'chưa giao' },
-        { title: 'Đang làm', count: classifiedTodos.doing.length, iconKey: 'đang làm' },
-        { title: 'Đã xong', count: classifiedTodos.done.length, iconKey: 'đã xong' },
-        { title: 'Quá hạn', count: classifiedTodos.expired.length, iconKey: 'quá hạn' },
+        { title: t("todo.total"), count: totalCount, iconKey: 'tổng công việc' },
+        { title: t("todo.assigned"), count: classifiedTodos.assigned.length, iconKey: 'chưa làm' },
+        { title: t("todo.unAssigned"), count: classifiedTodos.unAssigned.length, iconKey: 'chưa giao' },
+        { title: t("todo.doing"), count: classifiedTodos.doing.length, iconKey: 'đang làm' },
+        { title: t("todo.done"), count: classifiedTodos.done.length, iconKey: 'đã xong' },
+        { title: t("todo.expired"), count: classifiedTodos.expired.length, iconKey: 'quá hạn' },
     ];
 
     // --- HANDLER THÊM MỚI ---
@@ -83,8 +84,8 @@ const TodoPage = () => {
             toggleAddDialog();
             refetch();
         } catch (error) {
-            console.error('Lỗi khi thêm mới công việc:', error);
-            setError('Không thể thêm công việc mới. Vui lòng thử lại.');
+            console.error('Error while create new task', error);
+            setError(t("todo.errorAdd"));
         }
     };
 
@@ -98,7 +99,7 @@ const TodoPage = () => {
         // [FIX LOGIC] Ngăn cản việc chuyển trạng thái nếu công việc đang ở 'unAssigned'
         // và trạng thái mới không phải là 'unAssigned' (ép buộc dùng handleAssign).
         if (currentTodo?.toDoStatus === 'unAssigned' && newStatus !== 'unAssigned') {
-            setError('Công việc chưa được phân công. Vui lòng sử dụng chức năng "Phân công" để giao việc, trạng thái sẽ tự động chuyển sang "Đã giao".');
+            setError(t("unAssignedMsg"));
             return;
         }
 
@@ -106,8 +107,8 @@ const TodoPage = () => {
             await editTodo({ id: todoId, toDoStatus: newStatus }).unwrap();
             refetch();
         } catch (error) {
-            console.error(`Lỗi khi cập nhật trạng thái cho todo ${todoId}:`, error);
-            setError('Cập nhật trạng thái thất bại. Vui lòng thử lại.');
+            console.error(`Error while update status ${todoId}:`, error);
+            setError(t("todo.errorEdit"));
         }
     };
 
@@ -125,7 +126,7 @@ const TodoPage = () => {
             refetch();
         } catch (error) {
             console.error(`Lỗi khi phân công cho todo ${todoId}:`, error);
-            setError('Phân công thất bại. Vui lòng thử lại.');
+            setError(t("todo.errorAssign"));
         }
     };
 
@@ -140,12 +141,12 @@ const TodoPage = () => {
                         fontWeight={700}
                         sx={{ mb: 1 }}
                     >
-                        Quản lý công việc 📋
+                        {t("todo.title")}
                     </Typography>
                     <Typography
                         variant="subtitle1"
                         color="text.secondary">
-                        Quản lý và phân công công việc cho đội ngũ
+                        {t("todo.heading")}
                     </Typography>
                 </Box>
 
@@ -196,7 +197,7 @@ const TodoPage = () => {
                     sx={{ width: "100%" }}>
                     <TextField
                         fullWidth
-                        placeholder="Tìm kiếm..."
+                        placeholder={t("customTable.search")}
                         InputProps={{
                             startAdornment: (
                                 <SearchOutlinedIcon sx={{ color: "action.active", mr: 1 }} />
@@ -224,7 +225,7 @@ const TodoPage = () => {
                             textTransform: "none",
                         }}
                     >
-                        Lọc
+                        {t("customTable.filters")}
                     </Button>
 
                     {role == ROLES.OWNER && <Button
@@ -239,7 +240,7 @@ const TodoPage = () => {
                             textTransform: "none",
                         }}
                     >
-                        Thêm mới
+                        {t("customTable.create")}
                     </Button>}
                 </Box>
 
@@ -248,7 +249,7 @@ const TodoPage = () => {
                 {loadingListTodo ? (
                     <Box sx={{ display: 'flex', justifyContent: 'center', py: 5 }}>
                         <CircularProgress />
-                        <Typography ml={2}>Đang tải danh sách công việc...</Typography>
+                        <Typography ml={2}>{t("todo.loading")}</Typography>
                     </Box>
                 ) : (
                     <Row

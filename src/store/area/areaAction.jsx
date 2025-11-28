@@ -31,7 +31,7 @@ export const areaApi = createApi({
             query: ({ id, updateData}) => ({
                 url: API_URL.AREA + "/" + id,
                 method: 'PUT',
-                data: { updateData },
+                data: updateData ,
             }),
         }),
 
@@ -69,7 +69,7 @@ export const areaApi = createApi({
 
         editBarn: builder.mutation({
             query: ({ id, ...bodyData}) => ({
-                url: API_URL.BARN + "/" + body.id,
+                url: API_URL.BARN + "/" + id,
                 method: 'PUT',
                 data: { data: bodyData},
             }),

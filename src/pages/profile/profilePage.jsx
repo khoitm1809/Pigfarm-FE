@@ -11,8 +11,79 @@ import {
 } from "@mui/material";
 import { Mail, Phone, MapPin, Calendar } from "lucide-react";
 import { t } from "i18next";
+import { useGetCurrentUserQuery } from "../../store/auth/authAction";
+
+// Hàm tiện ích để định dạng ngày tháng
+const formatDate = (dateString) => {
+    if (!dateString) return "Unavailable";
+    try {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('vi-VN', { year: 'numeric', month: 'long', day: 'numeric' });
+    } catch (e) {
+        return "Error date format";
+    }
+};
+
+// Hàm tiện ích để tính số lượng Published Items (Hoàn thành)
+const countPublished = (data) => {
+    let count = 0;
+    // Lặp qua tất cả các mảng và đếm những mục có publishedAt
+    const arraysToCount = [
+        data?.pigs || [],
+        data?.areas || [],
+        data?.pig_types || [],
+        data?.owners || []
+    ];
+
+    arraysToCount.forEach(arr => {
+        arr.forEach(item => {
+            if (item.publishedAt) {
+                count++;
+            }
+        });
+    });
+
+    return count;
+};
+
+// Hàm tiện ích để tính số lượng nhiệm vụ đang thực hiện (Doing)
+const countDoingTodos = (owners) => {
+    if (!owners) return 0;
+    // Lọc các mục trong 'owners' mà có 'publishedAt' khác null VÀ 'toDoStatus' là 'doing'
+    // Hoặc chỉ đếm các mục có 'toDoStatus' là 'doing' tùy theo logic nghiệp vụ của bạn.
+    // Tôi sẽ đếm các mục trong 'owners' có 'toDoStatus' là 'doing'
+    return owners.filter(owner => owner.toDoStatus === "doing" && owner.publishedAt).length;
+};
 
 export function ProfilePage() {
+    const UID = localStorage.getItem("UID")
+    const {
+        data: userData,
+        isLoading: loadingUser,
+        refetch
+    } = useGetCurrentUserQuery(
+        { UID },
+        { refetchOnMountOrArgChange: true }
+    );
+
+    // Xử lý dữ liệu
+    const user = userData || {};
+    const userName = user.username || "User name";
+    const userEmail = user.email || "No email";
+    const userRole = user.role?.name || "";
+    const joinDate = formatDate(user.createdAt);
+
+    // Tính toán số liệu thống kê
+    const completedProjects = countPublished(user);
+    const doingTasks = countDoingTodos(user.owners);
+    const averageRating = "4.8";
+    const workingHours = "1,240";
+
+    // Nếu đang tải dữ liệu
+    if (loadingUser) {
+        return <Box p={{ xs: 2, lg: 4 }}><Typography>{t("profile.loading")}</Typography></Box>;
+    }
+
     return (
         <Box p={{ xs: 2, lg: 4 }} >
             {/* Title */}
@@ -27,7 +98,7 @@ export function ProfilePage() {
 
             <Grid spacing={3} >
                 {/* Profile Card */}
-                <Grid item xs={12} lg={4} sx={{ marginY: '2rem' }}>
+                <Grid item xs={12} lg={4} mt={'2rem'}>
                     <Card>
                         <CardContent sx={{ pt: 3 }}>
                             <Box display="flex" flexDirection="column" alignItems="center">
@@ -36,9 +107,9 @@ export function ProfilePage() {
                                     sx={{ width: 120, height: 120 }}
                                 />
                                 <Box textAlign="center" mt={2}>
-                                    <Typography variant="h5">Nguyễn Văn A</Typography>
+                                    <Typography variant="h5">{userName}</Typography>
                                     <Typography color="text.secondary">
-                                        {t("profile.role")}
+                                        {userRole}
                                     </Typography>
                                 </Box>
 
@@ -52,7 +123,7 @@ export function ProfilePage() {
                                 <Box display="flex" gap={1} alignItems="center">
                                     <Mail size={18} />
                                     <Typography color="text.secondary">
-                                        nguyenvana@example.com
+                                        {userEmail}
                                     </Typography>
                                 </Box>
 
@@ -64,14 +135,14 @@ export function ProfilePage() {
                                 <Box display="flex" gap={1} alignItems="center">
                                     <MapPin size={18} />
                                     <Typography color="text.secondary">
-                                        Hà Nội, Việt Nam
+                                        Hanoi, Vietnam
                                     </Typography>
                                 </Box>
 
                                 <Box display="flex" gap={1} alignItems="center">
                                     <Calendar size={18} />
                                     <Typography color="text.secondary">
-                                        Tham gia: Tháng 1, 2024
+                                        {t("profile.join")} {joinDate}
                                     </Typography>
                                 </Box>
                             </Box>
@@ -80,7 +151,7 @@ export function ProfilePage() {
                 </Grid>
 
                 {/* Profile Form */}
-                <Grid item xs={12} lg={8} sx={{ marginY: '2rem' }}>
+                <Grid item xs={12} lg={8} mt={'2rem'}>
                     <Card>
                         <CardHeader
                             title={<Typography variant="h6">{t("profile.info")}</Typography>}
@@ -88,35 +159,42 @@ export function ProfilePage() {
                         <CardContent>
                             <Box component="form" display="flex" flexDirection="column" gap={2}>
                                 <Grid container spacing={2}>
-                                    <Grid item xs={12} md={6}>
+                                    <Grid item xs={12} md={12}>
                                         <TextField
                                             fullWidth
-                                            label="Họ"
-                                            defaultValue="Nguyễn Văn"
+                                            label={t("profile.name")}
+                                            defaultValue={userName}
+                                            // value={userName} // Sử dụng value nếu có hàm onChange để cập nhật state
+                                            InputLabelProps={{ shrink: true }}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} md={6}>
+                                    {/* <Grid item xs={12} md={6}>
                                         <TextField fullWidth label="Tên" defaultValue="A" />
-                                    </Grid>
+                                    </Grid> */}
                                 </Grid>
 
                                 <TextField
                                     fullWidth
                                     label="Email"
                                     type="email"
-                                    defaultValue="nguyenvana@example.com"
+                                    defaultValue={userEmail}
+                                    // value={userEmail}
+                                    InputLabelProps={{ shrink: true }}
+                                    disabled
                                 />
 
                                 <TextField
                                     fullWidth
                                     label={t("profile.phone")}
                                     defaultValue="+84 123 456 789"
+                                    InputLabelProps={{ shrink: true }}
                                 />
 
                                 <TextField
                                     fullWidth
                                     label={t("profile.address")}
-                                    defaultValue="Hà Nội, Việt Nam"
+                                    defaultValue="Hanoi, Vietnam"
+                                    InputLabelProps={{ shrink: true }}
                                 />
 
                                 <TextField
@@ -124,7 +202,8 @@ export function ProfilePage() {
                                     label={t("profile.description")}
                                     multiline
                                     rows={4}
-                                    defaultValue="Tôi là một quản trị viên hệ thống với nhiều năm kinh nghiệm trong lĩnh vực công nghệ thông tin."
+                                    defaultValue="I'm the first user using Pig360 for pig farm."
+                                    InputLabelProps={{ shrink: true }}
                                 />
 
                                 <Box display="flex" gap={2} pt={2}>
@@ -141,14 +220,14 @@ export function ProfilePage() {
                 </Grid>
 
                 {/* Statistics Card */}
-                <Grid item xs={12} sx={{ marginY: '2rem' }}>
+                <Grid item xs={12} mt={'2rem'}>
                     <Card>
                         <CardHeader
                             title={<Typography variant="h6">{t("profile.activity")}</Typography>}
                         />
                         <CardContent>
                             <Grid container spacing={2}>
-                                <Grid item xs={12} md={3}>
+                                <Grid item xs={12} sm={6} md={3}>
                                     <Box
                                         p={2}
                                         borderRadius={2}
@@ -157,7 +236,7 @@ export function ProfilePage() {
                                         <Typography color="text.secondary">
                                             {t("profile.assigned")}
                                         </Typography>
-                                        <Typography variant="h4">24</Typography>
+                                        <Typography variant="h4"></Typography>
                                     </Box>
                                 </Grid>
 
@@ -170,11 +249,11 @@ export function ProfilePage() {
                                         <Typography color="text.secondary">
                                             {t("profile.assigning")}
                                         </Typography>
-                                        <Typography variant="h4">8</Typography>
+                                        <Typography variant="h4">{doingTasks}</Typography>
                                     </Box>
                                 </Grid>
 
-                                <Grid item xs={12} md={3}>
+                                <Grid item xs={12} sm={6} md={3}>
                                     <Box
                                         p={2}
                                         borderRadius={2}
@@ -183,7 +262,7 @@ export function ProfilePage() {
                                         <Typography color="text.secondary">
                                             {t("profile.rate")}
                                         </Typography>
-                                        <Typography variant="h4">4.8</Typography>
+                                        <Typography variant="h4">{averageRating}</Typography>
                                     </Box>
                                 </Grid>
 
@@ -194,7 +273,7 @@ export function ProfilePage() {
                                         sx={{ backgroundColor: "#f3e5f5" }}
                                     >
                                         <Typography color="text.secondary">{t("profile.time")}</Typography>
-                                        <Typography variant="h4">1,240</Typography>
+                                        <Typography variant="h4">{workingHours}</Typography>
                                     </Box>
                                 </Grid>
                             </Grid>

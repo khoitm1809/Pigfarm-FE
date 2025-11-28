@@ -39,6 +39,7 @@
     "title": "Profile",
     "heading": "View the profile",
     "role": "Owner",
+    "name":"User name",
     "avatar": "Change Avatar",
     "info": "Personal Information",
     "phone": "Phone Number",
@@ -50,7 +51,9 @@
     "assigned": "Assigned Tasks",
     "assigning": "Assigning Tasks",
     "rate": "Work Rate",
-    "time": "Work hours"
+    "time": "Work hours",
+    "loading": "Loading user profile...",
+    "join": "Joined Date: "
   },
 
   "user": {
@@ -81,7 +84,7 @@
   "warehouseCate": {
     "title": "Warehouse Management",
     "heading": "Manage food and medicine",
-    "quantity": "Quantity",
+    "quantity": "Quantity: ",
     "dialog": "Add more goods",
     "category": "Category name...",
     "description": "Description",
@@ -176,6 +179,16 @@
     "worker": "Worker"
   },
 
+  "pigGrowth": {
+    "good": "Good",
+    "weak": "Weak",
+    "date": "Recording Date",
+    "weight": "Weight (kg)",
+    "id": "Pig ID",
+    "worker": "Assigned Worker",
+    "note": "Note"
+  },
+
   "foodRation": {
     "foodRation": "Feed Chain Setup",
     "trialDiet": "Trial Diet",
@@ -188,7 +201,27 @@
     "dosage": "Dosage Used",
     "meditionMeal": "Dosage Amount"
   },
-  "accList": "Account List",
+
+  "todo": {
+    "title": "Todo Management 📋",
+    "heading": "Manage and Assign the task",
+    "unAssigned": "Not Assigned",
+    "assigned": "Assigned",
+    "doing": "In progress",
+    "done": "Complete",
+    "expired": "Expired",
+    "total": "Total tasks",
+    "errorAdd": "Cannot create the new task. Please try again.",
+    "unAssignedMsg": "The task is not assigned. Please use (Assign) to assign, status will automatically change to (Assigned).",
+    "errorEdit": "Failed to update status. Please try again",
+    "errorAssign": "Failed to assign task. Please try again",
+    "loading": "Loading todo list...",
+    "create": "Create New Task",
+    "name": "Task Name",
+    "description": "Description",
+    "cancel": "Cancel"
+  },
+
 
   "customTable": {
     "save": "Save",
@@ -214,6 +247,7 @@
     "invoice": "Purchase Invoice Management",
     "growthRecord": "Record Growth Rate",
     "warehouseImport": "Warehouse Import",
+    "export": "Export Barn",
     "logout": "Logout",
     "settings": "Settings",
     "tasks": "Assigned Tasks",

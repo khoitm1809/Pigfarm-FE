@@ -57,14 +57,15 @@ export default function LeftBar({ open, onClose, drawerWidth, isMobile }) {
         { text: t("navigation.pigType"), icon: <AgricultureOutlinedIcon />, path: ROUTES.PIG_TYPE, role: ROLES.OWNER },
         { text: t("navigation.warehouse"), icon: <WarehouseOutlinedIcon />, path: ROUTES.WAREHOUSE_CATEGORY, role: ROLES.OWNER },
         { text: t("navigation.todoList"), icon: <ContactMailOutlinedIcon />, path: ROUTES.TODO, role: ROLES.OWNER },
+        { text: t("navigation.export"), icon: <ContactMailOutlinedIcon />, path: ROUTES.INVOICE, role: ROLES.OWNER },
         // cong nhan
         { text: t("navigation.home"), icon: <HomeOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
         { text: t("navigation.myBarn"), icon: <GroupAddOutlinedIcon />, path: ROUTES.BARN, role: ROLES.WORKER },
 
         // { text: "Nhập nguồn gốc giống lợn", icon: <UploadFileOutlinedIcon />, path: ROUTES.PIG_PAGE, role: ROLES.WORKER },
-        { text: t("navigation.growthRecord"), icon: <AreaChartOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
+        { text: t("navigation.growthRecord"), icon: <AreaChartOutlinedIcon />, path: ROUTES.PIG_GROWTH_RECORD, role: ROLES.WORKER },
         { text: t("navigation.warehouseImport"), icon: <WarehouseOutlinedIcon />, path: ROUTES.WAREHOUSE_CATEGORY, role: ROLES.WORKER },
-        { text: t("navigation.tasks"), icon: <ChecklistOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
+        { text: t("navigation.tasks"), icon: <ChecklistOutlinedIcon />, path: ROUTES.TODO, role: ROLES.WORKER },
 
     ];
 

@@ -13,5 +13,4 @@ export const axiosBaseQuery = () => async ({ url, method = "GET", data, params }
       }
     };
   }
-
 };

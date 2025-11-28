@@ -1,4 +1,5 @@
 import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
+import { t } from "i18next";
 import { useState } from "react";
 
 export const AddTodoDialog = ({ open, handleClose, handleAddTodo, isLoading }) => {
@@ -15,12 +16,12 @@ export const AddTodoDialog = ({ open, handleClose, handleAddTodo, isLoading }) =
 
     return (
         <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
-            <DialogTitle>Thêm Mới Công Việc</DialogTitle>
+            <DialogTitle>{t("todo.create")}</DialogTitle>
             <DialogContent>
                 <TextField
                     autoFocus
                     margin="dense"
-                    label="Tên Công Việc"
+                    label={t("todo.name")}
                     type="text"
                     fullWidth
                     variant="outlined"
@@ -31,7 +32,7 @@ export const AddTodoDialog = ({ open, handleClose, handleAddTodo, isLoading }) =
                 />
                 <TextField
                     margin="dense"
-                    label="Mô Tả"
+                    label={t("todo.description")}
                     type="text"
                     fullWidth
                     multiline
@@ -43,10 +44,10 @@ export const AddTodoDialog = ({ open, handleClose, handleAddTodo, isLoading }) =
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="secondary" disabled={isLoading}>
-                    Hủy
+                    {t("todo.cancel")}
                 </Button>
                 <Button onClick={handleSubmit} color="primary" variant="contained" disabled={isLoading || !name.trim()}>
-                    {isLoading ? <CircularProgress size={24} color="inherit" /> : 'Thêm'}
+                    {isLoading ? <CircularProgress size={24} color="inherit" /> : t("todo.create")}
                 </Button>
             </DialogActions>
         </Dialog>

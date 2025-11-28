@@ -25,14 +25,15 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import CloseIcon from '@mui/icons-material/Close';
 import PersonIcon from '@mui/icons-material/Person';
+import { t } from "i18next";
 
 // Định nghĩa trạng thái và màu sắc tương ứng
 const todoStatus = [
-    { value: "unAssigned", label: "Chưa giao", color: "default", icon: <PendingIcon fontSize="small" /> },
-    { value: "assigned", label: "Đã giao", color: "primary", icon: <AssignmentIcon fontSize="small" /> },
-    { value: "doing", label: "Đang làm", color: "info", icon: <AccessTimeIcon fontSize="small" /> },
-    { value: "done", label: "Đã xong", color: "success", icon: <CheckCircleOutlineIcon fontSize="small" /> },
-    { value: "expired", label: "Quá hạn", color: "error", icon: <CancelIcon fontSize="small" /> }
+    { value: "unAssigned", label: t("todo.unAssigned"), color: "default", icon: <PendingIcon fontSize="small" /> },
+    { value: "assigned", label: t("todo.assigned"), color: "primary", icon: <AssignmentIcon fontSize="small" /> },
+    { value: "doing", label: t("todo.doing"), color: "info", icon: <AccessTimeIcon fontSize="small" /> },
+    { value: "done", label: t("todo.done"), color: "success", icon: <CheckCircleOutlineIcon fontSize="small" /> },
+    { value: "expired", label: t("todo.expired"), color: "error", icon: <CancelIcon fontSize="small" /> }
 ];
 
 // Hàm tìm thông tin trạng thái theo value
@@ -54,9 +55,9 @@ const getInitialAssignedUserId = (todo) => {
 const getInitialAssignedUserName = (todo) => {
     // SỬA: Lấy username từ trường users_permissions_user
     if (todo.users_permissions_user && typeof todo.users_permissions_user === 'object') {
-        return todo.users_permissions_user.username || 'Người dùng không tên';
+        return todo.users_permissions_user.username || 'Unknown name';
     }
-    return 'Chưa phân công';
+    return 'Not Assigned';
 }
 
 export const TodoItem = ({ todo, onChangeStatus, onAssign, role }) => {
@@ -181,7 +182,7 @@ export const TodoItem = ({ todo, onChangeStatus, onAssign, role }) => {
                 fullWidth
             >
                 <DialogTitle>
-                    <Typography variant="h6">Thay đổi Trạng thái</Typography>
+                    <Typography variant="h6">{t("todo.status")}</Typography>
                     <IconButton
                         aria-label="close"
                         onClick={() => setOpenStatusDialog(false)}
@@ -229,7 +230,7 @@ export const TodoItem = ({ todo, onChangeStatus, onAssign, role }) => {
                                     />
                                     <ListItemText
                                         // NÂNG KÍCH THƯỚC CHỮ
-                                        primary={status === s.value ? ' (Đang chọn)' : (isDisabled ? ' (Worker không được chọn)' : '')}
+                                        primary={status === s.value ? ' (Select)' : (isDisabled ? ' (Worker không được chọn)' : '')}
                                         primaryTypographyProps={{ fontSize: '1.1rem', fontWeight: status === s.value ? 600 : 400 }}
                                         sx={{ ml: 2 }}
                                     />

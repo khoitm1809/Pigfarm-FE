@@ -9,6 +9,7 @@ import EditDataDialog from "../../components/EditDataDialog";
 import { useSelector } from "react-redux";
 import { useGetCurrentUserQuery, useGetListUserQuery } from "../../store/auth/authAction";
 import { useGetListBarnQuery } from "../../store/area/areaAction";
+import { ROUTES } from "../../router/routerConstants";
 import { t } from "i18next";
 
 const DetailBarnPage = () => {
@@ -54,19 +55,22 @@ const DetailBarnPage = () => {
     const title = [
         { key: "pigCode", label: t("detailBarn.id") },
         { key: "healthStatus", label: t("detailBarn.health") },
-        { key: "weight", label: t("detailBarn.weight") },
+        { key: "weight", label: t("detailBarn.weight"), },
         { key: "barn.name", label: t("detailBarn.barn") },
-        { key: "pig_growth_records.weight", label: t("detailBarn.growth") },
-        { key: "price", label: t("detailBarn.price"), isNumber: true }
+        { key: "age", label: t("detailBarn.age") },
+        { key: "pig_growth_records.weight", label: t("detailBarn.growth"), isArray: true },
+        { key: "price", label: t("detailBarn.price") },
+        { key: "pig_type.name", label: t("detailBarn.type") },
+        { key: "users_permissions_user.username", label: t("detailBarn.worker") }
 
     ];
 
     const dialogTitle = [
         { key: "pigCode", label: t("detailBarn.id") },
+        { key: "healthStatus", label: t("detailBarn.health") },
         { key: "weight", label: t("detailBarn.weight"), isNumber: true },
         { key: "age", label: t("detailBarn.age"), isNumber: true },
-        { key: "healthStatus", label: t("detailBarn.health") },
-        { key: "note", label: t("detailBarn.note") },
+        { key: "price", label: t("detailBarn.price"), isNumber: true },
 
         {
             key: "barn",
@@ -91,7 +95,6 @@ const DetailBarnPage = () => {
             defaultValue: user?.id,
             mappingKey: "users_permissions_user.id"
         },
-
         { key: "note", label: t("detailBarn.note") },
     ];
 
@@ -121,6 +124,7 @@ const DetailBarnPage = () => {
                 mutationDeleteFunction={deletePig}
                 loading={loadingListPig}
                 refetch={refetch}
+                detailNavigate={ROUTES.DETAIL_PIG}
             />
         </BoxContainer>
     );

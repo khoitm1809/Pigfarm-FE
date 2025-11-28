@@ -7,10 +7,11 @@ import { useAddPigGrowthRecordMutation, useDeletePigGrowthRecordMutation, useEdi
 import { useSelector } from "react-redux";
 import AddDataDialog from "../../components/AddDataDialog";
 import EditDataDialog from "../../components/EditDataDialog";
+import { t } from "i18next";
 
 export const status = [
-    { value: "true", label: "Khỏe" },
-    { value: "false", label: "yếu" },
+    { value: "true", label: t("pigGrowth.good") },
+    { value: "false", label: t("pigGrowth.weak") },
 ];
 
 
@@ -34,17 +35,17 @@ const PigGrowthRecord = () => {
         UID: UID
     }, { refetchOnMountOrArgChange: true })
     const title = [
-        { key: "recordDate", label: "Ngày ghi nhận", isDateTime: true },
-        { key: "weight", label: "Cân nặng (kg)" },
+        { key: "recordDate", label: t("pigGrowth.date"), isDateTime: true },
+        { key: "weight", label: t("pigGrowth.weight") },
         // Hiển thị Mã lợn (lồng nhau)
-        { key: "pig.pigCode", label: "Mã lợn" },
+        { key: "pig.pigCode", label: t("pigGrowth.id") },
         // Hiển thị tên Người ghi nhận (lồng nhau)
-        { key: "users_permissions_user.username", label: "Người phụ trách" },
-        { key: "note", label: "Ghi chú" },
+        { key: "users_permissions_user.username", label: t("pigGrowth.worker") },
+        { key: "note", label: t("pigGrowth.note") },
     ];
     const dialogTitle = [ // Truyền danh sách Lợn và User vào
-        { key: "recordDate", label: "Ngày ghi nhận", isDateTime: true }, // Ngày tháng
-        { key: "weight", label: "Cân nặng", isNumber: true },
+        { key: "recordDate", label: t("pigGrowth.date"), isDateTime: true }, // Ngày tháng
+        { key: "weight", label: t("pigGrowth.weight"), isNumber: true },
 
         // {
         //     key: "pig",
@@ -62,7 +63,7 @@ const PigGrowthRecord = () => {
         //     mappingKey: "users_permissions_user.id" // 🛑 Lấy ID của User
         // },
 
-        { key: "note", label: "Ghi chú" },
+        { key: "note", label: t("pigGrowth.note") },
     ];
 
 

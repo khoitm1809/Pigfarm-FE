@@ -1,55 +1,57 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { API_URL } from '../../utils/ApiConstants';
-import { LOCAL_STORAGE_NAME } from '../../utils/constant';
 import { axiosBaseQuery } from '../../services/axiosBaseQuery';
-const UID = localStorage.getItem("UID")
-export const pigApi = createApi({
-    reducerPath: 'piggApi',
+
+export const invoiceApi = createApi({
+    reducerPath: 'invoiceApi',
     baseQuery: axiosBaseQuery(),
     endpoints: (builder) => ({
-        //get list pig
-        getListPig: builder.query({
+        //get list Invoice
+        getListInvoice: builder.query({
             query: (params) => {
                 const { barnId, ...rest } = params || {};
                 return {
-                    url: API_URL.PIG + "?populate=*",
+                    url: API_URL.INVOICE + "?populate=*",
                     method: "GET",
                     params: {
                         ...rest,
-                        ...(barnId ? { "filters[barn][id]": barnId } : {}),
                     },
                 };
             },
         }),
 
-        addPig: builder.mutation({
+        // add off spring
+        addInvoice: builder.mutation({
             query: (payload) => ({
-                url: API_URL.PIG,
+                url: API_URL.INVOICE,
                 method: 'POST',
                 data: { data: payload },
             }),
         }),
 
-        editPig: builder.mutation({
+        // edit off spring
+        editInvoice: builder.mutation({
             query: ({ id, ...rest }) => ({
-                url: API_URL.PIG + "/" + id,
+                url: API_URL.INVOICE + "/" + id,
                 method: 'PUT',
                 data: { data: rest },
             }),
         }),
 
-        deletePig: builder.mutation({
+        // delete off spring
+        deleteInvoice: builder.mutation({
             query: (id) => ({
-                url: `${API_URL.PIG}/${id}`,
+                url: API_URL.INVOICE + "/" + id,
                 method: 'DELETE',
             }),
         }),
 
-        getDetaiPig: builder.query({
+        // detail Invoice
+        getDetailInvoice: builder.query({
             query: (params) => {
-                const { pigId, ...rest } = params || {};
+                const { InvoiceId, ...rest } = params || {};
                 return {
-                    url: API_URL.PIG + "/" + pigId + "?populate=*",
+                    url: API_URL.INVOICE + "/" + InvoiceId + "?populate=*",
                     method: "GET",
                     params: {
                         ...rest,
@@ -58,13 +60,13 @@ export const pigApi = createApi({
             },
         }),
 
+
     }),
 });
 
 export const {
-    useGetDetaiPigQuery,
-    useGetListPigQuery,
-    useAddPigMutation,
-    useDeletePigMutation,
-    useEditPigMutation
-} = pigApi;
+    useGetListInvoiceQuery,
+    useAddInvoiceMutation,
+    useDeleteInvoiceMutation,
+    useEditInvoiceMutation
+} = invoiceApi;
