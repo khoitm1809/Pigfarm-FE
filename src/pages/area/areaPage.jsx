@@ -114,7 +114,6 @@ const AreaPage = () => {
         if (barnCount > 0) {
             openDialog({
                 type: MESSAGE_TYPE.WARNING,
-                // Hiển thị số lượng chuồng cần xóa
                 message: "Error while delete",
                 isShowCloseBtn: true,
                 isHideAction: true,
@@ -143,7 +142,6 @@ const AreaPage = () => {
     return (
         <BoxContainer padding={'2rem'}>
             <Box mb={4}>
-                {/* Tiêu đề trang */}
                 <Box sx={{ marginBottom: '2rem' }}>
                     <Typography
                         variant="h4"
@@ -160,7 +158,6 @@ const AreaPage = () => {
                     </Typography>
                 </Box>
 
-                {/* Thanh tìm kiếm, lọc và nút thêm mới */}
                 <Box
                     display="flex"
                     flexDirection={{ xs: "column", sm: "row" }}
@@ -229,7 +226,6 @@ const AreaPage = () => {
                     </Button>
                 </Box>
 
-                {/* Danh sách thẻ khu vực */}
                 <Row sx={{
                     width: '100%',
                     flexWrap: 'wrap',
@@ -269,7 +265,6 @@ const AreaPage = () => {
                     )}
                 </Row>
 
-                {/* Dialog Thêm mới */}
                 <Dialog
                     fullWidth
                     open={openAddDialog}
@@ -382,7 +377,6 @@ const AreaPage = () => {
                     </form>
                 </Dialog>
 
-                {/* Dialog Chỉnh sửa */}
                 <Dialog
                     fullWidth
                     open={openEditDialog}

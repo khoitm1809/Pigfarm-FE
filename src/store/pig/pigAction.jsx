@@ -7,7 +7,6 @@ export const pigApi = createApi({
     reducerPath: 'piggApi',
     baseQuery: axiosBaseQuery(),
     endpoints: (builder) => ({
-        //get list pig
         getListPig: builder.query({
             query: (params) => {
                 const { barnId, ...rest } = params || {};

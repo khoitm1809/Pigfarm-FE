@@ -8,7 +8,6 @@ export const areaApi = createApi({
     reducerPath: 'areaApi',
     baseQuery: axiosBaseQuery(),
     endpoints: (builder) => ({
-        //area
         addArea: builder.mutation({
             query: (body) => ({
                 url: API_URL.AREA,
@@ -42,7 +41,6 @@ export const areaApi = createApi({
             }),
         }),
 
-        //barn
         addBarn: builder.mutation({
             query: (body) => ({
                 url: API_URL.BARN,

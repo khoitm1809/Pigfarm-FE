@@ -1,4 +1,3 @@
-// src/services/confirmDialogService.js
 let openDialogFn = null;
 
 export const setOpenDialogFn = (fn) => {

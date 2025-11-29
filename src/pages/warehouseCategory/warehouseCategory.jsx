@@ -1,94 +1,92 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, TextField, Typography, CircularProgress, DialogTitle } from "@mui/material";
 import { BoxContainer, Row } from "../../components/commonStyled";
-import { ROUTES } from "../../router/routerConstants";
-import { convertToDropdown } from "../../components/convertToDropdown";
-import { useAddWarehouseCategoryMutation, useDeleteWarehouseCategoryMutation, useEditWarehouseCategoryMutation, useGetListWarehouseCategoryQuery } from "../../store/warehouse/warehouseAction";
+import { useNavigate } from "react-router";
 import { useState } from "react";
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import CardInfo from "../../components/CardInfo";
+import { useAddWarehouseCategoryMutation, useDeleteWarehouseCategoryMutation, useEditWarehouseCategoryMutation, useGetListWarehouseCategoryQuery } from "../../store/warehouse/warehouseAction";
+import { ROUTES } from "../../router/routerConstants";
 import { ROLES } from "../../utils/rolesConstant";
-import { useNavigate } from "react-router";
 import { MESSAGE_TYPE } from "../../utils/constant";
 import { useConfirmDialog } from "../../components/confirmDialog";
 import { t } from "i18next";
 
-export const status = [
-    { value: "true", label: "Khỏe" },
-    { value: "false", label: "yếu" },
-];
-
-
 const WareHouseCategory = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [openAddDialog, setOpenAddDialog] = useState(false);
-    const [isAssignDialogOpen, setIsAssignDialogOpen] = useState(false);
     const role = localStorage.getItem("role");
     const navigate = useNavigate();
     const [formData, setFormData] = useState({ name: '', description: '' });
     const [editingId, setEditingId] = useState(null);
 
+    const { openDialog } = useConfirmDialog();
+
     const [addWareHouseCategory, { isLoading: isAdding }] = useAddWarehouseCategoryMutation();
     const [editWareHouseCategory, { isLoading: isEditing }] = useEditWarehouseCategoryMutation();
-    const [deleteWareHouseCategory] = useDeleteWarehouseCategoryMutation();
+    const [deleteWareHouseCategory, { isLoading: isDeleting }] = useDeleteWarehouseCategoryMutation();
+
     const {
         data: listWareHouseCategory,
         isLoading: loadingListWareHouseCategory,
         refetch,
-    } = useGetListWarehouseCategoryQuery({}, { refetchOnMountOrArgChange: true })
+    } = useGetListWarehouseCategoryQuery({}, { refetchOnMountOrArgChange: true });
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    // Mở dialog để THÊM MỚI
     const handleOpenAdd = () => {
-        setFormData({ name: '', description: '' }); // Reset form
-        setEditingId(null); // Chế độ Add
+        setFormData({ name: '', description: '' }); 
+        setEditingId(null); 
         setOpenAddDialog(true);
     };
 
-    // Mở dialog để SỬA (nhận item từ CardInfo)
     const handleOpenEdit = (item) => {
         setFormData({
             name: item.name,
             description: item.description
         });
-        setEditingId(item.documentId); // Chế độ Edit (Lưu ID)
+        setEditingId(item.documentId);
         setOpenAddDialog(true);
     };
+
+    const toggleAddDialog = () => {
+        setOpenAddDialog(prev => !prev);
+        if (openAddDialog) {
+            setFormData({ name: '', description: '' });
+            setEditingId(null);
+        }
+    }
 
     const handleDelete = async (category) => {
         const itemArray = category?.warehouse_items || [];
         const itemCount = itemArray.length;
 
         if (itemCount > 0) {
-            // Hiển thị cảnh báo nếu danh mục đang chứa mặt hàng
             openDialog({
                 type: MESSAGE_TYPE.WARNING,
-                message: `Danh mục này đang chứa ${itemCount} mặt hàng. Bạn phải xóa hết các mặt hàng liên quan trước khi xóa danh mục.`,
+                message: `The category has ${itemCount} goods. You have to delete goods before delete category.`,
                 isShowCloseBtn: true,
                 isHideAction: true,
             });
-            return; // Ngăn chặn việc xóa
+            return; 
         }
 
-        // Mở dialog xác nhận xóa
         openDialog({
             type: MESSAGE_TYPE.CONFIRM,
-            message: `Bạn có chắc chắn muốn xóa danh mục ?`,
+            message: `Are you sure to delete category?`,
             actionConfirm: async () => {
                 try {
-                    // category.id là ID để API biết xóa cái nào
                     await deleteWareHouseCategory(category?.documentId).unwrap();
                     refetch();
                 } catch (error) {
-                    console.error("Lỗi khi xóa danh mục");
+                    console.error("Error when delete category");
                     openDialog({
                         type: MESSAGE_TYPE.ERROR,
-                        message: `Lỗi khi xóa danh mục`,
+                        message: `Error when delete category`,
                         isShowCloseBtn: true,
                         isHideAction: true,
                     });
@@ -97,37 +95,42 @@ const WareHouseCategory = () => {
         });
     };
 
-    const toggleAddDialog = () => setOpenAddDialog(prev => !prev);
-    const handleOpenAssignPigDialog = () => setIsAssignDialogOpen(true);
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Validate đơn giản
         if (!formData.name || !formData.description) return;
 
         try {
             if (editingId) {
-                // --- LOGIC EDIT ---
                 await editWareHouseCategory({
-                    id: editingId, // ID để API biết sửa cái nào
-                    ...formData    // Dữ liệu cần sửa (name, description)
-                    // Lưu ý: Nếu API của bạn yêu cầu bọc trong { data: ... } thì RTK query thường đã xử lý, 
-                    // hoặc bạn sửa lại thành: { id: editingId, data: formData } tùy cấu hình mutation.
+                    id: editingId,
+                    ...formData
                 }).unwrap();
             } else {
-                // --- LOGIC ADD ---
                 await addWareHouseCategory(formData).unwrap();
             }
             refetch();
-            // Thành công thì đóng dialog
+
             setOpenAddDialog(false);
             setFormData({ name: '', description: '' });
             setEditingId(null);
 
         } catch (error) {
-            console.error("Error while save");
+            console.error("Error while saving:", error);
+
+            openDialog({
+                type: MESSAGE_TYPE.ERROR,
+                message: `Error while saving:`,
+                isShowCloseBtn: true,
+                isHideAction: true,
+            });
         }
     };
+
+    const filteredCategories = listWareHouseCategory?.data?.filter(category =>
+        category.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        category.description?.toLowerCase().includes(searchTerm.toLowerCase())
+    ) || [];
 
     return (
         <BoxContainer padding={'2rem'}>
@@ -141,7 +144,6 @@ const WareHouseCategory = () => {
                         {t("warehouseCate.title")}
                     </Typography>
 
-                    {/* SUBTITLE */}
                     <Typography
                         variant="subtitle1"
                         color="text.secondary"
@@ -150,7 +152,6 @@ const WareHouseCategory = () => {
                     </Typography>
                 </Box>
 
-                {/* SEARCH + BUTTON */}
                 <Box
                     display="flex"
                     flexDirection={{ xs: "column", sm: "row" }}
@@ -161,7 +162,6 @@ const WareHouseCategory = () => {
                         width: "100%",
                     }}
                 >
-                    {/* Search Input */}
                     <TextField
                         fullWidth
                         placeholder={t("customTable.search")}
@@ -177,7 +177,6 @@ const WareHouseCategory = () => {
                                 height: "44px",
                                 paddingLeft: "8px",
                                 border: "none",
-
                                 "& fieldset": { border: "none" },
                                 "&:hover fieldset": { border: "none" },
                                 "&.Mui-focused fieldset": { border: "none" },
@@ -185,7 +184,6 @@ const WareHouseCategory = () => {
                         }}
                     />
 
-                    {/* Nút Lọc */}
                     <Button
                         variant="outlined"
                         startIcon={<TuneOutlinedIcon />}
@@ -205,7 +203,6 @@ const WareHouseCategory = () => {
                         {t("customTable.filters")}
                     </Button>
 
-                    {/* Nút Thêm */}
                     {role == ROLES.OWNER && <Button
                         variant="contained"
                         startIcon={<AddOutlinedIcon />}
@@ -225,40 +222,50 @@ const WareHouseCategory = () => {
                     </Button>}
                 </Box>
 
-                {/* CardInfor */}
                 <Row sx={{
                     width: '100%',
                     flexWrap: 'wrap',
                     gap: '2rem',
+                    justifyContent: 'flex-start'
                 }}>
-                    {listWareHouseCategory?.data?.map((category, index) => (
-                        <Box key={index}
-                            sx={{
-                                flex: {
-                                    xs: "1 1 50%",
-                                    sm: "1 1 calc(50% - 1rem)",
-                                },
-                            }}
-                            onClick={() => navigate(ROUTES.WAREHOUSE_ITEM, { state: category?.id })}>
-                            <CardInfo
-                                name={category?.name}
-                                description={category?.description}
-                                publishedAt={category?.publishedAt}
-                                nameCount={t("warehouseCate.quantity")}
-                                arrayCount={category?.warehouse_items?.length}
-                                isOwner={role == ROLES.OWNER}
-                                isEdit={true}
-                                isDelete={true}
-                                onActionEdit={() => {
-                                    handleOpenEdit(category);
-                                }}
-                                onActionAdd={handleOpenAssignPigDialog}
-                            />
+                    {loadingListWareHouseCategory ? (
+                        <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', mt: 4 }}>
+                            <CircularProgress size={30} />
+                            <Typography color="text.secondary" sx={{ ml: 2 }}>{t("warehouseCate.loading")}</Typography>
                         </Box>
-                    ))}
+                    ) : filteredCategories.length === 0 ? (
+                        <Typography color="text.secondary" sx={{ p: 2, width: '100%' }}>{t("warehouseCate.none")}</Typography>
+                    ) : (
+                        filteredCategories.map((category, index) => (
+                            <Box key={category?.id || index}
+                                sx={{
+                                    flex: {
+                                        xs: "1 1 100%",
+                                        sm: "0 0 calc(50% - 1rem)",
+                                    },
+                                }}
+                                onClick={() => navigate(ROUTES.WAREHOUSE_ITEM, { state: category?.id })}>
+                                <CardInfo
+                                    name={category?.name}
+                                    description={category?.description}
+                                    publishedAt={category?.publishedAt}
+                                    nameCount={"Items: "}
+                                    arrayCount={category?.warehouse_items?.length}
+                                    isOwner={role == ROLES.OWNER}
+                                    isEdit={true}
+                                    isDelete={true}
+                                    onActionEdit={() => {
+                                        handleOpenEdit(category);
+                                    }}
+                                    onActionDelete={() => {
+                                        handleDelete(category);
+                                    }}
+                                />
+                            </Box>
+                        ))
+                    )}
                 </Row>
 
-                {/* ADD ZONE DIALOG */}
                 <Dialog
                     fullWidth
                     open={openAddDialog}
@@ -277,56 +284,77 @@ const WareHouseCategory = () => {
                             pb: 1.5,
                         }}
                     >
-                        {t("warehouseCate.dialog")}
+                        {editingId ? t("warehouseCate.edit") : t("warehouseCate.dialog")}
                     </DialogTitle>
 
                     <form onSubmit={handleSubmit}>
                         <DialogContent dividers sx={{ border: "none", pt: 2, pb: 1, "& .MuiDialogContent-root": { border: "none" } }}>
                             <TextField
                                 fullWidth
-                                placeholder={t("warehouseCate.category")}
+                                label={t("warehouseCate.category")}
+                                placeholder={t("warehouseCate.nameField")}
                                 name="name"
-                                value={formData.name}       // Binding value
-                                onChange={handleInputChange} // Binding onChange
+                                value={formData.name}
+                                onChange={handleInputChange}
                                 required
-                                sx={{ mb: 2, "& .MuiOutlinedInput-root": { backgroundColor: "#f5f5f5", borderRadius: "8px", height: "44px", "& fieldset": { border: "none" } } }}
+                                disabled={isAdding || isEditing}
+                                sx={{
+                                    mb: 2,
+                                    "& .MuiOutlinedInput-root": {
+                                        backgroundColor: "#f5f5f5",
+                                        borderRadius: "8px",
+                                        height: "44px",
+                                        "& fieldset": { border: "none" }
+                                    }
+                                }}
                             />
 
                             <TextField
                                 fullWidth
-                                placeholder={t("warehouseCate.description")}
+                                label={t("warehouseCate.description")}
+                                placeholder={t("warehouseCate.descField")}
                                 name="description"
-                                value={formData.description} // Binding value
-                                onChange={handleInputChange} // Binding onChange
+                                value={formData.description}
+                                onChange={handleInputChange}
                                 required
                                 multiline
                                 rows={3}
-                                sx={{ "& .MuiOutlinedInput-root": { backgroundColor: "#f5f5f5", borderRadius: "8px", "& fieldset": { border: "none" } } }}
+                                disabled={isAdding || isEditing}
+                                sx={{
+                                    "& .MuiOutlinedInput-root": {
+                                        backgroundColor: "#f5f5f5",
+                                        borderRadius: "8px",
+                                        "& fieldset": { border: "none" }
+                                    }
+                                }}
                             />
                         </DialogContent>
 
                         <DialogActions sx={{ p: 2 }}>
-                            <Button onClick={toggleAddDialog} sx={{ textTransform: "none", color: "#444", borderRadius: "8px", px: 2, "&:hover": { backgroundColor: "#eee" } }}>
+                            <Button
+                                onClick={toggleAddDialog}
+                                disabled={isAdding || isEditing}
+                                sx={{ textTransform: "none", color: "#444", borderRadius: "8px", px: 2, "&:hover": { backgroundColor: "#eee" } }}
+                            >
                                 {t("warehouseCate.cancel")}
                             </Button>
 
                             <Button
                                 type="submit"
                                 variant="contained"
-                                disabled={isAdding || isEditing} // Disable khi đang loading
-                                sx={{ textTransform: "none", borderRadius: "8px", px: 3 }}
+                                disabled={isAdding || isEditing}
+                                sx={{ textTransform: "none", borderRadius: "8px", px: 3, backgroundColor: "black" }}
                             >
-                                {/* Đổi text nút bấm */}
                                 {editingId
-                                    ? (isEditing ? t("warehouseCate.saving") : t("warehouseCate.save"))
-                                    : (isAdding ? t("warehouseCate.creating") : t("warehouseCate.addForm"))
+                                    ? (isEditing ? <CircularProgress size={20} color="inherit" /> : t("warehouseCate.save"))
+                                    : (isAdding ? <CircularProgress size={20} color="inherit" /> : t("warehouseCate.addForm"))
                                 }
                             </Button>
                         </DialogActions>
                     </form>
                 </Dialog>
-            </Box>
-        </BoxContainer>
+            </Box >
+        </BoxContainer >
     )
 }
 

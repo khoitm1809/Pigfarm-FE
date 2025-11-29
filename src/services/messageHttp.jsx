@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 import { t } from "i18next"
 
 export const getMessageFromCode = (res) => {

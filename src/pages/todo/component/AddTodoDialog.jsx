@@ -43,10 +43,10 @@ export const AddTodoDialog = ({ open, handleClose, handleAddTodo, isLoading }) =
                 />
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose} color="secondary" disabled={isLoading}>
+                <Button onClick={handleClose} color="black" disabled={isLoading}>
                     {t("todo.cancel")}
                 </Button>
-                <Button onClick={handleSubmit} color="primary" variant="contained" disabled={isLoading || !name.trim()}>
+                <Button onClick={handleSubmit} sx={{backgroundColor:"black"}} color="primary" variant="contained" disabled={isLoading || !name.trim()}>
                     {isLoading ? <CircularProgress size={24} color="inherit" /> : t("todo.create")}
                 </Button>
             </DialogActions>

@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { Box, Dialog, Typography } from '@mui/material';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { MainButton, SecondaryButton } from './commonStyled';
@@ -69,8 +68,6 @@ export const ConfirmDialogProvider = ({ children }) => {
                         borderRadius: "2.4rem",
                         '& .MuiPaper-root': {
                             borderRadius: "2.4rem",
-                            // background: currentTheme?.common?.bgColor,
-                            // border: currentTheme?.item?.border,
                             backgroundClip: 'unset',
                             backgroundRepeat: 'no-repeat',
                             minWidth: { xs: "65%", md: "35%", xl: '60.8rem' },
@@ -95,9 +92,6 @@ export const ConfirmDialogProvider = ({ children }) => {
                             onClick={() => {
                                 closeDialog();
                             }}>
-                            {/* <CancelOutlinedIcon
-                                sx={{ fontSize: "2.4rem" }}
-                            ></CancelOutlinedIcon> */}
                         </Box>}
                         {getIcon()}
                         <Typography textAlign={'center'} variant="16700">{dialogConfig?.message}</Typography>

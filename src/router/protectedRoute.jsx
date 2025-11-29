@@ -1,4 +1,3 @@
-// src/router/ProtectedRoute.jsx
 import { Navigate, useLocation } from "react-router-dom";
 import { ROUTES } from "./routerConstants";
 import { ROLE_ACCESS } from "../utils/rolesAccess";

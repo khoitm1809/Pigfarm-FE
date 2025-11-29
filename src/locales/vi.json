@@ -11,31 +11,27 @@
     "loggingIn": "Đang đăng nhập...",
     "homePage": "Trang chủ",
     "emailRequired": "Vui lòng nhập email",
-    "passWordReq":"Vui lòng nhập mật khẩu",
+    "passWordReq": "Vui lòng nhập mật khẩu",
     "passWord": "Mật khẩu",
     "notice": "Nhập thông tin để truy cập hệ thống",
     "forgotPassword": "Quên mật khẩu?",
     "remember": "Ghi nhớ đăng nhập"
   },
-
   "dialog": {
     "add": "Thêm mới",
     "save": "Lưu",
     "update": "Cập nhật"
   },
-
   "card": {
     "assign": "Phân công",
     "edit": "Sửa",
     "delete": "Xóa",
-    "feed": "Cài đặt Thức ăn",
-    "createdDate": "Ngày tạo"
+    "feed": "Cài đặt Thức ăn: ",
+    "createdDate": "Ngày tạo: "
   },
-
   "detailLayout": {
     "total": "Tổng"
   },
-
   "home": {
     "title": "Thống kê chăn nuôi",
     "heading": "Tổng quan trang trại và hiệu suất chăn nuôi",
@@ -50,14 +46,21 @@
     "pigBarn": "Heo / Chuồng",
     "weightChart": "Cân nặng (kg)",
     "barnQuantity": "Số lượng chuồng theo khu vực",
-    "quantityChart": "Số lượng chuồng"
+    "quantityChart": "Số lượng chuồng",
+    "todoTotal": "Tổng công việc",
+    "inProgress": " đang thực hiện",
+    "invoice": "Tổng doanh thu",
+    "bill": "Từ hóa đơn xuất chuồng",
+    "warehouse": "Tổng hàng trong kho",
+    "itemTotal": "Tổng số lượng tồn",
+    "todo": "Tình trạng công việc",
+    "cate": "Số lượng hàng tồn theo Danh mục Kho"
   },
-
   "profile": {
     "title": "Trang cá nhân",
     "heading": "Quản lý thông tin cá nhân",
     "role": "Chủ trang trại",
-    "name":"Tên người dùng",
+    "name": "Tên người dùng",
     "avatar": "Thay đổi ảnh",
     "info": "Thông tin cá nhân",
     "phone": "Số điện thoại",
@@ -73,28 +76,32 @@
     "loading": "Đang tải thông tin người dùng...",
     "join": "Tham gia: "
   },
-
   "user": {
     "name": "Tên người dùng",
     "date": "Ngày tạo",
     "passWord": "Mật khẩu",
     "role": "Vai trò"
   },
-
   "warehouseCate": {
     "title": "Quản lý kho hàng",
     "heading": "Quản lý kho thức ăn và thuốc",
     "quantity": "Tổng số lượng: ",
-    "dialog": "Thêm hàng hóa",
+    "dialog": "Thêm danh mục",
     "category": "Tên danh mục...",
-    "description": "Mô tả",
     "cancel": "Hủy",
     "saving": "Đang lưu...",
     "save": "Lưu thay đổi",
     "creating": "Đang tạo...",
-    "addForm": "Tạo"
+    "addForm": "Tạo",
+    "loading": "Đang tải danh mục...",
+    "none": "Không tìm thấy danh mục nào.",
+    "edit": "Chỉnh sửa Danh mục",
+    "create": "Tạo Danh mục mới",
+    "name": "Tên danh mục",
+    "nameField": "Nhập tên danh mục...",
+    "description": "Mô tả",
+    "descField": "Mô tả..."
   },
-
   "warehouseItem": {
     "name": "Tên vật phẩm",
     "quantity": "Số lượng",
@@ -104,19 +111,21 @@
     "date": "Ngày nhập hàng",
     "worker": "Nhân công phụ trách"
   },
-
   "pigType": {
     "name": "Tên loại lợn",
     "description": "Mô tả"
   },
-
   "invoice": {
-    "invoice": "Quản lý hóa đơn nhập hàng",
-    "discount": "Giảm giá",
-    "paymentStatus": "Trạng thái thanh toán",
-    "date": "Ngày tạo"
+    "exportCard": "Tổng số lợn đã xuất",
+    "invoiceCard": "Tổng tiền hóa đơn",
+    "id": "Mã heo",
+    "health": "Sức khỏe",
+    "weight": "Cân nặng (kg)",
+    "age": "Tuổi",
+    "price": "Giá",
+    "type": "Loại heo",
+    "exporter": "Người xuất"
   },
-
   "area": {
     "title": "Quản lý khu vực",
     "heading": "Quản lý toàn bộ khu vực",
@@ -143,7 +152,6 @@
     "save": "Lưu thay đổi",
     "createBy": "Người tạo"
   },
-
   "barn": {
     "errorAssign": "Lỗi khi phân công nhân công",
     "title": "Quản lý Chuồng",
@@ -166,7 +174,6 @@
     "saveAssign": "Lưu phân công",
     "createBy": "Nhân công phụ trách"
   },
-
   "detailBarn": {
     "id": "Mã heo",
     "health": "Sức khỏe",
@@ -177,9 +184,10 @@
     "age": "Tuổi",
     "note": "Ghi chú",
     "type": "Loại heo",
-    "worker": "Nhân công phụ trách"
+    "worker": "Nhân công phụ trách",
+    "good": "Tốt",
+    "sick": "Bệnh"
   },
-
   "pigGrowth": {
     "good": "Khỏe",
     "weak": "Yếu",
@@ -189,7 +197,6 @@
     "worker": "Nhân công phụ trách",
     "note": "Ghi chú"
   },
-
   "todo": {
     "title": "Quản lý công việc 📋",
     "heading": "Quản lý và phân công công việc cho đội ngũ",
@@ -208,9 +215,10 @@
     "name": "Tên Công Việc",
     "description": "Mô tả",
     "cancel": "Hủy",
-    "status": "Thay đổi Trạng thái"
+    "status": "Thay đổi Trạng thái",
+    "date": "Tạo lúc: ",
+    "choose": "Chọn người để phân công"
   },
-
   "foodRation": {
     "foodRation": "Thiết lập chuỗi thức ăn",
     "trialDiet": "Chế độ ăn thử",
@@ -223,8 +231,35 @@
     "dosage": "Liều thuốc sử dụng",
     "meditionMeal": "Liều lượng"
   },
-
+  "detailPig": {
+    "nonePig": "Không tìm thấy thông tin heo hoặc có lỗi xảy ra.",
+    "back": "Quay lại danh sách",
+    "title": "Chi tiết Heo: ",
+    "heading": "Thông tin cơ bản",
+    "id": "Mã heo",
+    "type": "Loại heo",
+    "age": "Tuổi",
+    "month": "tháng",
+    "weight": "Cân nặng ban đầu",
+    "barn": "Chuồng",
+    "health": "Sức khỏe",
+    "price": "Giá nhập ước tính",
+    "created": "Người tạo hồ sơ",
+    "date": "Ngày nhập",
+    "good": "Khỏe",
+    "pending": "Cần theo dõi",
+    "note": "Ghi chú",
+    "noNote": "Không có ghi chú",
+    "edit": "Chỉnh Sửa Thông Tin",
+    "weight2": "Cân nặng hiện tại",
+    "date2": "Sô ngày nuôi",
+    "growth": "Tăng trưởng",
+    "profit": "Lãi / Lỗ",
+    "delete": "Xóa Hồ Sơ Heo",
+    "export": "Xuất chuồng"
+  },
   "customTable": {
+    "title": "Trang Quản Lý",
     "save": "Lưu",
     "list": "Bảng danh sách",
     "create": "Thêm mới",
@@ -234,9 +269,9 @@
     "accManage": "Quản lý tài khoản",
     "accList": "Quản lý danh sách tài khoản",
     "action": "Thao tác",
-    "none": "Không có dữ liệu nào phù hợp."
+    "none": "Không có dữ liệu nào phù hợp.",
+    "cancel": "Hủy"
   },
-  
   "navigation": {
     "home": "Trang chủ",
     "accList": "Quản lý tài khoản",

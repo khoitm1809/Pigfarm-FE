@@ -12,12 +12,11 @@ i18n
       en: { translation: en },
       vi: { translation: vi },
     },
-    lng: savedLang, // load saved language or default
+    lng: savedLang, 
     fallbackLng: 'en',
     interpolation: { escapeValue: false },
   });
 
-// Whenever language changes, store it
 i18n.on('languageChanged', (lng) => {
   localStorage.setItem('lang', lng);
 });

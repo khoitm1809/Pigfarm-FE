@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import AddDataDialog from "../../components/AddDataDialog";
 import EditDataDialog from "../../components/EditDataDialog";
 import { t } from "i18next";
+import { useGetListPigQuery } from "../../store/pig/pigAction";
 
 export const status = [
     { value: "true", label: t("pigGrowth.good") },
@@ -22,10 +23,6 @@ const PigGrowthRecord = () => {
     const [addPigGrowthRecord] = useAddPigGrowthRecordMutation();
     const [editPigGrowthRecord] = useEditPigGrowthRecordMutation();
     const [deletePigGrowthRecord] = useDeletePigGrowthRecordMutation();
-    // const {
-    //     data: listBarn,
-    //     // isLoading: loadingListBarn,
-    // } = useGetListBarnQuery({}, { refetchOnMountOrArgChange: true })
 
     const {
         data: listTypePigGrowthRecord,
@@ -34,35 +31,32 @@ const PigGrowthRecord = () => {
     } = useGetListPigGrowthRecordQuery({
         UID: UID
     }, { refetchOnMountOrArgChange: true })
+
+        const {
+        data: listPigs,
+        isLoading: loadingListPig,
+    } = useGetListPigQuery({
+    }, { refetchOnMountOrArgChange: true })
+
+    console.log(listPigs?.data)
+
     const title = [
         { key: "recordDate", label: t("pigGrowth.date"), isDateTime: true },
         { key: "weight", label: t("pigGrowth.weight") },
-        // Hiển thị Mã lợn (lồng nhau)
         { key: "pig.pigCode", label: t("pigGrowth.id") },
-        // Hiển thị tên Người ghi nhận (lồng nhau)
         { key: "users_permissions_user.username", label: t("pigGrowth.worker") },
         { key: "note", label: t("pigGrowth.note") },
     ];
-    const dialogTitle = [ // Truyền danh sách Lợn và User vào
-        { key: "recordDate", label: t("pigGrowth.date"), isDateTime: true }, // Ngày tháng
+    const dialogTitle = [ 
+        { key: "recordDate", label: t("pigGrowth.date"), isDateTime: true }, 
         { key: "weight", label: t("pigGrowth.weight"), isNumber: true },
-
-        // {
-        //     key: "pig",
-        //     label: "Lợn",
-        //     isDropDown: true,
-        //     // list: convertToDropdown(listPigs), // Giả định list Lợn được truyền vào
-        //     mappingKey: "pig.id" // 🛑 Lấy ID của Lợn
-        // },
-
-        // {
-        //     key: "users_permissions_user",
-        //     label: "Người ghi nhận",
-        //     isDropDown: true,
-        //     // list: convertToDropdown(listUsers), // Giả định list User được truyền vào
-        //     mappingKey: "users_permissions_user.id" // 🛑 Lấy ID của User
-        // },
-
+                {
+            key: "pig",
+            label: t("pigGrowth.id"),
+            isDropDown: true,
+            list: convertToDropdown(listPigs?.data), 
+            mappingKey: "pig.pigCode" 
+        },
         { key: "note", label: t("pigGrowth.note") },
     ];
 

@@ -7,7 +7,6 @@ export const breedingApi = createApi({
     reducerPath: 'breedingApi',
     baseQuery: axiosBaseQuery(),
     endpoints: (builder) => ({
-        // Get List Breeding
         getListBreeding: builder.query({
             query: (params) => ({
                 url: API_URL.BREEDING,
@@ -17,7 +16,7 @@ export const breedingApi = createApi({
                 },
             }),
         }),
-        // Get List Barn
+
         getListBarn: builder.query({
             query: (params) => ({
                 url: API_URL.BARN,
@@ -28,7 +27,6 @@ export const breedingApi = createApi({
             }),
         }),
 
-        // add breeding
         addBreading: builder.mutation({
             query: (body) => ({
                 url: API_URL.BREEDING + "/add",
@@ -37,7 +35,6 @@ export const breedingApi = createApi({
             }),
         }),
 
-        // add barn
         addBarn: builder.mutation({
             query: (body) => ({
                 url: API_URL.BARN + "/add",
@@ -46,7 +43,6 @@ export const breedingApi = createApi({
             }),
         }),
 
-        // edit breeding
         editBreading: builder.mutation({
             query: (body) => ({
                 url: API_URL.BREEDING + "/edit/" + body._id,
@@ -55,7 +51,6 @@ export const breedingApi = createApi({
             }),
         }),
 
-        // edit barn
         editBarn: builder.mutation({
             query: (body) => ({
                 url: API_URL.BARN + "/edit/" + body._id,
@@ -64,7 +59,6 @@ export const breedingApi = createApi({
             }),
         }),
 
-        // delete breeding
         deleteBreading: builder.mutation({
             query: (_id) => ({
                 url: API_URL.BREEDING + "/delete/" + _id,
@@ -72,7 +66,6 @@ export const breedingApi = createApi({
             }),
         }),
 
-        // delete barn
         deleteBarn: builder.mutation({
             query: (id) => ({
                 url: API_URL.BARN + "/delete/" + id,

@@ -27,33 +27,26 @@ import CloseIcon from '@mui/icons-material/Close';
 import PersonIcon from '@mui/icons-material/Person';
 import { t } from "i18next";
 
-// Định nghĩa trạng thái và màu sắc tương ứng
 const todoStatus = [
-    { value: "unAssigned", label: t("todo.unAssigned"), color: "default", icon: <PendingIcon fontSize="small" /> },
-    { value: "assigned", label: t("todo.assigned"), color: "primary", icon: <AssignmentIcon fontSize="small" /> },
-    { value: "doing", label: t("todo.doing"), color: "info", icon: <AccessTimeIcon fontSize="small" /> },
-    { value: "done", label: t("todo.done"), color: "success", icon: <CheckCircleOutlineIcon fontSize="small" /> },
-    { value: "expired", label: t("todo.expired"), color: "error", icon: <CancelIcon fontSize="small" /> }
+    { value: "unAssigned", label: "Not Assigned", color: "default", icon: <PendingIcon fontSize="small" /> },
+    { value: "assigned", label: "Assigned", color: "primary", icon: <AssignmentIcon fontSize="small" /> },
+    { value: "doing", label: "In progress", color: "info", icon: <AccessTimeIcon fontSize="small" /> },
+    { value: "done", label: "Complete", color: "success", icon: <CheckCircleOutlineIcon fontSize="small" /> },
+    { value: "expired", label: "Expired", color: "error", icon: <CancelIcon fontSize="small" /> }
 ];
 
-// Hàm tìm thông tin trạng thái theo value
 const getStatusProps = (statusValue) => {
     return todoStatus.find(s => s.value === statusValue);
 };
 
-// Hàm lấy ID người được phân công từ đối tượng todo
 const getInitialAssignedUserId = (todo) => {
-    // SỬA: Lấy ID từ trường users_permissions_user
     if (todo.users_permissions_user && typeof todo.users_permissions_user === 'object') {
         return todo.users_permissions_user.id || '';
     }
-    // Trường này nên được sử dụng nếu user là ID thuần túy (ít phổ biến trong quan hệ)
     return todo.users_permissions_user || '';
 };
 
-// Hàm lấy tên người được phân công (được sử dụng cho lần render đầu tiên)
 const getInitialAssignedUserName = (todo) => {
-    // SỬA: Lấy username từ trường users_permissions_user
     if (todo.users_permissions_user && typeof todo.users_permissions_user === 'object') {
         return todo.users_permissions_user.username || 'Unknown name';
     }
@@ -74,7 +67,7 @@ export const TodoItem = ({ todo, onChangeStatus, onAssign, role }) => {
         isLoading: isLoadingUsers,
     } = useGetListUserQuery({
         role: ROLES.WORKER
-    }, { refetchOnMountOrArgChange: true });
+    }, { skip: role == ROLES.WORKER, refetchOnMountOrArgChange: true });
 
     const assignedUser = listUser?.find(user => user.id === assignedUserId);
 
@@ -91,7 +84,7 @@ export const TodoItem = ({ todo, onChangeStatus, onAssign, role }) => {
 
     const handleStatusChange = (newStatus) => {
         if (newStatus === 'unAssigned' && isWorker) {
-            console.warn("Worker không được phép thay đổi trạng thái thành 'Chưa giao'.");
+            console.warn("Worker does not allow to change status 'Not Assigned'.");
             return;
         }
 
@@ -100,7 +93,6 @@ export const TodoItem = ({ todo, onChangeStatus, onAssign, role }) => {
             onAssign(todo.documentId, '');
         }
 
-        // 3. Cập nhật trạng thái
         setStatus(newStatus);
         onChangeStatus(todo.documentId, newStatus);
         setOpenStatusDialog(false);
@@ -137,16 +129,14 @@ export const TodoItem = ({ todo, onChangeStatus, onAssign, role }) => {
                 {todo.description}
             </Typography>
 
-            {/* Hiển thị ngày tạo/cập nhật */}
             <Box mb={1}>
                 <Typography variant="caption" color="text.hint">
-                    Tạo lúc: {new Date(todo.createdAt).toLocaleString()}
+                    {t("todo.date")} {new Date(todo.createdAt).toLocaleString()}
                 </Typography>
             </Box>
 
             <Box mt={1.5} display="flex" gap={1.5} flexWrap="wrap" alignItems="center">
 
-                {/* Nút thay đổi Trạng thái */}
                 <Button
                     variant="outlined"
                     size="small"
@@ -159,7 +149,6 @@ export const TodoItem = ({ todo, onChangeStatus, onAssign, role }) => {
                     <Box component="span" ml={0.5}>{currentStatusProps.label}</Box>
                 </Button>
 
-                {/* Nút Phân công */}
                 <Button
                     variant="contained"
                     size="small"
@@ -173,11 +162,9 @@ export const TodoItem = ({ todo, onChangeStatus, onAssign, role }) => {
                 </Button>
             </Box>
 
-            {/* Dialog Thay đổi Trạng thái */}
             <Dialog
                 onClose={() => setOpenStatusDialog(false)}
                 open={openStatusDialog}
-                // NÂNG KÍCH THƯỚC DIALOG LÊN SM
                 maxWidth="sm"
                 fullWidth
             >
@@ -188,14 +175,12 @@ export const TodoItem = ({ todo, onChangeStatus, onAssign, role }) => {
                         onClick={() => setOpenStatusDialog(false)}
                         sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500] }}
                     >
-                        {/* ICON TO HƠN */}
                         <CloseIcon fontSize="large" />
                     </IconButton>
                 </DialogTitle>
                 <DialogContent dividers sx={{ minHeight: 300 }}>
-                    <List> {/* Bỏ dense để List Items to hơn */}
+                    <List> 
                         {todoStatus.map((s) => {
-                            // LOGIC: Ngăn Worker chuyển về "unAssigned"
                             const isDisabled = isWorker && s.value === 'unAssigned';
 
                             return (
@@ -206,7 +191,7 @@ export const TodoItem = ({ todo, onChangeStatus, onAssign, role }) => {
                                     selected={status === s.value}
                                     disabled={isDisabled}
                                     sx={{
-                                        py: 1.5, // Tăng padding
+                                        py: 1.5, 
                                         '&.Mui-selected': {
                                             backgroundColor: (theme) => theme.palette[s.color === 'default' ? 'grey' : s.color].light,
                                         },
@@ -214,22 +199,18 @@ export const TodoItem = ({ todo, onChangeStatus, onAssign, role }) => {
                                             backgroundColor: (theme) => theme.palette[s.color === 'default' ? 'grey' : s.color].light,
                                             opacity: 0.8
                                         },
-                                        // Thêm kiểu để làm mờ khi bị vô hiệu hóa
                                         ...(isDisabled && { opacity: 0.5, pointerEvents: 'none' })
                                     }}
                                 >
                                     <Chip
-                                        // NÂNG KÍCH THƯỚC CHIP
                                         label={s.label}
-                                        size="medium" // Tăng từ small lên medium
+                                        size="medium" 
                                         color={s.color === 'default' ? 'default' : s.color}
-                                        // Dùng icon lớn hơn nếu cần, nhưng Chip thường giới hạn size icon
                                         icon={s.icon}
                                         variant={status === s.value ? 'filled' : 'outlined'}
-                                        sx={{ minWidth: 150, fontSize: '1rem', height: 32 }} // Tăng minWidth và fontSize
+                                        sx={{ minWidth: 150, fontSize: '1rem', height: 32 }}
                                     />
                                     <ListItemText
-                                        // NÂNG KÍCH THƯỚC CHỮ
                                         primary={status === s.value ? ' (Select)' : (isDisabled ? ' (Worker không được chọn)' : '')}
                                         primaryTypographyProps={{ fontSize: '1.1rem', fontWeight: status === s.value ? 600 : 400 }}
                                         sx={{ ml: 2 }}
@@ -241,59 +222,51 @@ export const TodoItem = ({ todo, onChangeStatus, onAssign, role }) => {
                 </DialogContent>
             </Dialog>
 
-
-            {/* Dialog Phân công */}
             <Dialog
                 onClose={() => setOpenAssignDialog(false)}
                 open={openAssignDialog}
-                // NÂNG KÍCH THƯỚC DIALOG LÊN SM
                 maxWidth="sm"
                 fullWidth
             >
                 <DialogTitle>
-                    <Typography variant="h6">Chọn người để phân công</Typography>
+                    <Typography variant="h6">{t("todo.choose")}</Typography>
                     <IconButton
                         aria-label="close"
                         onClick={() => setOpenAssignDialog(false)}
                         sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500] }}
                     >
-                        {/* ICON TO HƠN */}
                         <CloseIcon fontSize="large" />
                     </IconButton>
                 </DialogTitle>
                 <DialogContent dividers sx={{ minHeight: 300 }}>
                     {isLoadingUsers ? (
                         <Box display="flex" justifyContent="center" p={2}>
-                            <CircularProgress size={40} /> {/* Icon Loading to hơn */}
+                            <CircularProgress size={40} />
                         </Box>
                     ) : (
-                        <List> {/* Bỏ dense để List Items to hơn */}
-                            {/* Option 'Chưa phân công' */}
+                        <List> 
                             <ListItem
                                 button
                                 onClick={() => handleAssign('')}
                                 selected={assignedUserId === ''}
-                                sx={{ py: 1 }} // Tăng padding
+                                sx={{ py: 1 }} 
                             >
                                 <ListItemText
-                                    // NÂNG KÍCH THƯỚC CHỮ
                                     primary="Chưa phân công"
                                     secondary="Gỡ bỏ phân công"
                                     primaryTypographyProps={{ fontSize: '1.1rem', fontWeight: assignedUserId === '' ? 'bold' : 'normal' }}
                                     secondaryTypographyProps={{ fontSize: '0.9rem' }}
                                 />
                             </ListItem>
-                            {/* Danh sách người dùng */}
                             {listUser?.map((user) => (
                                 <ListItem
                                     button
                                     key={user.id}
                                     onClick={() => handleAssign(user.id)}
                                     selected={assignedUserId === user.id}
-                                    sx={{ py: 1 }} // Tăng padding
+                                    sx={{ py: 1 }}
                                 >
                                     <ListItemText
-                                        // NÂNG KÍCH THƯỚC CHỮ
                                         primary={user.username}
                                         primaryTypographyProps={{ fontSize: '1.1rem', fontWeight: assignedUserId === user.id ? 'bold' : 'normal' }}
                                     />

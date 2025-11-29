@@ -1,8 +1,9 @@
-import React from 'react';
-import { BoxContainer, Column, Row } from '../../components/commonStyled';
+import { BoxContainer } from '../../components/commonStyled';
 import { useDeleteInvoiceMutation, useGetListInvoiceQuery } from '../../store/invoice/invoiceApi';
 import CustomTable from "../../components/CustomTable";
 import { ROUTES } from '../../router/routerConstants';
+import { formatCurrency } from '../pig/detailPig';
+import { t } from 'i18next';
 
 export function Invoice() {
     const [deleteInvoice] = useDeleteInvoiceMutation();
@@ -16,17 +17,36 @@ export function Invoice() {
     });
 
 
-    console.log(listInvoice?.data)
+    const totalPigs = listInvoice?.data?.length || 0;
+    const totalValue = listInvoice?.data?.reduce((sum, pig) => sum + parseInt(pig.price, 10), 0) || 0;
+
+    const invoiceSummaryCards = [
+        {
+            title: t("invoice.exportCard"),
+            count: totalPigs.toLocaleString(),
+            iconKey: "đã xong",
+        },
+        {
+            title: t("invoice.invoiceCard"),
+            count: formatCurrency(totalValue),
+            iconKey: "tổng công việc",
+        },
+
+    ];
+
+    const statusPig = [
+            { value: "true", label: t("detailBarn.good")},
+            { value: "false", label: t("detailBarn.sick")},
+        ];
+
     const title = [
-        { key: "pigCode", label: "Mã heo" },
-        { key: "healthStatus", label: "Sức khỏe" },
-        { key: "weight", label: "Cân nặng", },
-        { key: "barn.name", label: "Chuồng" },
-        { key: "age", label: "Tuổi" },
-        { key: "pig_growth_records.weight", label: "Tăng trưởng", isArray: true },
-        { key: "price", label: "Giá" },
-        { key: "pig_type.name", label: "Loại heo" },
-        { key: "users_permissions_user.username", label: "Người tạo" }
+        { key: "pigCode", label: t("invoice.id") },
+        { key: "healthStatus", label: t("invoice.health"), isDropDown: true, list: statusPig },
+        { key: "weight", label: t("invoice.weight"), },
+        { key: "age", label: t("invoice.age") },
+        { key: "price", label: t("invoice.price") },
+        { key: "pig_type.name", label: t("invoice.type") },
+        { key: "users_permissions_user.username", label: t("invoice.exporter") }
 
     ];
     return (
@@ -38,7 +58,8 @@ export function Invoice() {
                 mutationDeleteFunction={deleteInvoice}
                 loading={isLoadingInvoice}
                 refetch={refetch}
-                detailNavigate={ROUTES.DETAIL_PIG}
+                invoice={true}
+                invoiceSummary={invoiceSummaryCards}
             />
         </BoxContainer>
     );

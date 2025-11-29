@@ -27,22 +27,18 @@ const getNestedValue = (obj, path) => {
 const transformDataForEdit = (selectedData, dialogTitle) => {
     if (!selectedData) return {};
 
-    // Khởi tạo form data bằng dữ liệu gốc
     const transformedData = {};
     
     dialogTitle.forEach(field => {
         const fieldKey = field.key;
-        let fieldValue = selectedData[fieldKey]; // Giá trị gốc
+        let fieldValue = selectedData[fieldKey];
 
         if (field.mappingKey) {
-            // Trường có mappingKey (ví dụ: barn.id)
             fieldValue = getNestedValue(selectedData, field.mappingKey);
         } else if (typeof fieldValue === 'object' && fieldValue !== null && (fieldValue.documentId || fieldValue.id)) {
-            // Trường quan hệ không có mappingKey (ví dụ: pig_type, users_permissions_user)
-            fieldValue = fieldValue.id; // Lấy ID số nguyên của quan hệ
+            fieldValue = fieldValue.id;
         }
 
-        // Đặt giá trị vào transformedData
         if (fieldValue !== undefined) {
             transformedData[fieldKey] = fieldValue;
         }
@@ -80,26 +76,20 @@ const transformPayload = (formData, dialogTitle) => {
         let finalValue;
 
         if (dayjs.isDayjs(value)) {
-            // 1. Xử lý Date/Time: Chuyển sang ISO string
             finalValue = value.toISOString();
         } else if (fieldConfig?.isNumber) {
-            // 2. Xử lý Number:
             const numValue = Number(value);
-            // Giá trị rỗng hoặc NaN -> null
             if (value === "" || value === null || isNaN(numValue)) {
                 finalValue = null; 
             } else {
                 finalValue = numValue;
             }
         } else if (value === "" || value === null) {
-            // 3. Xử lý String/Dropdown: Nếu là chuỗi rỗng hoặc null -> null
             finalValue = null;
         } else {
-            // 4. Giữ nguyên các giá trị khác
             finalValue = value;
         }
 
-        //Chỉ thêm vào payload nếu giá trị không phải là null
         if (finalValue !== null) {
             acc[key] = finalValue;
         }
@@ -139,7 +129,6 @@ export default function EditDataDialog({
                 ...finalPayloadData
             };
 
-            // 3. THỰC HIỆN CHỈNH SỬA
             await mutationEditFunction(finalPayload).unwrap();
 
             refetch();
@@ -175,7 +164,7 @@ export default function EditDataDialog({
             </DialogContent>
 
             <DialogActions sx={{ justifyContent: 'center', pb: 2 }}>
-                <MainButton onClick={handleSave} variant="contained">{t("dialog.save")}</MainButton>
+                <MainButton onClick={handleSave} variant="contained" sx={{backgroundColor: "black"}}>{t("dialog.save")}</MainButton>
             </DialogActions>
         </Dialog>
     );

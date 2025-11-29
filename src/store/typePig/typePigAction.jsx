@@ -7,7 +7,6 @@ export const typePigApi = createApi({
     reducerPath: 'typePig',
     baseQuery: axiosBaseQuery(),
     endpoints: (builder) => ({
-        // Get List Off Spring
         getListTypePig: builder.query({
             query: (params) => ({
                 url: API_URL.TYPE_PIG,
@@ -18,7 +17,6 @@ export const typePigApi = createApi({
             }),
         }),
 
-        // add off spring
         addTypePig: builder.mutation({
             query: (payload) => ({
                 url: API_URL.TYPE_PIG,
@@ -27,7 +25,6 @@ export const typePigApi = createApi({
             }),
         }),
 
-        // edit off spring
         editTypePig: builder.mutation({
             query: (body) => ({
                 url: API_URL.TYPE_PIG + "/" + body.id,
@@ -36,7 +33,6 @@ export const typePigApi = createApi({
             }),
         }),
 
-        // delete off spring
         deleteTypePig: builder.mutation({
             query: (id) => ({
                 url: API_URL.TYPE_PIG + "/" + id,

@@ -23,7 +23,7 @@ for (const file of files) {
       const text = node.value.trim()
       if (
         text &&
-        /[a-zA-ZÀ-Ỵà-ỵ]/.test(text) && // có ký tự chữ
+        /[a-zA-ZÀ-Ỵà-ỵ]/.test(text) &&
         text.length < 100 &&
         !text.startsWith('http') &&
         !text.includes('{')
@@ -42,7 +42,7 @@ for (const file of files) {
       if (text && text.length < 200 && !/^[{}<>]+$/.test(text)) {
         const key = text
           .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '') // bỏ dấu tiếng Việt
+          .replace(/[\u0300-\u036f]/g, '') 
           .toLowerCase()
           .replace(/\s+/g, '_')
           .replace(/[^a-z0-9_]/g, '')

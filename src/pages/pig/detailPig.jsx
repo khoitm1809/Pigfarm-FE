@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { useAddInvoiceMutation } from '../../store/invoice/invoiceApi';
 import { ROUTES } from '../../router/routerConstants';
+import { t } from 'i18next';
 
 
 const BoxData = ({ title, number, unit, Icon, color = 'primary' }) => {
@@ -52,7 +53,6 @@ export const formatCurrency = (number) => {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
 };
 
-// Hàm tính số ngày nuôi
 const calculateDaysLived = (createdAt) => {
     if (!createdAt) return 0;
     const createdDate = new Date(createdAt);
@@ -65,7 +65,6 @@ export function DetailPig() {
     const location = useLocation();
     const navigate = useNavigate();
     const pigId = location.state;
-    // const [editPig] = useEditPigMutation(); // Chưa dùng đến, có thể ẩn
     const [deletePig] = useDeletePigMutation();
     const [addInvoice] = useAddInvoiceMutation();
 
@@ -85,7 +84,7 @@ export function DetailPig() {
                 navigate(ROUTES.PIG_PAGE);
             })
             .catch((error) => {
-                alert('Xóa thất bại.');
+                alert('Failed delete');
             });
     };
 
@@ -100,39 +99,25 @@ export function DetailPig() {
     if (isError || !data || !data.data) {
         return (
             <BoxContainer padding={'2rem'} sx={{ textAlign: 'center' }}>
-                <Typography variant="h5" color="error">Không tìm thấy thông tin heo hoặc có lỗi xảy ra.</Typography>
-                <Button variant="contained" onClick={() => navigate('/pigs')} sx={{ mt: 2 }}>Quay lại danh sách</Button>
+                <Typography variant="h5" color="error">{t("detailPig.nonePig")}</Typography>
+                <Button variant="contained" onClick={() => navigate('/pigs')} sx={{ mt: 2 }}>{t("detailPig.back")}</Button>
             </BoxContainer>
         );
     }
 
-    const pigDetail = data.data; // Giả định cấu trúc data: { data: { ... } }
-
-    // --- LOGIC TÍNH TOÁN (ĐÃ SỬA THEO YÊU CẦU) ---
-
+    const pigDetail = data.data; 
     const latestWeightRecord = [...pigDetail.pig_growth_records]
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
 
     const initialWeight = parseFloat(pigDetail?.weight) || 0;
     const currentWeight = latestWeightRecord?.weight || initialWeight;
-
-    // Giá nhập ban đầu (tổng tiền nhập)
     const totalInitialPrice = parseFloat(pigDetail?.price) || 0;
-
-    // Giá 1 kg lúc nhập
     const initialPricePerKg =
         initialWeight > 0 ? totalInitialPrice / initialWeight : 0;
 
-    // Số ngày nuôi
     const daysLived = calculateDaysLived(pigDetail?.createdAt);
-
-    // Số kg tăng/giảm
     const weightDiff = currentWeight - initialWeight;
-
-    // Lãi/Lỗ theo kg
     const profit = weightDiff * initialPricePerKg;
-
-    // Format hiển thị (thêm dấu trừ nếu lỗ)
     const profitDisplay =
         profit < 0
             ? `-${formatCurrency(Math.abs(profit))}`
@@ -142,12 +127,11 @@ export function DetailPig() {
 
     const handleExport = () => {
         if (!data || !data.data) {
-            alert('Không có dữ liệu heo để xuất chuồng.');
+            alert('No data to export pig.');
             return;
         }
 
         const pigDetail = data.data;
-
         const invoicePayload = {
             pigCode: pigDetail.pigCode,
             weight: currentWeight,
@@ -171,22 +155,14 @@ export function DetailPig() {
                     });
             })
             .catch((error) => {
-                console.error('Lỗi quy trình xuất chuồng:', error);
-                // Kiểm tra lỗi để báo cho người dùng biết lỗi ở bước nào
-                // if (error.status === 400) {
-                //     alert('Lỗi tạo hóa đơn (kiểm tra các trường dữ liệu bắt buộc).');
-                // } else if (error.status === 500) {
-                //     alert('Lỗi server khi xóa heo hoặc tạo hóa đơn.');
-                // } else {
-                //     alert('Lỗi xuất chuồng không xác định.');
-                // }
+                console.error('Error while exporting', error);
             });
     };
 
     return (
         <BoxContainer padding={'2rem'} sx={{ width: '100%', background: '#f0f0f0', minHeight: '100vh' }}>
             <Typography variant="h4" gutterBottom sx={{ mb: 4, fontWeight: 'bold', color: '#1976d2' }}>
-                Chi Tiết Heo: {pigDetail.pigCode}
+                {t("detailPig.title")} {pigDetail.pigCode}
             </Typography>
             <Row sx={{
                 display: 'flex',
@@ -198,7 +174,6 @@ export function DetailPig() {
                     alignItems: 'stretch',
                 },
             }}>
-                {/* 1. CỘT 1: Thông tin chi tiết (60%) */}
                 <Column sx={{
                     width: '60%',
                     borderRadius: '1rem',
@@ -208,20 +183,20 @@ export function DetailPig() {
                     '@media (max-width: 1249px)': { width: '100%' }
                 }}>
                     <Typography variant="h5" sx={{ mb: 2, fontWeight: '700', color: '#333' }}>
-                        Thông tin cơ bản
+                        {t("detailPig.heading")}
                     </Typography>
                     <Divider sx={{ mb: 2 }} />
 
                     {[
-                        { label: 'Mã số', value: pigDetail?.pigCode, Icon: null },
-                        { label: 'Loại giống', value: pigDetail?.pig_type?.name, Icon: FileText },
-                        { label: 'Tuổi', value: `${pigDetail?.age} tháng`, Icon: Calendar },
-                        { label: 'Cân nặng ban đầu', value: `${initialWeight} kg`, Icon: Scale },
-                        { label: 'Chuồng', value: pigDetail?.barn?.name, Icon: Home },
-                        { label: 'Trạng thái SK', value: pigDetail?.healthStatus ? 'Khỏe Mạnh' : 'Cần Theo Dõi', Icon: Heart, color: pigDetail?.healthStatus ? 'success' : 'error' },
-                        { label: 'Giá nhập (ước tính)', value: formatCurrency(initialPricePerKg), Icon: DollarSign, color: 'info' },
-                        { label: 'Người tạo hồ sơ', value: pigDetail?.users_permissions_user?.username, Icon: User },
-                        { label: 'Ngày nhập', value: formatDateTime(pigDetail?.createdAt), Icon: Clock },
+                        { label: t("detailPig.id"), value: pigDetail?.pigCode, Icon: null },
+                        { label: t("detailPig.type"), value: pigDetail?.pig_type?.name, Icon: FileText },
+                        { label: t("detailPig.age"), value: `${pigDetail?.age} month`, Icon: Calendar },
+                        { label: t("detailPig.weight"), value: `${initialWeight} kg`, Icon: Scale },
+                        { label: t("detailPig.barn"), value: pigDetail?.barn?.name, Icon: Home },
+                        { label: t("detailPig.health"), value: pigDetail?.healthStatus ? t("detailPig.good") : t("detailPig.pending"), Icon: Heart, color: pigDetail?.healthStatus ? 'success' : 'error' },
+                        { label: t("detailPig.price"), value: formatCurrency(initialPricePerKg), Icon: DollarSign, color: 'info' },
+                        { label: t("detailPig.created"), value: pigDetail?.users_permissions_user?.username, Icon: User },
+                        { label: t("detailPig.date"), value: formatDateTime(pigDetail?.createdAt), Icon: Clock },
                     ].map((item, index) => (
                         <Column key={index}>
                             <Row sx={{ display: 'flex', justifyContent: 'space-between', py: 1, borderBottom: '1px dotted #eee', alignItems: 'center' }}>
@@ -236,11 +211,11 @@ export function DetailPig() {
                     ))}
 
                     <Typography variant="h6" sx={{ mt: 3, mb: 1, fontWeight: '700', color: '#333' }}>
-                        Ghi chú
+                        {t("detailPig.note")}
                     </Typography>
                     <Box sx={{ p: 2, bgcolor: '#fafafa', borderRadius: '4px', border: '1px solid #ddd' }}>
                         <Typography variant="body2" sx={{ fontStyle: 'italic', color: '#555' }}>
-                            {pigDetail?.note || 'Không có ghi chú.'}
+                            {pigDetail?.note || t("detailPig.noNote")}
                         </Typography>
                     </Box>
                     <Button
@@ -250,28 +225,27 @@ export function DetailPig() {
                         sx={{ mt: 3 }}
                         onClick={() => navigate(`/edit-pig/${pigId}`, { state: pigId })}
                     >
-                        Chỉnh Sửa Thông Tin
+                        {t("detailPig.edit")}
                     </Button>
                 </Column>
 
-                {/* 2. CỘT 2: Thông số thống kê & Hành động (35%) */}
                 <Column sx={{ width: '35%', gap: '1rem', '@media (max-width: 1249px)': { width: '100%' } }}>
                     <BoxData
-                        title={'Cân nặng hiện tại'}
+                        title={t("detailPig.weight2")}
                         number={currentWeight}
                         unit={"kg"}
                         Icon={Scale}
                         color={'info'}
                     />
                     <BoxData
-                        title={'Số ngày nuôi'}
+                        title={t("detailPig.date2")}
                         number={daysLived}
-                        unit={"Ngày"}
+                        unit={"d"}
                         Icon={Clock}
                         color={'secondary'}
                     />
                     <BoxData
-                        title={'Tăng trọng'}
+                        title={t("detailPig.growth")}
                         number={weightDiff > 0 ? `+${weightDiff}` : weightDiff}
                         unit={"kg"}
                         Icon={TrendingUp}
@@ -279,14 +253,13 @@ export function DetailPig() {
                     />
 
                     <BoxData
-                        title={'Lãi / Lỗ'}
+                        title={t("detailPig.profit")}
                         number={profitDisplay}
                         unit={"VND"}
                         Icon={BarChart4}
                         color={profit >= 0 ? 'success' : 'error'}
                     />
 
-                    {/* Nút Xóa Hồ Sơ */}
                     <Button
                         variant="contained"
                         color="error"
@@ -295,7 +268,7 @@ export function DetailPig() {
                         fullWidth
                         onClick={handleDelete}
                     >
-                        Xóa Hồ Sơ Heo
+                        {t("detailPig.delete")}
                     </Button>
                     <Button
                         variant="contained"
@@ -304,7 +277,7 @@ export function DetailPig() {
                         fullWidth
                         onClick={handleExport}
                     >
-                        Xuất chuồng
+                        {t("detailPig.export")}
                     </Button>
                 </Column>
             </Row>

@@ -5,16 +5,14 @@ import {
     Box,
     useTheme
 } from "@mui/material";
-// Import các Icon cần thiết từ Material Icons
 import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined';
 import PendingActionsOutlinedIcon from '@mui/icons-material/PendingActionsOutlined';
 import AssignmentLateOutlinedIcon from '@mui/icons-material/AssignmentLateOutlined';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
-import { Column, Row } from "./commonStyled"; // Đảm bảo đường dẫn này đúng
+import { Column, Row } from "./commonStyled";
 
-// Ví dụ về cách mapping icon theo tên hoặc trạng thái
 export const TodoIcons = {
     'tổng công việc': EventNoteOutlinedIcon,
     'chưa làm': PendingActionsOutlinedIcon,
@@ -27,15 +25,13 @@ export const TodoIcons = {
 const CardTodo = ({
     name,
     count,
-    children // Thêm children để chứa danh sách công việc chi tiết
+    children 
 }) => {
-    // Lấy Icon Component tương ứng. Đảm bảo 'name' khớp với key trong TodoIcons
     const iconKey = name.toLowerCase().replace(/ /g, '');
     const IconComponent = TodoIcons[iconKey] || EventNoteOutlinedIcon;
 
     return (
         <Column sx={{ gap: '1rem' }}>
-            {/* Header Card (Tên và số lượng công việc) */}
             <Card
                 sx={{
                     width: '100%',
@@ -56,7 +52,6 @@ const CardTodo = ({
                 }}
             >
                 <Box display="flex" alignItems="center" gap={2}>
-                    {/* Icon */}
                     <Box
                         sx={{
                             p: 1.5,
@@ -71,30 +66,26 @@ const CardTodo = ({
                         <IconComponent sx={{ fontSize: 24 }} />
                     </Box>
 
-                    {/* Tên cột */}
                     <Typography color="black" fontWeight={600} variant="h6">
                         {name}
                     </Typography>
                 </Box>
 
-                {/* Số lượng */}
                 <Typography variant="h5" fontWeight={700} color="text.primary">
                     {count.toLocaleString()}
                 </Typography>
             </Card >
 
-            {/* Content (Danh sách công việc chi tiết) */}
             <Column
                 gap={1.5}
                 sx={{
                     width: '100%',
-                    minHeight: '200px', // Cho phép cuộn
+                    minHeight: '200px', 
                     maxHeight: 'calc(100vh - 400px)',
                     overflowY: 'auto',
                     paddingRight: '4px',
                 }}
             >
-                {/* Phần tử con (children) sẽ được render ở đây */}
                 {children}
             </Column>
         </Column>
@@ -111,7 +102,6 @@ export default CardTodo;
         justifyContent: "center",
         gap: "1.2rem",
 
-        // MOBILE: xuống 1 cột
         "@media (max-width: 1000px)": {
             flexDirection: "column",
             alignItems: "stretch",

@@ -47,8 +47,6 @@ export default function TopBar({
         // cong nhan
         { text: t("navigation.home"), icon: <HomeOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
         { text: t("navigation.myBarn"), icon: <GroupAddOutlinedIcon />, path: ROUTES.BARN, role: ROLES.WORKER },
-
-        // { text: "Nhập nguồn gốc giống lợn", icon: <UploadFileOutlinedIcon />, path: ROUTES.PIG_PAGE, role: ROLES.WORKER },
         { text: t("navigation.growthRecord"), icon: <AreaChartOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },
         { text: t("navigation.warehouseImport"), icon: <WarehouseOutlinedIcon />, path: ROUTES.WAREHOUSE_CATEGORY, role: ROLES.WORKER },
         { text: t("navigation.tasks"), icon: <ChecklistOutlinedIcon />, path: ROUTES.HOME, role: ROLES.WORKER },

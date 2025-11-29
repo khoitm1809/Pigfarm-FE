@@ -19,12 +19,8 @@ import dayjs from 'dayjs';
 import { openAddModal, openEditModal } from '../store/helper/helperSlice';
 import { DeleteButton, EditButton, Row } from './commonStyled';
 import { t } from 'i18next';
+import CardStatus from './CardStatus';
 
-// --- Helper Functions ---
-/**
- * Lấy giá trị theo đường dẫn (Path). KHÔNG xử lý logic sắp xếp/định dạng array tại đây.
- * Thay đổi: Để xử lý array linh hoạt hơn (ví dụ: lấy toàn bộ mảng records)
- */
 const getValueByPath = (obj, path) => {
     if (!obj || !path) return null;
     const parts = path.split('.');
@@ -47,7 +43,6 @@ const formatValue = (key, value, isArrayField = false) => {
         return value.toString();
     }
 
-    // --- Logic xử lý giá trị đơn giản ---
     if (typeof value === "boolean") return value ? "true" : "false";
     if (key.toLowerCase().includes("date") || key.toLowerCase().includes("created_at")) {
         return dayjs(value).isValid() ? dayjs(value).format("DD/MM/YYYY") : value;
@@ -56,7 +51,6 @@ const formatValue = (key, value, isArrayField = false) => {
 };
 
 const getStatusStyleMui = (value) => {
-    // Giá trị đầu vào phải là chuỗi 'true'/'false' hoặc 'active'/'inactive'
     const lowerValue = String(value)?.toLowerCase();
     switch (lowerValue) {
         case "true": case "active": return { background: '#e8f5e9', color: '#388e3c' };
@@ -67,21 +61,21 @@ const getStatusStyleMui = (value) => {
 };
 
 export default function CustomTable({
-    title, // Thêm cấu trúc mới: { key: "...", label: "...", isArray: true }
+    title,
     data,
     isEdit,
-    detailNavigate, // Nếu có click vào row để sang trang chi tiết
+    detailNavigate,
     mutationDeleteFunction,
     loading,
     refetch,
     isListUser,
+    invoice,
+    invoiceSummary
 }) {
     const navigate = useNavigate();
-    const dispatch = useDispatch(); // Hook để bắn action Redux
-    // --- 1. State Search Local ---
+    const dispatch = useDispatch();
     const [searchTerm, setSearchTerm] = React.useState('');
 
-    // --- 2. Logic Filter Dữ liệu ---
     const filteredData = React.useMemo(() => {
         if (!searchTerm) return data;
         const lowerSearch = searchTerm.toLowerCase();
@@ -89,23 +83,17 @@ export default function CustomTable({
         return data?.filter((item) =>
             title?.some((col) => {
                 const rawValue = getValueByPath(item, col.key);
-
-                // Sử dụng formatValue để có được giá trị đã định dạng (bao gồm cả chuỗi mảng)
                 const value = formatValue(col.key, rawValue, col.isArray);
 
-                // Chuyển đổi giá trị sang chuỗi để tìm kiếm
                 return value?.toString()?.toLowerCase()?.includes(lowerSearch);
             })
         );
     }, [data, searchTerm, title]);
 
-    // --- 3. Handle Delete ---
     const handleDelete = async (id) => {
         try {
-            // Kiểm tra xem mutationDeleteFunction có tồn tại không
             if (mutationDeleteFunction) {
                 await mutationDeleteFunction(id).unwrap();
-                // Kiểm tra xem refetch có tồn tại không
                 if (refetch) refetch();
             } else {
                 console.warn("Delete function (mutationDeleteFunction) is not provided.");
@@ -116,17 +104,40 @@ export default function CustomTable({
     };
     return (
         <Box>
-            {/* Title Section */}
             <Box mb={4}>
                 <Typography variant="h4" fontWeight={700} sx={{ mb: 1 }}>
-                    Danh sách sản phẩm
+                    {t("customTable.title")}
                 </Typography>
-                <Typography variant="subtitle1" color="text.secondary">
-                    Quản lý toàn bộ sản phẩm
-                </Typography>
-            </Box>
 
-            {/* --- Toolbar: Search, Filter, Add --- */}
+            </Box>
+            {invoice && <Box marginY={'2rem'} width={'100%'}>
+                <Row sx={{
+                    width: '100%',
+                    flexWrap: 'wrap',
+                    gap: '0.8rem',
+                }}>
+                    {invoiceSummary?.map((card, index) => (
+                        <Box
+                            key={index}
+                            sx={{
+                                flex: {
+                                    xs: "1 1 100%",
+                                    sm: "1 1 calc(50% - 0.5rem)",
+                                },
+                                maxWidth: { lg: '50%' }
+                            }}
+                        >
+                            <CardStatus
+                                title={card.title}
+                                count={card.count}
+                                iconKey={card.iconKey}
+                            />
+                        </Box>
+                    ))}
+                </Row>
+
+            </Box>}
+
             <Box
                 display="flex"
                 flexDirection={{ xs: "column", sm: "row" }}
@@ -135,7 +146,6 @@ export default function CustomTable({
                 mb={2}
                 sx={{ width: "100%" }}
             >
-                {/* Ô Tìm kiếm */}
                 <TextField
                     fullWidth
                     placeholder={t("customTable.search")}
@@ -155,7 +165,6 @@ export default function CustomTable({
                     }}
                 />
 
-                {/* Nút Lọc */}
                 <Button
                     variant="outlined"
                     startIcon={<TuneOutlinedIcon />}
@@ -172,11 +181,9 @@ export default function CustomTable({
                     {t("customTable.filters")}
                 </Button>
 
-                {/* Nút Thêm mới (Gọi Redux Action) */}
                 <Button
                     variant="contained"
                     startIcon={<AddOutlinedIcon />}
-                    // Phải đảm bảo openAddModal được import đúng
                     onClick={() => dispatch(openAddModal())}
                     sx={{
                         height: "44px",
@@ -191,7 +198,6 @@ export default function CustomTable({
                 </Button>
             </Box>
 
-            {/* --- Table Section --- */}
             <TableContainer component={Paper} sx={{ borderRadius: 2, boxShadow: 3, width: "100%", overflowX: "auto" }}>
                 <Table aria-label="customized table">
                     <TableHead>
@@ -211,7 +217,6 @@ export default function CustomTable({
 
                     <TableBody>
                         {loading ? (
-                            // Hiển thị Skeleton khi đang tải dữ liệu
                             [...Array(5)].map((_, rowIndex) => (
                                 <TableRow key={rowIndex}>
                                     {title?.filter(col => col.key !== "password")?.map((_, colIndex) => (
@@ -223,7 +228,6 @@ export default function CustomTable({
                                 </TableRow>
                             ))
                         ) : filteredData?.length > 0 ? (
-                            // Hiển thị Dữ liệu
                             filteredData?.map((item, rowIndex) => (
                                 <TableRow
                                     key={rowIndex}
@@ -234,15 +238,17 @@ export default function CustomTable({
                                 >
                                     {title?.filter(col => col.key !== "password")?.map((col, colIndex) => {
                                         const rawValue = getValueByPath(item, col?.key);
-
-                                        // 1. Ép kiểu boolean thành chuỗi 'true'/'false' cho logic status
                                         const isStatusField = col?.key.toLowerCase().includes('status');
                                         const cellRawValue = isStatusField ? String(rawValue) : rawValue;
 
-                                        // 2. Định dạng nội dung hiển thị (sử dụng formatValue và truyền cờ isArray)
-                                        const displayContent = formatValue(col?.key, cellRawValue, col.isArray);
+                                        let displayContent = cellRawValue;
+                                        if (col.isDropDown && col.list) {
+                                            const option = col.list.find(op => String(op.value) === String(cellRawValue));
+                                            displayContent = option ? option.label : cellRawValue;
+                                        } else {
+                                            displayContent = formatValue(col?.key, cellRawValue, col.isArray);
+                                        }
 
-                                        // 3. Lấy style cho status
                                         const statusStyles = isStatusField ? getStatusStyleMui(cellRawValue) : {};
 
 
@@ -273,14 +279,10 @@ export default function CustomTable({
                                     })}
                                     {isEdit && (
                                         <TableCell>
-                                            {/* Phải đảm bảo Row, EditButton, DeleteButton được import đúng */}
                                             <Row gap={'0.5rem'}>
-                                                {/* Nút Sửa (Gọi Redux Action, truyền item) */}
                                                 <EditButton onClick={() => dispatch(openEditModal(item))} sx={{ '& svg': { fontSize: '1.1rem' } }}>
                                                     <ModeEditOutlineOutlinedIcon />
                                                 </EditButton>
-
-                                                {/* Nút Xóa (Xử lý trực tiếp tại đây) */}
                                                 <DeleteButton onClick={() => handleDelete(isListUser ? item?.id : item?.documentId ?? item?.id)} sx={{ '& svg': { fontSize: '1.1rem' } }}>
                                                     <DeleteOutlineOutlinedIcon />
                                                 </DeleteButton>
@@ -290,7 +292,6 @@ export default function CustomTable({
                                 </TableRow>
                             ))
                         ) : (
-                            // Hiển thị thông báo không có dữ liệu
                             <TableRow>
                                 <TableCell colSpan={title?.length + (isEdit ? 1 : 0)} align="center">
                                     <Typography variant="body1" sx={{ color: 'text.secondary', py: 3 }}>

@@ -1,10 +1,9 @@
-// src/services/axiosBaseQuery.js
 import http from "./https";
 
 export const axiosBaseQuery = () => async ({ url, method = "GET", data, params }) => {
   try {
     const result = await http({ url, method, data, params });
-    return { data: result.data }; // bây giờ result lại là res đầy đủ
+    return { data: result.data };
   } catch (err) {
     return {
       error: {

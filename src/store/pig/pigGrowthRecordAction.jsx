@@ -7,7 +7,6 @@ export const pigGrowthRecordApi = createApi({
     reducerPath: 'pigGrowthRecordApi',
     baseQuery: axiosBaseQuery(),
     endpoints: (builder) => ({
-        //get list pig
         getListPigGrowthRecord: builder.query({
             query: (params) => {
                 const { UID, ...rest } = params || {};
@@ -16,31 +15,27 @@ export const pigGrowthRecordApi = createApi({
                     method: "GET",
                     params: {
                         ...rest,
-                        // ...(UID ? { "filters[users_permissions_user][id]": UID } : {}),
                     },
                 };
             },
         }),
 
-        // add off spring
         addPigGrowthRecord: builder.mutation({
             query: (payload) => ({
-                url: API_URL.PIG,
+                url: API_URL.PIG_GROWTH_RECORDS,
                 method: 'POST',
                 data: { data: payload },
             }),
         }),
 
-        // edit off spring
         editPigGrowthRecord: builder.mutation({
             query: (body) => ({
-                url: API_URL.PIG + "/" + body.id,
+                url: API_URL.PIG_GROWTH_RECORDS + "/" + body.id,
                 method: 'PUT',
                 data: body,
             }),
         }),
 
-        // delete off spring
         deletePigGrowthRecord: builder.mutation({
             query: (id) => ({
                 url: API_URL.PIG + "/" + id,

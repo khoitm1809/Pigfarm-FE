@@ -141,7 +141,6 @@ export const RouterConfig = () => {
                 }
             />
             
-            {/* Nếu không khớp route nào => quay về Home */}
             <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
         </Routes>
     );

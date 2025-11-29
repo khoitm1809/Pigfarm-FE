@@ -7,7 +7,6 @@ export const offSpringApi = createApi({
     reducerPath: 'offSpringApi',
     baseQuery: axiosBaseQuery(),
     endpoints: (builder) => ({
-        // Get List Off Spring
         getListOffSpring: builder.query({
             query: (params) => ({
                 url: API_URL.OFF_SPRING,
@@ -18,7 +17,6 @@ export const offSpringApi = createApi({
             }),
         }),
 
-        // add off spring
         addOffSpring: builder.mutation({
             query: (body) => ({
                 url: API_URL.OFF_SPRING + "/add",
@@ -27,7 +25,6 @@ export const offSpringApi = createApi({
             }),
         }),
 
-        // edit off spring
         editOffSpring: builder.mutation({
             query: (body) => ({
                 url: API_URL.OFF_SPRING + "/edit/" + body._id,
@@ -36,7 +33,6 @@ export const offSpringApi = createApi({
             }),
         }),
 
-        // delete off spring
         deleteOffSpring: builder.mutation({
             query: (id) => ({
                 url: API_URL.OFF_SPRING + "/delete/" + id,

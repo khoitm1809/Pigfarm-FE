@@ -11,13 +11,12 @@
     "loggingIn": "Logging in...",
     "homePage": "Home Page",
     "emailRequired": "Please enter email",
-    "passWordReq":"Please enter a password",
+    "passWordReq": "Please enter a password",
     "passWord": "Password",
     "notice": "Fill information to login",
     "forgotPassword": "Forgot password?",
     "remember": "Remember me"
   },
-
   "home": {
     "title": "Dashboard",
     "heading": "Farm overview and livestock demonstration",
@@ -32,14 +31,21 @@
     "pigBarn": "Pig / Barn",
     "weightChart": "Weight (kg)",
     "barnQuantity": "Barn Quantity by Area",
-    "quantityChart": "Barn Quantity"
+    "quantityChart": "Barn Quantity",
+    "todoTotal": "Task Total",
+    "inProgress": " in progress",
+    "invoice": "Invoice",
+    "bill": "Bill from Exporting",
+    "warehouse": "Item in Warehouse",
+    "itemTotal": "Item Total",
+    "todo": "Task Status",
+    "cate": "Number of item by Warehouse"
   },
-
   "profile": {
     "title": "Profile",
     "heading": "View the profile",
     "role": "Owner",
-    "name":"User name",
+    "name": "User name",
     "avatar": "Change Avatar",
     "info": "Personal Information",
     "phone": "Phone Number",
@@ -55,20 +61,17 @@
     "loading": "Loading user profile...",
     "join": "Joined Date: "
   },
-
   "user": {
     "name": "User name",
     "date": "Created Date",
     "passWord": "Password",
     "role": "Role"
   },
-
   "dialog": {
     "add": "Create",
     "save": "Save",
     "update": "Update"
   },
-
   "card": {
     "assign": "Assign",
     "edit": "Edit",
@@ -76,25 +79,29 @@
     "feed": "Feed Ration",
     "createdDate": "Created Date"
   },
-
   "detailLayout": {
     "total": "Total"
   },
-
   "warehouseCate": {
     "title": "Warehouse Management",
     "heading": "Manage food and medicine",
     "quantity": "Quantity: ",
-    "dialog": "Add more goods",
+    "dialog": "Add category warehouse",
     "category": "Category name...",
     "description": "Description",
     "cancel": "Cancel",
     "saving": "Saving...",
     "save": "Save change",
     "creating": "Creating...",
-    "addForm": "Create"
+    "addForm": "Create",
+    "loading": "Loading category list...",
+    "none": "Category data unavailable.",
+    "edit": "Update Category",
+    "create": "Create New Category",
+    "name": "Category name",
+    "nameField": "Category...",
+    "descField": "Description..."
   },
-
   "warehouseItem": {
     "name": "Item name",
     "quantity": "Quantity",
@@ -104,19 +111,21 @@
     "date": "Import Date",
     "worker": "Assigned Worker"
   },
-
   "pigType": {
     "name": "Pig Type",
     "description": "Description"
   },
-
   "invoice": {
-    "invoice": "Purchase Invoice Management",
-    "discount": "Discount",
-    "paymentStatus": "Payment Status",
-    "date": "Created Date"
+    "exportCard": "Pig export total",
+    "invoiceCard": "Invoice total",
+    "id": "Pig ID",
+    "health": "Health Status",
+    "weight": "Weight (kg)",
+    "age": "Age",
+    "price": "Price",
+    "type": "Pig Type",
+    "exporter": "Exporter"
   },
-
   "area": {
     "title": "Area Management",
     "heading": "Manage all area",
@@ -142,7 +151,6 @@
     "saving": "Saving...",
     "save": "Save change"
   },
-
   "barn": {
     "errorAssign": "Error while assign to worker",
     "title": "Barn Management",
@@ -165,7 +173,6 @@
     "saveAssign": "Confirm",
     "createBy": "Assigned worker"
   },
-
   "detailBarn": {
     "id": "Pig ID",
     "barn": "Barn",
@@ -176,9 +183,10 @@
     "age": "Age",
     "note": "Note",
     "type": "Pig Type",
-    "worker": "Worker"
+    "worker": "Created by",
+    "good": "Good",
+    "sick": "Sick"
   },
-
   "pigGrowth": {
     "good": "Good",
     "weak": "Weak",
@@ -188,7 +196,6 @@
     "worker": "Assigned Worker",
     "note": "Note"
   },
-
   "foodRation": {
     "foodRation": "Feed Chain Setup",
     "trialDiet": "Trial Diet",
@@ -201,7 +208,6 @@
     "dosage": "Dosage Used",
     "meditionMeal": "Dosage Amount"
   },
-
   "todo": {
     "title": "Todo Management 📋",
     "heading": "Manage and Assign the task",
@@ -219,11 +225,40 @@
     "create": "Create New Task",
     "name": "Task Name",
     "description": "Description",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "status": "Change Status",
+    "date": "Created Time: ",
+    "choose": "Select worker to assign"
   },
-
-
+  "detailPig": {
+    "nonePig": "Pig information not found or something went wrong",
+    "back": "Back to List",
+    "title": "Pig Detail: ",
+    "heading": "Basic information",
+    "id": "Pig ID",
+    "type": "Pig Type",
+    "age": "Age",
+    "month": "month",
+    "weight": "Initial weight",
+    "barn": "Barn",
+    "health": "Health Status",
+    "price": "Estimated import price",
+    "created": "Created by",
+    "date": "Import Date",
+    "good": "Good",
+    "pending": "Need to follow",
+    "note": "Note",
+    "noNote": "No Notes",
+    "edit": "Edit Information",
+    "weight2": "Current weight",
+    "date2": "Number of feed day",
+    "growth": "Growth",
+    "profit": "Profit / Loss",
+    "delete": "Delete Pig Information",
+    "export": "Export"
+  },
   "customTable": {
+    "title": "Management Page",
     "save": "Save",
     "list": "List Table",
     "create": "Create",
@@ -233,7 +268,8 @@
     "accManage": "Account Management",
     "accList": "Account Management List",
     "action": "Action",
-    "none": "Data Unavailable."
+    "none": "Data Unavailable.",
+    "cancel": "Cancel"
   },
   "navigation": {
     "home": "Home",
@@ -243,7 +279,7 @@
     "todoList": "Assign tasks to worker",
     "pigType": "Pig Management",
     "myBarn": "My Area",
-    "warehouse": "Food Warehouse Management",
+    "warehouse": "Warehouse Management",
     "invoice": "Purchase Invoice Management",
     "growthRecord": "Record Growth Rate",
     "warehouseImport": "Warehouse Import",

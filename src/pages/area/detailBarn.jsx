@@ -19,7 +19,7 @@ const DetailBarnPage = () => {
     const barnId = state?.barnId;
     const areaId = state?.areaId;
     const { modalType } = useSelector((state) => state.helper);
-    // API Hooks
+
     const [addPig] = useAddPigMutation();
     const [editPig] = useEditPigMutation();
     const [deletePig] = useDeletePigMutation();
@@ -51,10 +51,15 @@ const DetailBarnPage = () => {
     } = useGetListBarnQuery({
         areaId: areaId,
     }, { refetchOnMountOrArgChange: true })
-    // Config Table
+
+    const statusPig = [
+        { value: "true", label: t("detailBarn.good")},
+        { value: "false", label: t("detailBarn.sick")},
+    ];
+
     const title = [
         { key: "pigCode", label: t("detailBarn.id") },
-        { key: "healthStatus", label: t("detailBarn.health") },
+        { key: "healthStatus", label: t("detailBarn.health"), isDropDown: true, list: statusPig },
         { key: "weight", label: t("detailBarn.weight"), },
         { key: "barn.name", label: t("detailBarn.barn") },
         { key: "age", label: t("detailBarn.age") },
@@ -67,7 +72,7 @@ const DetailBarnPage = () => {
 
     const dialogTitle = [
         { key: "pigCode", label: t("detailBarn.id") },
-        { key: "healthStatus", label: t("detailBarn.health") },
+        { key: "healthStatus", label: t("detailBarn.health"), isDropDown: true, list: statusPig },
         { key: "weight", label: t("detailBarn.weight"), isNumber: true },
         { key: "age", label: t("detailBarn.age"), isNumber: true },
         { key: "price", label: t("detailBarn.price"), isNumber: true },
@@ -75,8 +80,8 @@ const DetailBarnPage = () => {
         {
             key: "barn",
             label: t("detailBarn.barn"),
-            defaultValue: barnId, // Set giá trị mặc định là barnId
-            isDisable: true, // Khóa chỉnh sửa
+            defaultValue: barnId, 
+            isDisable: true,
             mappingKey: "barn.id"
         },
 

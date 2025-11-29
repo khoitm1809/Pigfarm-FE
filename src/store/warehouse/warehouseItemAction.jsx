@@ -38,7 +38,6 @@ export const warehouseItemApi = createApi({
             }),
         }),
 
-        // delete off spring
         deleteWarehouseItem: builder.mutation({
             query: (id) => ({
                 url: API_URL.WAREHOUSE_ITEM + "/" + id,

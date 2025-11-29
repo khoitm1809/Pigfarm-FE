@@ -17,7 +17,7 @@ const helperSlice = createSlice({
         openEditModal: (state, action) => {
             state.isOpen = true;
             state.modalType = 'edit';
-            state.selectedData = action.payload; // Item được truyền vào khi bấm nút sửa
+            state.selectedData = action.payload; 
         },
         closeModal: (state) => {
             state.isOpen = false;

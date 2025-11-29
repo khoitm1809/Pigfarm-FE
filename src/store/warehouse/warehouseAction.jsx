@@ -7,7 +7,6 @@ export const warehouseApi = createApi({
     reducerPath: 'warehouseApi',
     baseQuery: axiosBaseQuery(),
     endpoints: (builder) => ({
-        // Get List Off Spring
         getListWarehouseCategory: builder.query({
             query: (params) => ({
                 url: API_URL.WAREHOUSE_CATEGORY + "?populate=*",
@@ -18,7 +17,6 @@ export const warehouseApi = createApi({
             }),
         }),
 
-        // add off spring
         addWarehouseCategory: builder.mutation({
             query: (body) => ({
                 url: API_URL.WAREHOUSE_CATEGORY,
@@ -27,7 +25,6 @@ export const warehouseApi = createApi({
             }),
         }),
 
-        // edit off spring
         editWarehouseCategory: builder.mutation({
             query: ({ id, ...data }) => ({
                 url: API_URL.WAREHOUSE_CATEGORY + "/" + id,
@@ -36,7 +33,6 @@ export const warehouseApi = createApi({
             }),
         }),
 
-        // delete off spring
         deleteWarehouseCategory: builder.mutation({
             query: (id) => ({
                 url: API_URL.WAREHOUSE_CATEGORY + "/" + id,

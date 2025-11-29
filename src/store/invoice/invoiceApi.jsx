@@ -6,7 +6,6 @@ export const invoiceApi = createApi({
     reducerPath: 'invoiceApi',
     baseQuery: axiosBaseQuery(),
     endpoints: (builder) => ({
-        //get list Invoice
         getListInvoice: builder.query({
             query: (params) => {
                 const { barnId, ...rest } = params || {};
@@ -20,7 +19,6 @@ export const invoiceApi = createApi({
             },
         }),
 
-        // add off spring
         addInvoice: builder.mutation({
             query: (payload) => ({
                 url: API_URL.INVOICE,
@@ -29,7 +27,6 @@ export const invoiceApi = createApi({
             }),
         }),
 
-        // edit off spring
         editInvoice: builder.mutation({
             query: ({ id, ...rest }) => ({
                 url: API_URL.INVOICE + "/" + id,
@@ -38,7 +35,6 @@ export const invoiceApi = createApi({
             }),
         }),
 
-        // delete off spring
         deleteInvoice: builder.mutation({
             query: (id) => ({
                 url: API_URL.INVOICE + "/" + id,
@@ -46,7 +42,6 @@ export const invoiceApi = createApi({
             }),
         }),
 
-        // detail Invoice
         getDetailInvoice: builder.query({
             query: (params) => {
                 const { InvoiceId, ...rest } = params || {};

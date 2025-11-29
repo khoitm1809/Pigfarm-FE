@@ -5,7 +5,6 @@ import {
     Box,
     useTheme
 } from "@mui/material";
-// Import các Icon cần thiết từ Material Icons
 import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined';
 import PendingActionsOutlinedIcon from '@mui/icons-material/PendingActionsOutlined';
 import AssignmentLateOutlinedIcon from '@mui/icons-material/AssignmentLateOutlined';
@@ -13,7 +12,6 @@ import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 
-// Ví dụ về cách mapping icon theo tên hoặc trạng thái
 export const TodoIcons = {
     'tổng công việc': EventNoteOutlinedIcon,
     'chưa làm': PendingActionsOutlinedIcon,
@@ -23,14 +21,13 @@ export const TodoIcons = {
     'quá hạn': ErrorOutlineOutlinedIcon,
 };
 
-// Map màu sắc tương ứng (Tùy chọn, nên sử dụng theme colors)
 const StatusColors = {
-    'tổng công việc': '#3F51B5', // Indigo
-    'chưa làm': '#FF9800', // Amber
-    'chưa giao': '#F44336', // Red
-    'đang làm': '#2196F3', // Blue
-    'đã xong': '#4CAF50', // Green
-    'quá hạn': '#E91E63', // Pink/Red đậm
+    'tổng công việc': '#3F51B5',
+    'chưa làm': '#FF9800', 
+    'chưa giao': '#F44336', 
+    'đang làm': '#2196F3', 
+    'đã xong': '#4CAF50', 
+    'quá hạn': '#E91E63',
 };
 
 
@@ -65,12 +62,11 @@ const CardStatus = ({
                     alignItems="flex-start"
                     mb={2}
                 >
-                    {/* Icon */}
                     <Box
                         sx={{
                             p: 1.5,
                             borderRadius: '50%',
-                            bgcolor: `${cardColor}1A`, // Màu icon nhạt hơn
+                            bgcolor: `${cardColor}1A`,
                             color: cardColor,
                             display: 'flex',
                             alignItems: 'center',
@@ -80,9 +76,8 @@ const CardStatus = ({
                         <IconComponent sx={{ fontSize: 24 }} />
                     </Box>
 
-                    {/* Số lượng */}
                     <Typography
-                        variant="h3" // Số lượng lớn
+                        variant="h3" 
                         fontWeight={700}
                         sx={{ color: countColor }}
                     >
@@ -90,7 +85,6 @@ const CardStatus = ({
                     </Typography>
                 </Box>
 
-                {/* Tiêu đề */}
                 <Typography
                     variant="subtitle1"
                     fontWeight={600}

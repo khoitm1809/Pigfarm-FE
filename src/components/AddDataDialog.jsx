@@ -15,25 +15,20 @@ const transformPayload = (formData, dialogTitle) => {
         let finalValue;
 
         if (dayjs.isDayjs(value)) {
-            // 1. Xử lý Date/Time: Chuyển sang ISO string
             finalValue = value.toISOString();
         } else if (fieldConfig?.isNumber) {
-            // 2. Xử lý Number:
             const numValue = Number(value);
             if (value === "" || isNaN(numValue)) {
-                finalValue = null; // Gán tạm là null
+                finalValue = null;
             } else {
                 finalValue = numValue;
             }
         } else if (value === "" || value === null) {
-            // 3. Xử lý String/Dropdown: Nếu là chuỗi rỗng -> Gán tạm là null
             finalValue = null;
         } else {
-            // 4. Giữ nguyên các giá trị khác
             finalValue = value;
         }
 
-        // LOẠI BỎ LOGIC QUAN TRỌNG: Nếu finalValue là null, KHÔNG thêm trường đó vào acc
         if (finalValue !== null) {
             acc[key] = finalValue;
         }
@@ -52,7 +47,6 @@ export default function AddDataDialog({
 
     const [formData, setFormData] = React.useState({});
 
-    // EFFECT: Khởi tạo form khi modal mở
     React.useEffect(() => {
         if (isOpen) {
             const defaults = dialogTitle.reduce((acc, f) => {

@@ -63,7 +63,6 @@ const WareHouseItem = () => {
             key: "users_permissions_user",
             label: t("warehouseItem.worker"),
             isDropDown: true,
-            // list: convertToDropdown(listUser), 
             mappingKey: "users_permissions_user.id" 
         },
     ];

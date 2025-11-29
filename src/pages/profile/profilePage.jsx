@@ -13,7 +13,6 @@ import { Mail, Phone, MapPin, Calendar } from "lucide-react";
 import { t } from "i18next";
 import { useGetCurrentUserQuery } from "../../store/auth/authAction";
 
-// Hàm tiện ích để định dạng ngày tháng
 const formatDate = (dateString) => {
     if (!dateString) return "Unavailable";
     try {
@@ -24,10 +23,8 @@ const formatDate = (dateString) => {
     }
 };
 
-// Hàm tiện ích để tính số lượng Published Items (Hoàn thành)
 const countPublished = (data) => {
     let count = 0;
-    // Lặp qua tất cả các mảng và đếm những mục có publishedAt
     const arraysToCount = [
         data?.pigs || [],
         data?.areas || [],
@@ -46,12 +43,9 @@ const countPublished = (data) => {
     return count;
 };
 
-// Hàm tiện ích để tính số lượng nhiệm vụ đang thực hiện (Doing)
 const countDoingTodos = (owners) => {
     if (!owners) return 0;
-    // Lọc các mục trong 'owners' mà có 'publishedAt' khác null VÀ 'toDoStatus' là 'doing'
-    // Hoặc chỉ đếm các mục có 'toDoStatus' là 'doing' tùy theo logic nghiệp vụ của bạn.
-    // Tôi sẽ đếm các mục trong 'owners' có 'toDoStatus' là 'doing'
+
     return owners.filter(owner => owner.toDoStatus === "doing" && owner.publishedAt).length;
 };
 
@@ -66,27 +60,23 @@ export function ProfilePage() {
         { refetchOnMountOrArgChange: true }
     );
 
-    // Xử lý dữ liệu
     const user = userData || {};
     const userName = user.username || "User name";
     const userEmail = user.email || "No email";
     const userRole = user.role?.name || "";
     const joinDate = formatDate(user.createdAt);
 
-    // Tính toán số liệu thống kê
     const completedProjects = countPublished(user);
     const doingTasks = countDoingTodos(user.owners);
     const averageRating = "4.8";
     const workingHours = "1,240";
 
-    // Nếu đang tải dữ liệu
     if (loadingUser) {
         return <Box p={{ xs: 2, lg: 4 }}><Typography>{t("profile.loading")}</Typography></Box>;
     }
 
     return (
         <Box p={{ xs: 2, lg: 4 }} >
-            {/* Title */}
             <Box mb={4}>
                 <Typography variant="h4" mb={1}>
                     {t("profile.title")}
@@ -97,7 +87,6 @@ export function ProfilePage() {
             </Box>
 
             <Grid spacing={3} >
-                {/* Profile Card */}
                 <Grid item xs={12} lg={4} mt={'2rem'}>
                     <Card>
                         <CardContent sx={{ pt: 3 }}>
@@ -118,7 +107,6 @@ export function ProfilePage() {
                                 </Button>
                             </Box>
 
-                            {/* Profile Info */}
                             <Box mt={4} display="flex" flexDirection="column" gap={2}>
                                 <Box display="flex" gap={1} alignItems="center">
                                     <Mail size={18} />
@@ -150,7 +138,6 @@ export function ProfilePage() {
                     </Card>
                 </Grid>
 
-                {/* Profile Form */}
                 <Grid item xs={12} lg={8} mt={'2rem'}>
                     <Card>
                         <CardHeader
@@ -164,13 +151,9 @@ export function ProfilePage() {
                                             fullWidth
                                             label={t("profile.name")}
                                             defaultValue={userName}
-                                            // value={userName} // Sử dụng value nếu có hàm onChange để cập nhật state
                                             InputLabelProps={{ shrink: true }}
                                         />
                                     </Grid>
-                                    {/* <Grid item xs={12} md={6}>
-                                        <TextField fullWidth label="Tên" defaultValue="A" />
-                                    </Grid> */}
                                 </Grid>
 
                                 <TextField
@@ -178,7 +161,6 @@ export function ProfilePage() {
                                     label="Email"
                                     type="email"
                                     defaultValue={userEmail}
-                                    // value={userEmail}
                                     InputLabelProps={{ shrink: true }}
                                     disabled
                                 />
@@ -219,7 +201,6 @@ export function ProfilePage() {
                     </Card>
                 </Grid>
 
-                {/* Statistics Card */}
                 <Grid item xs={12} mt={'2rem'}>
                     <Card>
                         <CardHeader

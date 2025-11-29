@@ -8,7 +8,6 @@ export const authApi = createApi({
     reducerPath: 'authApi',
     baseQuery: axiosBaseQuery(),
     endpoints: (builder) => ({
-        // userLogin
         userLogin: builder.mutation({
             query: (body) => ({
                 url: API_URL.LOGIN,
@@ -59,7 +58,6 @@ export const authApi = createApi({
                     method: "GET",
                     params: {
                         ...rest,
-                        // ...(UID ? { "filters[users_permissions_user][id]": UID } : {}),
                     },
                 };
             },
@@ -73,7 +71,6 @@ export const authApi = createApi({
             }),
         }),
 
-        // edit user
         editUser: builder.mutation({
             query: (body) => ({
                 url: API_URL.LIST_USER + "/" + body.id,
@@ -82,7 +79,6 @@ export const authApi = createApi({
             }),
         }),
 
-        // delete user
         deleteUser: builder.mutation({
             query: (id) => ({
                 url: API_URL.LIST_USER + "/" + id,

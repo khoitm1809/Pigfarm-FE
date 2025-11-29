@@ -37,7 +37,6 @@ export const todoApi = createApi({
             }),
         }),
 
-        // delete off spring
         deleteTodo: builder.mutation({
             query: (id) => ({
                 url: API_URL.TODO + "/" + id,

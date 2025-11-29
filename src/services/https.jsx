@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import axios from "axios";
 import {
   LOCAL_STORAGE_NAME,
@@ -25,8 +24,8 @@ http.interceptors.request.use(
 );
 
 http.interceptors.response.use(
-  (res) => res, // luôn trả về nguyên res, để xử lý ở axiosBaseQuery
-  (error) => Promise.reject(error) // giữ nguyên AxiosError
+  (res) => res,
+  (error) => Promise.reject(error) 
 );
 
 export default http;

@@ -12,8 +12,6 @@ import { AddTodoDialog } from './component/AddTodoDialog';
 import { ROLES } from '../../utils/rolesConstant';
 import { t } from 'i18next';
 
-
-// Cố định danh sách trạng thái
 export const todoStatus = [
     { value: "unAssigned", label: t("todo.unAssigned") },
     { value: "assigned", label: t("todo.assigned") },
@@ -43,11 +41,9 @@ const TodoPage = () => {
     );
 
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-    const [error, setError] = useState(null); // State để hiển thị thông báo lỗi
+    const [error, setError] = useState(null); 
     const toggleAddDialog = () => setIsAddDialogOpen(!isAddDialogOpen);
 
-
-    // --- LOGIC PHÂN LOẠI CÔNG VIỆC ---
     const classifiedTodos = OWNER_COLUMN_STATUS?.reduce((acc, status) => {
         acc[status] = [];
         return acc;
@@ -67,7 +63,6 @@ const TodoPage = () => {
         });
     }
 
-    // --- CẬP NHẬT DỮ LIỆU THỐNG KÊ TỔNG QUAN ---
     const todoData = [
         { title: t("todo.total"), count: totalCount, iconKey: 'tổng công việc' },
         { title: t("todo.assigned"), count: classifiedTodos.assigned.length, iconKey: 'chưa làm' },
@@ -77,7 +72,6 @@ const TodoPage = () => {
         { title: t("todo.expired"), count: classifiedTodos.expired.length, iconKey: 'quá hạn' },
     ];
 
-    // --- HANDLER THÊM MỚI ---
     const handleAddTodo = async ({ name, description }) => {
         try {
             await addTodo({ name, description, toDoStatus: 'unAssigned', create_by: UID }).unwrap();
@@ -89,15 +83,11 @@ const TodoPage = () => {
         }
     };
 
-    // --- HANDLER THAY ĐỔI TRẠNG THÁI ---
     const handleChangeStatus = async (todoId, newStatus) => {
-        setError(null); // Reset lỗi
+        setError(null);
 
-        // Tìm đối tượng công việc hiện tại
         const currentTodo = listDoto?.data.find(todo => todo.documentId === todoId);
 
-        // [FIX LOGIC] Ngăn cản việc chuyển trạng thái nếu công việc đang ở 'unAssigned'
-        // và trạng thái mới không phải là 'unAssigned' (ép buộc dùng handleAssign).
         if (currentTodo?.toDoStatus === 'unAssigned' && newStatus !== 'unAssigned') {
             setError(t("unAssignedMsg"));
             return;
@@ -112,11 +102,9 @@ const TodoPage = () => {
         }
     };
 
-    // --- HANDLER PHÂN CÔNG ---
     const handleAssign = async (todoId, userId) => {
-        setError(null); // Reset lỗi
+        setError(null); 
         try {
-            // Nếu có userId, chuyển trạng thái sang 'assigned'. Nếu không (gỡ phân công), chuyển sang 'unAssigned'.
             const newStatus = userId ? 'assigned' : 'unAssigned';
             await editTodo({
                 id: todoId,
@@ -134,7 +122,6 @@ const TodoPage = () => {
     return (
         <BoxContainer padding={'2rem'}>
             <Box mb={4}>
-                {/* Tiêu đề & Mô tả */}
                 <Box sx={{ marginBottom: '2rem' }}>
                     <Typography
                         variant="h4"
@@ -150,22 +137,18 @@ const TodoPage = () => {
                     </Typography>
                 </Box>
 
-                {/* Hiển thị lỗi chung (nếu có) */}
                 {error && (
                     <Alert severity="error" onClose={() => setError(null)} sx={{ mb: 3 }}>
                         {error}
                     </Alert>
                 )}
 
-
-                {/* Thẻ thống kê tổng quan */}
                 <Row
                     sx={{
                         width: '100%',
                         flexWrap: 'wrap',
                         gap: '0.8rem',
                     }}>
-                    {/* ... (TodoData mapping giữ nguyên) ... */}
                     {todoData.map((item, index) => (
                         <Box
                             sx={{
@@ -186,7 +169,6 @@ const TodoPage = () => {
                     ))}
                 </Row>
 
-                {/* Thanh tìm kiếm, lọc và thêm mới (Giữ nguyên) */}
                 <Box
                     display="flex"
                     flexDirection={{ xs: "column", sm: "row" }}
@@ -244,8 +226,6 @@ const TodoPage = () => {
                     </Button>}
                 </Box>
 
-
-                {/* HIỂN THỊ CÁC CỘT CÔNG VIỆC */}
                 {loadingListTodo ? (
                     <Box sx={{ display: 'flex', justifyContent: 'center', py: 5 }}>
                         <CircularProgress />
@@ -261,7 +241,6 @@ const TodoPage = () => {
                             alignItems: "flex-start",
                         }}
                     >
-                        {/* Lặp qua 4 cột trạng thái chính */}
                         {columnsToDisplay.map(statusKey => {
                             const statusLabel = todoStatus.find(s => s.value === statusKey)?.label || statusKey;
                             const totalColumns = columnsToDisplay.length;
@@ -309,7 +288,6 @@ const TodoPage = () => {
 
             </Box>
 
-            {/* Component Dialog thêm mới */}
             <AddTodoDialog
                 open={isAddDialogOpen}
                 handleClose={toggleAddDialog}

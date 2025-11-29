@@ -21,14 +21,12 @@ const BarnPage = () => {
     const UID = localStorage.getItem("UID");
     const navigate = useNavigate();
 
-    // Giả định hàm openDialog từ hook
     const { openDialog } = useConfirmDialog()
 
 
     const [searchTerm, setSearchTerm] = useState('');
     const [openAddDialog, setOpenAddDialog] = useState(false);
     const [isAssignDialogOpen, setIsAssignDialogOpen] = useState(false);
-    // XÓA: [openDeleteDialog, setOpenDeleteDialog] và [barnToDelete, setBarnToDelete]
 
     const [selectedBarnId, setSelectedBarnId] = useState(null);
     const [selectedWorkerId, setSelectedWorkerId] = useState(null);
@@ -63,15 +61,11 @@ const BarnPage = () => {
         refetchOnMountOrArgChange: true
     })
 
-    // --- DIALOG HANDLERS ---
-
-    // ADD
     const toggleAddDialog = () => {
         setOpenAddDialog(prev => !prev);
         setNewBarnData({ name: '', description: '' });
     };
 
-    // EDIT
     const handleOpenEditDialog = (barn) => {
         setEditingBarn(barn);
         setNewBarnData({ name: barn.name, description: barn.description });
@@ -84,7 +78,6 @@ const BarnPage = () => {
         setNewBarnData({ name: '', description: '' });
     };
 
-    // ASSIGN
     const handleCloseAssignDialog = () => {
         setIsAssignDialogOpen(false);
         setSelectedBarnId(null);
@@ -95,14 +88,12 @@ const BarnPage = () => {
         setSelectedBarnId(barnId);
 
         const currentBarn = listBarn?.data?.find(barn => barn?.documentId === barnId);
-        // Lưu ý: Tên trường users_permissions_user?.id có thể thay đổi tùy API
         const currentWorkerId = currentBarn?.users_permissions_user?.id || null;
 
         setSelectedWorkerId(currentWorkerId);
         setIsAssignDialogOpen(true);
     };
 
-    // --- DATA HANDLERS ---
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -110,7 +101,6 @@ const BarnPage = () => {
             ...prev,
             [name]: value,
         }));
-        // Cập nhật editingBarn nếu đang chỉnh sửa
         if (openEditDialog) {
             setEditingBarn(prev => ({
                 ...prev,
@@ -137,7 +127,6 @@ const BarnPage = () => {
         }
     };
 
-    // Xử lý chỉnh sửa
     const handleEditBarnSubmit = async (e) => {
         e.preventDefault();
         if (isEditingBarn || !editingBarn) return;
@@ -161,11 +150,9 @@ const BarnPage = () => {
         }
     };
 
-    // THAY THẾ LOGIC XÓA CŨ BẰNG HÀM SỬ DỤNG openDialog
     const handleDeleteBarn = async (barnToDelete) => {
         if (!barnToDelete?.documentId || isDeletingBarn) return;
 
-        // 1. KIỂM TRA LỢN TRONG CHUỒNG
         if (barnToDelete.pigs?.length > 0) {
             openDialog({
                 type: MESSAGE_TYPE.WARNING,
@@ -177,22 +164,19 @@ const BarnPage = () => {
             return;
         }
 
-        // 2. XÁC NHẬN XÓA CHUỒNG
         const confirmDelete = async () => {
             try {
                 await deleteBarn(barnToDelete.documentId).unwrap();
                 await refetch();
-                // Tùy chọn: Hiển thị thông báo thành công
                 console.log("Delete barn success.");
             } catch (error) {
                 console.error("Error while delete barn: ", error);
-                // Tùy chọn: Hiển thị thông báo lỗi
             }
         };
 
         openDialog({
             type: MESSAGE_TYPE.CONFIRM,
-            message: `Are you sure to delete **${barnToDelete.name}**? This action won't be undo.`,
+            message: `Are you sure to delete **${barnToDelete.name}**?`,
             isShowCloseBtn: true,
             isHideAction: false,
             customSecondText: "Delete",
@@ -224,7 +208,6 @@ const BarnPage = () => {
         }
     };
 
-    // Áp dụng tìm kiếm
     const filteredBarns = listBarn?.data?.filter(barn =>
         barn?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         barn?.description?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -250,7 +233,6 @@ const BarnPage = () => {
                     </Typography>
                 </Box>
 
-                {/* SEARCH + BUTTONS (Giống AreaPage) */}
                 <Box
                     display="flex"
                     flexDirection={{ xs: "column", sm: "row" }}
@@ -319,7 +301,6 @@ const BarnPage = () => {
                     </Button>}
                 </Box>
 
-                {/* CardInfo List */}
                 <Row sx={{
                     width: '100%',
                     flexWrap: 'wrap',
@@ -352,7 +333,7 @@ const BarnPage = () => {
                                     nameCount={t("barn.pigCount")}
                                     arrayCount={barn?.pigs?.length}
                                     isOwner={role === ROLES.OWNER}
-                                    createBy={t("barn.createBy")}
+                                    createBy={`${t("barn.createBy")}: ${barn?.users_permissions_user?.username}`}
                                     isAssign={true}
                                     onActionAssign={() => handleOpenAssignWorkerDialog(barn?.documentId)}
                                     isEdit={true}
@@ -371,7 +352,6 @@ const BarnPage = () => {
                     )}
                 </Row>
 
-                {/* ADD BARN DIALOG */}
                 <Dialog
                     fullWidth
                     open={openAddDialog}
@@ -444,7 +424,6 @@ const BarnPage = () => {
                     </form>
                 </Dialog>
 
-                {/* EDIT BARN DIALOG */}
                 <Dialog
                     fullWidth
                     open={openEditDialog}
@@ -519,7 +498,6 @@ const BarnPage = () => {
                     )}
                 </Dialog>
 
-                {/* Phân công DIALOG */}
                 <Dialog
                     open={isAssignDialogOpen}
                     onClose={handleCloseAssignDialog}

@@ -7,7 +7,6 @@ export const feedSettingApi = createApi({
     reducerPath: 'feedSettingApi',
     baseQuery: axiosBaseQuery(),
     endpoints: (builder) => ({
-        // Get List Off Spring
         getListFeedSetting: builder.query({
             query: (params) => ({
                 url: API_URL.WAREHOUSE_CATEGORY + "?populate=*",
@@ -18,7 +17,6 @@ export const feedSettingApi = createApi({
             }),
         }),
 
-        // add off spring
         addFeedSetting: builder.mutation({
             query: (body) => ({
                 url: API_URL.WAREHOUSE_CATEGORY,
@@ -27,7 +25,6 @@ export const feedSettingApi = createApi({
             }),
         }),
 
-        // edit off spring
         editFeedSetting: builder.mutation({
             query: (body) => ({
                 url: API_URL.WAREHOUSE_CATEGORY + "/" + body.id,
@@ -36,7 +33,6 @@ export const feedSettingApi = createApi({
             }),
         }),
 
-        // delete off spring
         deleteFeedSetting: builder.mutation({
             query: (id) => ({
                 url: API_URL.WAREHOUSE_CATEGORY + "/" + id,

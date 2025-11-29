@@ -6,13 +6,11 @@ import { useLocation, useNavigate } from 'react-router';
 import { THEME } from '../utils/ThemeConstants';
 import { ROUTES } from '../router/routerConstants';
 import { useUserLoginMutation, useLazyGetUserRoleQuery } from '../store/auth/authAction';
-import VisibilityOutlined from '@mui/icons-material/VisibilityOutlined';
-import VisibilityOffOutlined from '@mui/icons-material/VisibilityOffOutlined';
 import { useForm } from 'react-hook-form';
 import { useConfirmDialog } from "../components/confirmDialog";
 import { LANGUAGE_CODE_EN, LANGUAGE_CODE_VI, LOCAL_STORAGE_NAME, MESSAGE_TYPE } from "../utils/constant";
 import { useTranslation } from "react-i18next";
-import i18next, { t } from "i18next";
+import { t } from "i18next";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
@@ -94,9 +92,8 @@ function LoginPage() {
                 }}>
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '0.2rem' }}>
                     <LanguageOutlinedIcon />
-                    <Typography>Tiếng Việt</Typography>
+                    <Typography>English</Typography>
                 </Box>
-                {/* Icon circle */}
                 <Box
                     sx={{
                         width: 70,
@@ -111,7 +108,6 @@ function LoginPage() {
                     <LockOutlinedIcon sx={{ color: "#fff", width: 32, height: 32 }} />
                 </Box>
 
-                {/* Title */}
                 <Box sx={{ textAlign: "center" }}>
                     <Typography variant="h5" fontWeight={700}>
                         {t("login.login")}
@@ -125,10 +121,8 @@ function LoginPage() {
                     </Typography>
                 </Box>
 
-                {/* FORM */}
                 <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ width: "70%" }}>
                     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                        {/* EMAIL */}
                         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                             <Typography variant="body2" >
                                 Username/Email
@@ -158,7 +152,6 @@ function LoginPage() {
                             />
                         </Box>
 
-                        {/* PASSWORD */}
                         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                             <Typography variant="body2" color="black">
                                 {t("login.passWord")}
@@ -189,7 +182,6 @@ function LoginPage() {
                             />
                         </Box>
 
-                        {/* REMEMBER + FORGOT */}
                         <Box
                             sx={{
                                 display: "flex",
@@ -214,7 +206,6 @@ function LoginPage() {
                             </Link>
                         </Box>
 
-                        {/* BUTTON */}
                         <Button
                             type="submit"
                             variant="contained"
